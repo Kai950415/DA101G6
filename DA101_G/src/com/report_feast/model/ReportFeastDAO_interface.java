@@ -1,18 +1,9 @@
-package com.reportfeast.model;
+package com.report_feast.model;
 
 import java.util.List;
 
-import com.feastinfo.model.FeastInfoVO;
-import com.myfeast.model.MyFeastVO;
-
 public interface ReportFeastDAO_interface
 {
-    
-//    private String repofea_no;
-//    private String repofea_feaNo;
-//    private String repofea_memNo;
-//    private String repofea_text;
-    
     public void insert(ReportFeastVO reportFeastVO);
 
     public void update(ReportFeastVO reportFeastVO);

@@ -20,6 +20,32 @@ public class FeastInfoVO implements Serializable
     private String fea_loc;
     private String fea_status;
 
+    public FeastInfoVO()
+    {
+        super();
+    }
+
+    public FeastInfoVO(String fea_no, String fea_resNo, String fea_memNo, String fea_title, String fea_text,
+            Integer fea_number, Integer fea_upLim, Integer fea_lowLim, Date fea_date, Date fea_startDate,
+            Date fea_endDate, String fea_type, String fea_loc, String fea_status)
+    {
+        super();
+        this.fea_no = fea_no;
+        this.fea_resNo = fea_resNo;
+        this.fea_memNo = fea_memNo;
+        this.fea_title = fea_title;
+        this.fea_text = fea_text;
+        this.fea_number = fea_number;
+        this.fea_upLim = fea_upLim;
+        this.fea_lowLim = fea_lowLim;
+        this.fea_date = fea_date;
+        this.fea_startDate = fea_startDate;
+        this.fea_endDate = fea_endDate;
+        this.fea_type = fea_type;
+        this.fea_loc = fea_loc;
+        this.fea_status = fea_status;
+    }
+
     public String getFea_no()
     {
         return fea_no;

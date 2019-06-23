@@ -1,4 +1,4 @@
-package com.reportfeast.model;
+package com.report_feast.model;
 
 import java.io.Serializable;
 
@@ -8,6 +8,7 @@ public class ReportFeastVO implements Serializable
     private String repofea_feaNo;
     private String repofea_memNo;
     private String repofea_text;
+    private String repofea_status;
 
     public String getRepofea_no()
     {
@@ -59,5 +60,4 @@ public class ReportFeastVO implements Serializable
         this.repofea_status = repofea_status;
     }
 
-    private String repofea_status;
 }
