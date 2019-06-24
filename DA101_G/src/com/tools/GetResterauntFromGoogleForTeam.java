@@ -1,6 +1,6 @@
 package com.tools;
 
-//33行貼上你的金鑰
+//30貼上你的金鑰
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,24 +26,29 @@ public class GetResterauntFromGoogleForTeam
     final static String INSERT_STMT = "Insert into RESTAURANT (RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_IMG,RES_INTRO,RES_HOURS,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS)"
             + "values ('RS'||LPAD(to_char(res_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    static DecimalFormat geoFormat = new DecimalFormat("###.#######");
-
     // 貼上你的金鑰
     static String yourKey = "";
     static String NEXT_PAGE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
             + "&language=zh-TW&key=" + yourKey + "&pagetoken=";
 
-    static int Counter = 0;
+    static int successCounter = 0;
+    static int failCounter = 0;
 
     static Connection con = null;
     static PreparedStatement pstmt = null;
 
-    public static void crawlInformation(String MY_URL)
-            throws IOException, JSONException, InterruptedException, ClassNotFoundException, SQLException
+    public static void printInformation(String MY_URL) throws IOException, ClassNotFoundException, InterruptedException
     {
         Class.forName(driver);
-        con = DriverManager.getConnection(url, userid, passwd);
-        pstmt = con.prepareStatement(INSERT_STMT);
+        try
+        {
+            con = DriverManager.getConnection(url, userid, passwd);
+            pstmt = con.prepareStatement(INSERT_STMT);
+        }
+        catch (SQLException e1)
+        {
+            e1.printStackTrace();
+        }
 
         StringBuilder sb = new StringBuilder();
         URL url = new URL(MY_URL);
@@ -67,100 +71,116 @@ public class GetResterauntFromGoogleForTeam
 
         JSONObject jObj = new JSONObject(sb.toString());
 
-        System.out.println(sb.toString());
-
         if (jObj.has("results"))
         {
             JSONArray results = jObj.getJSONArray("results");
 
             for (int i = 0; i < results.length(); i++)
             {
-                Counter++;
-                JSONObject data = results.getJSONObject(i);
-
-                if (data.has("vicinity"))
+                try
                 {
-                    String vicinity = data.getString("vicinity");
+                    successCounter++;
+                    JSONObject data = results.getJSONObject(i);
 
-                    pstmt.setString(1, vicinity);
-                    System.out.println("餐廳的地址: " + vicinity);
-                }
-
-                if (data.has("name"))
-                {
-                    String name = data.getString("name");
-
-                    pstmt.setString(2, name);
-                    System.out.println("餐廳名稱 : " + name);
-                }
-
-                String phoneNum = "03-1234567";
-                pstmt.setString(3, phoneNum);
-                System.out.println("電話:" + phoneNum);
-
-                int point = (int) (Math.random() * 100000);
-                pstmt.setInt(4, point);
-                System.out.println("點數" + point);
-
-                String account = "AC" + (int) (Math.random() * 899999 + 100000);
-                pstmt.setString(5, account);
-                System.out.println("帳號:" + account);
-
-                String pass = "123456";
-                pstmt.setString(6, pass);
-                System.out.println("密碼" + pass);
-
-                byte[] pic = null;
-                pstmt.setBytes(7, pic);
-
-                String intro = "你好，我們餐廳很好吃。";
-                pstmt.setString(8, intro);
-
-                String[] minuteArr = {"00", "30"};
-                String busiHour = (int) Math.floor((Math.random() * 4 + 7)) + ":"
-                        + minuteArr[(int) Math.round(Math.random())]
-                        + "~" + (int) Math.floor((Math.random() * 7 + 15)) + ":"
-                        + minuteArr[(int) Math.round(Math.random())];
-                pstmt.setString(9, busiHour);
-                System.out.println("營業時間:" + busiHour);
-
-                if (data.has("geometry"))
-                {
-                    JSONObject geometry = data.getJSONObject("geometry");
-                    JSONObject location = geometry.getJSONObject("location");
-                    Double lat = location.getDouble("lat");
-                    Double lng = location.getDouble("lng");
-
-                    pstmt.setDouble(10, lat);
-                    System.out.println("餐廳的緯度: " + lat);
-
-                    pstmt.setDouble(11, lng);
-                    System.out.println("餐廳的經度: " + lng);
-                }
-                if (data.has("user_ratings_total"))
-                {
-                    int user_ratings_total = data.getInt("user_ratings_total");
-
-                    pstmt.setInt(14, user_ratings_total);
-                    System.out.println("餐廳評分人數" + user_ratings_total);
-
-                    if (data.has("rating"))
+                    if (data.has("vicinity"))
                     {
-                        Double rating = data.getDouble("rating");
+                        String vicinity = data.getString("vicinity");
 
-                        pstmt.setDouble(12, (int) (rating * user_ratings_total));
-                        System.out.println("餐廳的總分: " + (int) (rating * user_ratings_total));
-
+                        pstmt.setString(1, vicinity);
+                        System.out.println("餐廳的地址: " + vicinity);
                     }
-                }
-                int priceLevel = (int) Math.floor(Math.random() * 5);
-                if (data.has("price_level"))
-                {
-                    priceLevel = data.getInt("price_level");
-                }
-                pstmt.setInt(13, priceLevel);
-                System.out.println("消費區間:" + priceLevel);
-                
+
+                    if (data.has("name"))
+                    {
+                        String name = data.getString("name");
+
+                        pstmt.setString(2, name);
+                        System.out.println("餐廳名稱 : " + name);
+                    }
+
+                    String phoneNum = "03-1234567";
+                    pstmt.setString(3, phoneNum);
+                    System.out.println("電話:" + phoneNum);
+
+                    int point = (int) (Math.random() * 100000);
+                    pstmt.setInt(4, point);
+                    System.out.println("點數" + point);
+
+                    String account = "AC" + (int) (Math.random() * 899999 + 100000);
+                    pstmt.setString(5, account);
+                    System.out.println("帳號:" + account);
+
+                    String pass = "123456";
+                    pstmt.setString(6, pass);
+                    System.out.println("密碼" + pass);
+
+                    byte[] pic = null;
+                    pstmt.setBytes(7, pic);
+
+                    String intro = "你好，我們餐廳很好吃。";
+                    pstmt.setString(8, intro);
+
+                    String[] minuteArr = {"00", "30"};
+                    String busiHour = (int) Math.floor((Math.random() * 4 + 7)) + ":"
+                            + minuteArr[(int) Math.round(Math.random())]
+                            + "~" + (int) Math.floor((Math.random() * 7 + 15)) + ":"
+                            + minuteArr[(int) Math.round(Math.random())];
+                    pstmt.setString(9, busiHour);
+                    System.out.println("營業時間:" + busiHour);
+
+                    if (data.has("geometry"))
+                    {
+                        JSONObject geometry = data.getJSONObject("geometry");
+                        JSONObject location = geometry.getJSONObject("location");
+                        Double lat = location.getDouble("lat");
+                        Double lng = location.getDouble("lng");
+
+                        pstmt.setDouble(10, lat);
+                        System.out.println("餐廳的緯度: " + lat);
+
+                        pstmt.setDouble(11, lng);
+                        System.out.println("餐廳的經度: " + lng);
+                    }
+                    if (data.has("user_ratings_total"))
+                    {
+                        int user_ratings_total = data.getInt("user_ratings_total");
+
+                        pstmt.setInt(14, user_ratings_total);
+                        System.out.println("餐廳評分人數" + user_ratings_total);
+
+                        if (data.has("rating"))
+                        {
+                            Double rating = data.getDouble("rating");
+
+                            pstmt.setInt(12, (int) (rating * user_ratings_total));
+                            System.out.println("餐廳的總分: " + (int) (rating * user_ratings_total));
+
+                        }
+                    }
+                    else
+                    {
+                        int user_ratings_total = (int) Math.random() * 1000;
+
+                        pstmt.setInt(14, user_ratings_total);
+                        System.out.println("餐廳評分人數" + user_ratings_total);
+
+                        if (data.has("rating"))
+                        {
+                            Double rating = (double) Math.round(Math.random() * 50) / 10.f;
+
+                            pstmt.setDouble(12, (int) (rating * user_ratings_total));
+                            System.out.println("餐廳的總分: " + (int) (rating * user_ratings_total));
+
+                        }
+                    }
+                    int priceLevel = (int) Math.floor(Math.random() * 5);
+                    if (data.has("price_level"))
+                    {
+                        priceLevel = data.getInt("price_level");
+                    }
+                    pstmt.setInt(13, priceLevel);
+                    System.out.println("消費區間:" + priceLevel);
+
 //                if (data.has("opening_hours"))
 //                {
 //                    JSONObject opening_hours = data.getJSONObject("opening_hours");
@@ -176,30 +196,54 @@ public class GetResterauntFromGoogleForTeam
 //                    }
 //                }
 
-                if (data.has("types"))
-                {
-                    JSONArray typeArr = data.getJSONArray("types");
-                    String type = typeArr.getString(0);
+                    if (data.has("types"))
+                    {
+                        JSONArray typeArr = data.getJSONArray("types");
+                        String type = typeArr.getString(0);
 
-                    pstmt.setString(15, type);
-                    System.out.println("餐廳類型" + type);
+                        pstmt.setString(15, type);
+                        System.out.println("餐廳類型" + type);
+                    }
+                    else
+                    {
+                        String type = "restaurant";
+
+                        pstmt.setString(15, type);
+                        System.out.println("餐廳類型" + type);
+                    }
+
+                    String[] statusArr = {"res1", "res2", "res3", "res4"};
+
+                    pstmt.setString(16, statusArr[(int) Math.floor(Math.random() * 4)]);
+                    System.out.println("狀態" + statusArr[(int) Math.floor(Math.random() * 4)]);
+
+                    System.out.println("============================");
+                    pstmt.executeUpdate();
                 }
-
-                String[] statusArr = {"res1", "res2", "res3", "res4"};
-
-                pstmt.setString(16, statusArr[(int) Math.floor(Math.random() * 4)]);
-                System.out.println("狀態" + statusArr[(int) Math.floor(Math.random() * 4)]);
-
-                System.out.println("============================");
-                pstmt.executeUpdate();
+                catch (JSONException e)
+                {
+//                    e.printStackTrace();
+                    successCounter--;
+                    failCounter++;
+                    System.err.println("JSON出錯了");
+                    continue;
+                }
+                catch (SQLException e)
+                {
+//                    e.printStackTrace();
+                    successCounter--;
+                    failCounter++;
+                    System.err.println("SQL新增餐廳出錯了");
+                    continue;
+                }
             }
         }
-        Thread.sleep(3000);
-        
+        Thread.sleep(1500);
+
         if (jObj.has("next_page_token"))
         {
             String next_page_token = jObj.getString("next_page_token");
-            crawlInformation(NEXT_PAGE_URL + next_page_token);
+            printInformation(NEXT_PAGE_URL + next_page_token);
         }
         else
         {
@@ -208,8 +252,9 @@ public class GetResterauntFromGoogleForTeam
         }
     }
 
-    public static void main(String[] args) throws InterruptedException
+    public static void main(String[] args)
     {
+
         try
         {
             for (int i = 0; i < 18; i++)
@@ -229,31 +274,18 @@ public class GetResterauntFromGoogleForTeam
                             + "&radius=5000&types=" + typeArr[j] + "&hasNextPage=true&"
                             + "nextPage()=true&language=zh-TW&key=" + yourKey;
 
-                    crawlInformation(GOOGLE_URL);
+                    printInformation(GOOGLE_URL);
                 }
             }
-            System.out.println(Counter + "個資料");
+            System.out.println("成功新增" + successCounter + "個資料");
+            System.out.println("新增" + failCounter + "個資料失敗");
+
         }
-        catch (JSONException e)
+        catch (ClassNotFoundException | IOException | InterruptedException e)
         {
             e.printStackTrace();
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+
     }
 
 }

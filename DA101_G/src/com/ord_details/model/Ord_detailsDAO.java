@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.mem.modle.MemVO;
 
-public class Ord_detailsDAO implements Ord_detailsDAO_Interface{
+public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	String userid = "DA101G6";
@@ -27,7 +27,10 @@ public class Ord_detailsDAO implements Ord_detailsDAO_Interface{
 		"DELETE FROM ord_details where DET_ORDNO = ?  and  DET_FONO=?";
 	private static final String UPDATE = 
 		"UPDATE ord_details set  DET_ORDNO=?,DET_FONO=?,DET_PRICE=?,DET_QUANTITY=? where DET_ORDNO = ? and  DET_FONO=?";
-	//Ω–™`∑N:¬˘•D¡‰®˙≥Êµß≠n®‚≠”Ø¡§ﬁ≠»
+	
+	private static final String GET_BY_ORDNO="SELECT * FROM ord_details where DET_ORDNO = ?";
+	
+	//Ê≥®ÊÑèÈõô‰∏ªÈçµÔºåË®≠ÂÖ©ÂÄãÊ¢ù‰ª∂ÂèñÂñÆÁ≠ÜË≥áÊñô
 
 	@Override
 	public void insert(Ord_detailsVO ord_detailsVO) {
@@ -87,8 +90,8 @@ public class Ord_detailsDAO implements Ord_detailsDAO_Interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setString(1,ord_detailsVO.getDet_ordno());//•i•HÆ≥±º
-			pstmt.setString(2,ord_detailsVO.getDet_fono());//•i•HÆ≥±º
+			pstmt.setString(1,ord_detailsVO.getDet_ordno());//ÔøΩiÔøΩHÔøΩÔøΩÔøΩÔøΩ
+			pstmt.setString(2,ord_detailsVO.getDet_fono());//ÔøΩiÔøΩHÔøΩÔøΩÔøΩÔøΩ
 			
 			pstmt.setInt(3,ord_detailsVO.getDet_price());
 			pstmt.setInt(4,ord_detailsVO.getDet_quantity());
@@ -187,7 +190,7 @@ public class Ord_detailsDAO implements Ord_detailsDAO_Interface{
 			
 
 			while (rs.next()) {
-				// empVO §]∫Ÿ¨∞ Domain objects
+				// empVO ÔøΩ]ÔøΩŸ¨ÔøΩ Domain objects
 				ord_detailsVO.setDet_ordno(rs.getString("det_ordno"));
 				ord_detailsVO.setDet_fono(rs.getString("det_fono"));
 				ord_detailsVO.setDet_price(rs.getInt("det_price"));
@@ -233,7 +236,6 @@ public class Ord_detailsDAO implements Ord_detailsDAO_Interface{
 	@Override
 	public List<Ord_detailsVO> getAll() {
 		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		List<Ord_detailsVO> list = new ArrayList<Ord_detailsVO>();
 		Ord_detailsVO ord_detailsVO = null;
 
@@ -249,7 +251,7 @@ public class Ord_detailsDAO implements Ord_detailsDAO_Interface{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVO §]∫Ÿ¨∞ Domain objects
+				// empVO ÔøΩ]ÔøΩŸ¨ÔøΩ Domain objects
 				ord_detailsVO.setDet_ordno(rs.getString("det_ordno"));
 				ord_detailsVO.setDet_fono(rs.getString("det_fono"));
 				ord_detailsVO.setDet_price(rs.getInt("det_price"));
@@ -292,5 +294,68 @@ public class Ord_detailsDAO implements Ord_detailsDAO_Interface{
 		}
 		return list;
 	}
+
+	@Override
+	public List<Ord_detailsVO> getByOrdNo(String det_ordno) {
+		// TODO Auto-generated method stub
+				List<Ord_detailsVO> list = new ArrayList<Ord_detailsVO>();
+				Ord_detailsVO ord_detailsVO = null;
+
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+
+				try {
+
+					Class.forName(driver);
+					con = DriverManager.getConnection(url, userid, passwd);
+					pstmt = con.prepareStatement(GET_ALL);
+					pstmt.setString(1,det_ordno);
+					rs = pstmt.executeQuery();
+
+					while (rs.next()) {
+						ord_detailsVO.setDet_ordno(rs.getString("det_ordno"));
+						ord_detailsVO.setDet_fono(rs.getString("det_fono"));
+						ord_detailsVO.setDet_price(rs.getInt("det_price"));
+						ord_detailsVO.setDet_quantity(rs.getInt("det_quantity"));
+						
+						list.add(ord_detailsVO); // Store the row in the list
+					}
+
+					// Handle any driver errors
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException("Couldn't load database driver. "
+							+ e.getMessage());
+					// Handle any SQL errors
+				} catch (SQLException se) {
+					throw new RuntimeException("A database error occured. "
+							+ se.getMessage());
+					// Clean up JDBC resources
+				} finally {
+					if (rs != null) {
+						try {
+							rs.close();
+						} catch (SQLException se) {
+							se.printStackTrace(System.err);
+						}
+					}
+					if (pstmt != null) {
+						try {
+							pstmt.close();
+						} catch (SQLException se) {
+							se.printStackTrace(System.err);
+						}
+					}
+					if (con != null) {
+						try {
+							con.close();
+						} catch (Exception e) {
+							e.printStackTrace(System.err);
+						}
+					}
+				}
+				return list;
+	}
+	
 
 }

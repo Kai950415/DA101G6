@@ -3,13 +3,13 @@ package com.mem.modle;
 import java.util.List;
 
 
-public interface MemInterface {
+public interface MemDAO_interface {
     public void insert(MemVO memVO);
     public void update(MemVO memVO);
     public void delete(String mem_no);
     public MemVO findByPrimaryKey(String memNo);
     public List<MemVO> getAll();
-    //¸U¥Î½Æ¦X¬d¸ß(¶Ç¤J°Ñ¼Æ«¬ºAMap)(¦^¶Ç List)
+    //ï¿½Uï¿½Î½Æ¦Xï¿½dï¿½ï¿½(ï¿½Ç¤Jï¿½Ñ¼Æ«ï¿½ï¿½AMap)(ï¿½^ï¿½ï¿½ List)
 //  public List<MemVO> getAll(Map<String, String[]> map); 
 	
 

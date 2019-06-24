@@ -10,7 +10,7 @@ import java.util.List;
 
 
 
-public class MemDAO implements MemInterface {
+public class MemDAO implements MemDAO_interface {
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -204,7 +204,7 @@ public class MemDAO implements MemInterface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo ¤]ºÙ¬° Domain objects
+				// empVo ï¿½]ï¿½Ù¬ï¿½ Domain objects
 				memVO = new MemVO();
 				
 				memVO.setMem_name(rs.getString("mem_name"));
@@ -275,7 +275,7 @@ public class MemDAO implements MemInterface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVO ¤]ºÙ¬° Domain objects
+				// empVO ï¿½]ï¿½Ù¬ï¿½ Domain objects
 				memVO.setMem_name(rs.getString("mem_name"));
 				memVO.setMem_adrs(rs.getString("mem_adrs"));
 				memVO.setMem_sex(rs.getString("mem_sex"));
