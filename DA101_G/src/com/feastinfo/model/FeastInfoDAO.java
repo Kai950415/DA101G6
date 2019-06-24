@@ -21,7 +21,7 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
     private static final String UPDATE = "UPDATE FEASTINFO set FEA_RESNO=?, FEA_MEMNO=?, FEA_TITLE=?, FEA_TEXT=?, FEA_NUMBER=?, FEA_UPLIM=?,"
             + "FEA_LOWLIM=?, FEA_DATE=?, FEA_STARTDATE=?, FEA_ENDDATE=?, FEA_TYPE=?, FEA_LOC=?, FEA_STATUS=? where FEA_NO = ?";
     //應該不需要刪除
-    private static final String DELETE = "DELETE FROM FEASTINFO where FEA_NO = ?";
+    private static final String DELETE = "DELETE FROM FEASTINFO where FEA_NO = ?"; 
     
     private static final String GET_ALL_STMT = "SELECT * FROM feastinfo order by FEA_NO";
     private static final String GET_ONE_STMT = "SELECT * FROM feastinfo where FEA_NO = ?";
