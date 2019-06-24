@@ -1,6 +1,6 @@
 package com.tools;
 
-//32行貼上你的金鑰
+//33行貼上你的金鑰
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

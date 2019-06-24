@@ -20,6 +20,7 @@ public class PostVO implements Serializable{
 	public void setPost_no(String post_no) {
 		this.post_no = post_no;
 	}
+	
 	public String getPost_memno() {
 		return post_memno;
 	}

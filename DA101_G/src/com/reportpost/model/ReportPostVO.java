@@ -8,6 +8,7 @@ public class ReportPostVO implements Serializable {
 	private String	repopost_memno;
 	private String	repopost_text;
 	private String	repopost_status;
+	
 	public String getRepopost_no() {
 		return repopost_no;
 	}
