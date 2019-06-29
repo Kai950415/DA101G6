@@ -1,6 +1,7 @@
 package com.feastinfo.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class FeastInfoService
@@ -13,8 +14,8 @@ public class FeastInfoService
     }
 
     public FeastInfoVO addFeastInfo(String fea_resNo, String fea_memNo, String fea_title,
-            String fea_text, Integer fea_number, Integer fea_upLim, Integer fea_lowLim, Date fea_date,
-            Date fea_startDate, Date fea_endDate, String fea_type, String fea_loc, String fea_status)
+            String fea_text, Integer fea_number, Integer fea_upLim, Integer fea_lowLim, Timestamp fea_date,
+            Timestamp fea_startDate, Timestamp fea_endDate, String fea_type, String fea_loc, String fea_status)
     {
 
         FeastInfoVO feastInfoVO = new FeastInfoVO();
@@ -39,8 +40,8 @@ public class FeastInfoService
     }
 
     public FeastInfoVO updateFeastInfo(String fea_no, String fea_resNo, String fea_memNo, String fea_title,
-            String fea_text, Integer fea_number, Integer fea_upLim, Integer fea_lowLim, Date fea_date,
-            Date fea_startDate, Date fea_endDate, String fea_type, String fea_loc, String fea_status)
+            String fea_text, Integer fea_number, Integer fea_upLim, Integer fea_lowLim, Timestamp fea_date,
+            Timestamp fea_startDate, Timestamp fea_endDate, String fea_type, String fea_loc, String fea_status)
     {
 
         FeastInfoVO feastInfoVO = new FeastInfoVO();

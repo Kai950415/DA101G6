@@ -1,4 +1,4 @@
-package com.mem.modle;
+package com.mem.model;
 
 import java.sql.Date;
 import java.util.List;
@@ -52,8 +52,11 @@ public class MemService {
 	 public void memDelete(String mem_no) {
 		 dao.delete(mem_no);
 	 }
-	 public MemVO memFindByPrimaryKey(String memNo) {
-		 return dao.findByPrimaryKey(memNo);
+	 public MemVO memFindByPrimaryKey(String mem_no) {
+		 return dao.findByPrimaryKey(mem_no);
+	 }
+	 public MemVO memFindByAC(String mem_ac) {
+		 return dao.findByAC(mem_ac);
 	 }
 	 
 	 public List<MemVO> memGetAll(){

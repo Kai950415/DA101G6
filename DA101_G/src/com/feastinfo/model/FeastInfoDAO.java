@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
     private static final String UPDATE = "UPDATE FEASTINFO set FEA_RESNO=?, FEA_MEMNO=?, FEA_TITLE=?, FEA_TEXT=?, FEA_NUMBER=?, FEA_UPLIM=?,"
             + "FEA_LOWLIM=?, FEA_DATE=?, FEA_STARTDATE=?, FEA_ENDDATE=?, FEA_TYPE=?, FEA_LOC=?, FEA_STATUS=? where FEA_NO = ?";
     //應該不需要刪除
-    private static final String DELETE = "DELETE FROM FEASTINFO where FEA_NO = ?"; 
+    private static final String DELETE = "DELETE FROM FEASTINFO where FEA_NO = ?";
     
     private static final String GET_ALL_STMT = "SELECT * FROM feastinfo order by FEA_NO";
     private static final String GET_ONE_STMT = "SELECT * FROM feastinfo where FEA_NO = ?";
@@ -45,9 +46,9 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
             pstmt.setInt(5, feastInfoVO.getFea_number());
             pstmt.setInt(6, feastInfoVO.getFea_upLim());
             pstmt.setInt(7, feastInfoVO.getFea_lowLim());
-            pstmt.setDate(8, feastInfoVO.getFea_date());
-            pstmt.setDate(9, feastInfoVO.getFea_startDate());
-            pstmt.setDate(10, feastInfoVO.getFea_endDate());
+            pstmt.setTimestamp(8, feastInfoVO.getFea_date());
+            pstmt.setTimestamp(9, feastInfoVO.getFea_startDate());
+            pstmt.setTimestamp(10, feastInfoVO.getFea_endDate());
             pstmt.setString(11, feastInfoVO.getFea_type());
             pstmt.setString(12, feastInfoVO.getFea_loc());
             pstmt.setString(13, feastInfoVO.getFea_status());
@@ -113,9 +114,9 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
             pstmt.setInt(5, feastInfoVO.getFea_number());
             pstmt.setInt(6, feastInfoVO.getFea_upLim());
             pstmt.setInt(7, feastInfoVO.getFea_lowLim());
-            pstmt.setDate(8, feastInfoVO.getFea_date());
-            pstmt.setDate(9, feastInfoVO.getFea_startDate());
-            pstmt.setDate(10, feastInfoVO.getFea_endDate());
+            pstmt.setTimestamp(8, feastInfoVO.getFea_date());
+            pstmt.setTimestamp(9, feastInfoVO.getFea_startDate());
+            pstmt.setTimestamp(10, feastInfoVO.getFea_endDate());
             pstmt.setString(11, feastInfoVO.getFea_type());
             pstmt.setString(12, feastInfoVO.getFea_loc());
             pstmt.setString(13, feastInfoVO.getFea_status());
@@ -244,7 +245,7 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
                 feastInfoVO = new FeastInfoVO(rs.getString("fea_no"), rs.getString("fea_resNo"),
                         rs.getString("fea_memNo"), rs.getString("fea_title"), rs.getString("fea_text"),
                         rs.getInt("fea_number"), rs.getInt("fea_upLim"), rs.getInt("fea_lowLim"),
-                        rs.getDate("fea_date"), rs.getDate("fea_startDate"), rs.getDate("fea_endDate"),
+                        rs.getTimestamp("fea_date"), rs.getTimestamp("fea_startDate"), rs.getTimestamp("fea_endDate"),
                         rs.getString("fea_type"), rs.getString("fea_loc"), rs.getString("fea_status"));
             }
         }
@@ -310,7 +311,7 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
                 feastInfoVO = new FeastInfoVO(rs.getString("fea_no"), rs.getString("fea_resNo"),
                         rs.getString("fea_memNo"), rs.getString("fea_title"), rs.getString("fea_text"),
                         rs.getInt("fea_number"), rs.getInt("fea_upLim"), rs.getInt("fea_lowLim"),
-                        rs.getDate("fea_date"), rs.getDate("fea_startDate"), rs.getDate("fea_endDate"),
+                        rs.getTimestamp("fea_date"), rs.getTimestamp("fea_startDate"), rs.getTimestamp("fea_endDate"),
                         rs.getString("fea_type"), rs.getString("fea_loc"), rs.getString("fea_status"));
 
                 list.add(feastInfoVO);
@@ -356,9 +357,9 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
         return list;
     }
 
-//    public static void main(String[] args)
-//    {
-//        FeastInfoDAO dao = new FeastInfoDAO();
+    public static void main(String[] args)
+    {
+        FeastInfoDAO dao = new FeastInfoDAO();
 //        // 新增
 //        FeastInfoVO feastInfoVO1 = new FeastInfoVO();
 //        feastInfoVO1.setFea_resNo("RS000005");
@@ -376,29 +377,29 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
 //        feastInfoVO1.setFea_status("FEA1");
 ////        dao.insert(feastInfoVO1);
 //
-//        // 修改
-//        FeastInfoVO feastInfoVO2 = new FeastInfoVO();
-//        feastInfoVO2.setFea_resNo("RS000005");
-//        feastInfoVO2.setFea_memNo("ME000003");
-//        feastInfoVO2.setFea_title("本燔壽喜燒團");
-//        feastInfoVO2.setFea_text("中壢好吃壽喜燒");
-//        feastInfoVO2.setFea_number(3);
-//        feastInfoVO2.setFea_upLim(10);
-//        feastInfoVO2.setFea_lowLim(4);
-//        feastInfoVO2.setFea_date(new Date(System.currentTimeMillis() + 8 * 24 * 60 * 60 * 1000));
-//        feastInfoVO2.setFea_startDate(new Date(System.currentTimeMillis() + 4 * 24 * 60 * 60 * 1000));
-//        feastInfoVO2.setFea_endDate(null);
-//        feastInfoVO2.setFea_type("內用");
-//        feastInfoVO2.setFea_loc("302桃園市中壢區五興路331巷29號");
-//        feastInfoVO2.setFea_status("FEA1");
-//        feastInfoVO2.setFea_no("FE000004");
-////        dao.update(feastInfoVO2);
+        // 修改
+        FeastInfoVO feastInfoVO2 = new FeastInfoVO();
+        feastInfoVO2.setFea_resNo("RS000005");
+        feastInfoVO2.setFea_memNo("ME000003");
+        feastInfoVO2.setFea_title("本燔壽喜燒團");
+        feastInfoVO2.setFea_text("中壢好吃壽喜燒");
+        feastInfoVO2.setFea_number(3);
+        feastInfoVO2.setFea_upLim(10);
+        feastInfoVO2.setFea_lowLim(4);
+        feastInfoVO2.setFea_date(new Timestamp(System.currentTimeMillis() + 8 * 24 * 60 * 60 * 1000));
+        feastInfoVO2.setFea_startDate(new Timestamp(System.currentTimeMillis() + 4 * 24 * 60 * 60 * 1000));
+        feastInfoVO2.setFea_endDate(null);
+        feastInfoVO2.setFea_type("內用");
+        feastInfoVO2.setFea_loc("302桃園市中壢區五興路331巷29號");
+        feastInfoVO2.setFea_status("FEA1");
+        feastInfoVO2.setFea_no("FE000004");
+//        dao.update(feastInfoVO2);
 //
 //        // 刪除
 ////        dao.delete("FE000006");
 //
 //        // 查詢
-//        FeastInfoVO feastInfoVO3 = dao.findByPrimaryKey("FE000001");
+//        FeastInfoVO feastInfoVO3 = dao.findByPrimaryKey("FE000004");
 //
 //        System.out.print(feastInfoVO3.getFea_no() + ",");
 //        System.out.print(feastInfoVO3.getFea_resNo() + ",");
@@ -436,5 +437,5 @@ public class FeastInfoDAO implements FeastInfoDAO_interface
 //            System.out.println(feastInfoVO.getFea_status());
 //            System.out.println("---------------------");
 //        }
-//    }
+    }
 }

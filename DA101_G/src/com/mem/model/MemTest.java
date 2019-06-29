@@ -1,4 +1,4 @@
-package com.mem.modle;
+package com.mem.model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -10,12 +10,12 @@ import java.sql.Date;
 public class MemTest {
 	
 	public static void main(String[] args) {
-		Date mem_bd=new Date(2015-11-17);//°²
+		Date mem_bd=new Date(2015-11-17);//ï¿½ï¿½
 		
 //		Blob blob = con.createBlob();
 //		byte[] mem_img=getPictureByteArray("item/1.jpg");
 //		blob.setBytes(1, mem_img);
-//		MemVO memVO=new MemVO("ME000006","§Ú","¤¤¥¡","¤k",mem_bd,"0989648851","bluetryit@gmail.com",0,mem_img,"111","123456","¯uªº¬O«Ü³Â·Ð","mem2");
+//		MemVO memVO=new MemVO("ME000006","ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½","ï¿½k",mem_bd,"0989648851","bluetryit@gmail.com",0,mem_img,"111","123456","ï¿½uï¿½ï¿½ï¿½Oï¿½Ü³Â·ï¿½","mem2");
 		MemDAO memDAO=new MemDAO();
 		
 		String mem_no_update="ME000005";
@@ -31,7 +31,7 @@ public class MemTest {
 		memDAO.update(memVO);
 		
 	}
-//	// ¨Ï¥Îbyte[]¤è¦¡¡A±NÀÉ®×¼g¶i¸ê®Æ®w
+//	// ï¿½Ï¥ï¿½byte[]ï¿½è¦¡ï¿½Aï¿½Nï¿½É®×¼gï¿½iï¿½ï¿½Æ®w
 //	public static byte[] getPictureByteArray(String path) throws IOException {
 //		File file = new File(path);
 //		FileInputStream fis = new FileInputStream(file);

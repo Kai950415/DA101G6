@@ -2,6 +2,7 @@ package com.tools;
 
 //30貼上你的金鑰
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,8 +24,11 @@ public class GetResterauntFromGoogleForTeam
     static String userid = "DA101G6";
     static String passwd = "123456";
 
-    final static String INSERT_STMT = "Insert into RESTAURANT (RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_IMG,RES_INTRO,RES_HOURS,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS)"
-            + "values ('RS'||LPAD(to_char(res_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    final static String INSERT_STMT = "Insert into RESTAURANT (RES_NO, RES_ADRS, RES_NAME, RES_PH, RES_POINT, "
+            + "RES_AC, RES_PASS, RES_IMG, RES_INTRO, RES_START, "
+            + "RES_END, RES_LAT, RES_LOT, RES_SCORE, RES_COST, "
+            + "RES_COMCOUNT, RES_TYPE, RES_STATUS) "
+            + "values ('RS'||LPAD(to_char(res_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // 貼上你的金鑰
     static String yourKey = "";
@@ -114,19 +118,40 @@ public class GetResterauntFromGoogleForTeam
                     pstmt.setString(6, pass);
                     System.out.println("密碼" + pass);
 
-                    byte[] pic = null;
-                    pstmt.setBytes(7, pic);
+                    if (data.has("photos"))
+                    {
+                        JSONArray photoArray = data.getJSONArray("photos");
+                        JSONObject photo = photoArray.getJSONObject(0);
+                        int height = photo.getInt("height");
+                        int width = photo.getInt("width");
+                        String photo_reference = photo.getString("photo_reference");
+
+                        byte[] pic = getPicture(height, width, photo_reference);
+
+                        pstmt.setBytes(7, pic);
+                        System.out.println(pic);
+                    }
+                    else
+                    {
+                        byte[] pic = null;
+                        pstmt.setBytes(7, pic);
+                    }
 
                     String intro = "你好，我們餐廳很好吃。";
                     pstmt.setString(8, intro);
 
                     String[] minuteArr = {"00", "30"};
-                    String busiHour = (int) Math.floor((Math.random() * 4 + 7)) + ":"
-                            + minuteArr[(int) Math.round(Math.random())]
-                            + "~" + (int) Math.floor((Math.random() * 7 + 15)) + ":"
+                    String startHour = (int) Math.floor((Math.random() * 4 + 7)) + ":"
                             + minuteArr[(int) Math.round(Math.random())];
-                    pstmt.setString(9, busiHour);
-                    System.out.println("營業時間:" + busiHour);
+
+                    String endHours = (int) Math.floor((Math.random() * 7 + 15)) + ":"
+                            + minuteArr[(int) Math.round(Math.random())];
+
+                    pstmt.setString(9, startHour);
+                    System.out.println("營業開始時間:" + startHour);
+
+                    pstmt.setString(10, endHours);
+                    System.out.println("營業結束時間:" + endHours);
 
                     if (data.has("geometry"))
                     {
@@ -135,24 +160,24 @@ public class GetResterauntFromGoogleForTeam
                         Double lat = location.getDouble("lat");
                         Double lng = location.getDouble("lng");
 
-                        pstmt.setDouble(10, lat);
+                        pstmt.setDouble(11, lat);
                         System.out.println("餐廳的緯度: " + lat);
 
-                        pstmt.setDouble(11, lng);
+                        pstmt.setDouble(12, lng);
                         System.out.println("餐廳的經度: " + lng);
                     }
                     if (data.has("user_ratings_total"))
                     {
                         int user_ratings_total = data.getInt("user_ratings_total");
 
-                        pstmt.setInt(14, user_ratings_total);
+                        pstmt.setInt(15, user_ratings_total);
                         System.out.println("餐廳評分人數" + user_ratings_total);
 
                         if (data.has("rating"))
                         {
                             Double rating = data.getDouble("rating");
 
-                            pstmt.setInt(12, (int) (rating * user_ratings_total));
+                            pstmt.setInt(13, (int) (rating * user_ratings_total));
                             System.out.println("餐廳的總分: " + (int) (rating * user_ratings_total));
 
                         }
@@ -161,14 +186,14 @@ public class GetResterauntFromGoogleForTeam
                     {
                         int user_ratings_total = (int) Math.random() * 1000;
 
-                        pstmt.setInt(14, user_ratings_total);
+                        pstmt.setInt(15, user_ratings_total);
                         System.out.println("餐廳評分人數" + user_ratings_total);
 
                         if (data.has("rating"))
                         {
                             Double rating = (double) Math.round(Math.random() * 50) / 10.f;
 
-                            pstmt.setDouble(12, (int) (rating * user_ratings_total));
+                            pstmt.setDouble(13, (int) (rating * user_ratings_total));
                             System.out.println("餐廳的總分: " + (int) (rating * user_ratings_total));
 
                         }
@@ -178,7 +203,7 @@ public class GetResterauntFromGoogleForTeam
                     {
                         priceLevel = data.getInt("price_level");
                     }
-                    pstmt.setInt(13, priceLevel);
+                    pstmt.setInt(14, priceLevel);
                     System.out.println("消費區間:" + priceLevel);
 
 //                if (data.has("opening_hours"))
@@ -201,20 +226,20 @@ public class GetResterauntFromGoogleForTeam
                         JSONArray typeArr = data.getJSONArray("types");
                         String type = typeArr.getString(0);
 
-                        pstmt.setString(15, type);
+                        pstmt.setString(16, type);
                         System.out.println("餐廳類型" + type);
                     }
                     else
                     {
                         String type = "restaurant";
 
-                        pstmt.setString(15, type);
+                        pstmt.setString(16, type);
                         System.out.println("餐廳類型" + type);
                     }
 
                     String[] statusArr = {"res1", "res2", "res3", "res4"};
 
-                    pstmt.setString(16, statusArr[(int) Math.floor(Math.random() * 4)]);
+                    pstmt.setString(17, statusArr[(int) Math.floor(Math.random() * 4)]);
                     System.out.println("狀態" + statusArr[(int) Math.floor(Math.random() * 4)]);
 
                     System.out.println("============================");
@@ -222,18 +247,18 @@ public class GetResterauntFromGoogleForTeam
                 }
                 catch (JSONException e)
                 {
-//                    e.printStackTrace();
+                    e.printStackTrace();
+//                  System.err.println("JSON出錯了");
                     successCounter--;
                     failCounter++;
-                    System.err.println("JSON出錯了");
                     continue;
                 }
                 catch (SQLException e)
                 {
-//                    e.printStackTrace();
+                    e.printStackTrace();
+//                  System.err.println("SQL新增餐廳出錯了");
                     successCounter--;
                     failCounter++;
-                    System.err.println("SQL新增餐廳出錯了");
                     continue;
                 }
             }
@@ -248,8 +273,31 @@ public class GetResterauntFromGoogleForTeam
         else
         {
             System.out.println("end");
-            con.disconnect();
         }
+    }
+
+    public static byte[] getPicture(int height, int width, String photo_reference) throws IOException
+    {
+        String photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxheight=" + height + "&maxwidth=" + width
+                + "&photoreference=" + photo_reference + "&key=" + yourKey;
+
+        URL url = new URL(photoUrl);
+        InputStream is = url.openStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        
+        byte[] byteChunk = new byte[4096];
+        
+        int n;
+
+        while ( (n = is.read(byteChunk)) > 0 ) 
+        {
+          baos.write(byteChunk, 0, n);
+        }
+        
+        
+        byte[] pic = baos.toByteArray();
+
+        return pic;
     }
 
     public static void main(String[] args)

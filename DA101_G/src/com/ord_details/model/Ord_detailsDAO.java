@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mem.modle.MemVO;
+import com.mem.model.MemVO;
 
 public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 	String driver = "oracle.jdbc.driver.OracleDriver";

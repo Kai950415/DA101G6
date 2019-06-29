@@ -1,5 +1,11 @@
-package com.mem.modle;
+package com.mem.model;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,8 +28,10 @@ public class MemDAO implements MemDAO_interface {
 			"('ME'||LPAD(to_char(mem_seq.NEXTVAL),6, '0'),?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String GET_ALL = 
 		"SELECT * FROM mem order by mem_no";
-	private static final String GET_ONE = 
+	private static final String GET_ONE_PK = 
 		"SELECT * FROM mem where mem_no = ?";
+	private static final String GET_ONE_AC = 
+			"SELECT * FROM mem where mem_ac = ?";
 	private static final String DELETE = 
 		"DELETE FROM mem where mem_no = ?";
 	private static final String UPDATE = 
@@ -197,9 +205,81 @@ public class MemDAO implements MemDAO_interface {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(GET_ONE);
+			pstmt = con.prepareStatement(GET_ONE_PK);
 
 			pstmt.setString(1, mem_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVo �]�٬� Domain objects
+				memVO = new MemVO();
+				
+				memVO.setMem_name(rs.getString("mem_name"));
+				memVO.setMem_adrs(rs.getString("mem_adrs"));
+				memVO.setMem_sex(rs.getString("mem_sex"));
+				memVO.setMem_bd(rs.getDate("mem_bd"));
+				memVO.setMem_ph(rs.getString("mem_ph"));
+				memVO.setMem_email(rs.getString("mem_email"));
+				memVO.setMem_point(rs.getInt("mem_point"));
+				memVO.setMem_img(rs.getBytes("mem_img"));
+				memVO.setMem_pass(rs.getString("mem_pass"));
+				memVO.setMem_ac(rs.getString("mem_ac"));
+				memVO.setMem_intro(rs.getString("mem_intro"));
+				memVO.setMem_status(rs.getString("mem_status"));
+				memVO.setMem_no(rs.getString("mem_no"));
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return memVO;
+	}
+	
+	@Override
+	public MemVO findByAC(String mem_ac) {
+		// TODO Auto-generated method stub
+		MemVO memVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_AC);
+
+			pstmt.setString(1, mem_ac);
 
 			rs = pstmt.executeQuery();
 
@@ -276,6 +356,7 @@ public class MemDAO implements MemDAO_interface {
 
 			while (rs.next()) {
 				// empVO �]�٬� Domain objects
+				memVO = new MemVO();
 				memVO.setMem_name(rs.getString("mem_name"));
 				memVO.setMem_adrs(rs.getString("mem_adrs"));
 				memVO.setMem_sex(rs.getString("mem_sex"));
@@ -326,5 +407,63 @@ public class MemDAO implements MemDAO_interface {
 		}
 		return list;
 	}
-
+	
+	public static void main(String arg[]) {
+		MemDAO memdao=new MemDAO();
+		MemVO memVO=new MemVO();
+		System.out.println("------------------ALL---------------");
+		List<MemVO> Listmem=memdao.getAll();
+		for(int i=0;i<Listmem.size();i++){
+			memVO=Listmem.get(i);
+			System.out.println(memVO.getMem_no()+
+					memVO.getMem_name()+
+					memVO.getMem_adrs()+
+					memVO.getMem_bd()+
+					memVO.getMem_ph()+
+					memVO.getMem_email()+
+					memVO.getMem_point()+
+					memVO.getMem_img()+
+					memVO.getMem_pass()+
+					memVO.getMem_ac()+
+					memVO.getMem_intro()+
+					memVO.getMem_status());
+			//塞圖
+				memVO.setMem_img(setpic("fuck"));
+				memdao.update(memVO);
+		}
+		System.out.println("------------------ONEIP---------------");
+		System.out.println((memVO=memdao.findByPrimaryKey("ME000001")).getMem_email());
+		System.out.println("------------------ONEAC---------------");
+		System.out.println("AC"+(memVO=memdao.findByPrimaryKey("ME000001")).getMem_email());
+		System.out.println("------------------UPDATE---------------");
+		memVO.setMem_email("bluetryit@gmail.com");
+		memdao.update(memVO);
+		System.out.println("------------------INSERT---------------");	
+		memVO.setMem_img(setpic("fuck"));
+		memdao.insert(memVO);
+		
+		
+		
+		
+	}
+	//外部讀圖
+	static public byte[] setpic(String path) {
+		if(path=="fuck"){path="image/01.jpg";}
+		File file = new File(path);
+		int size = (int) file.length();
+		byte[] bytes = new byte[size];
+		try {
+		    BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+		    buf.read(bytes, 0, bytes.length);
+		    buf.close();
+		} catch (FileNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		return bytes;
+	}
+	
 }

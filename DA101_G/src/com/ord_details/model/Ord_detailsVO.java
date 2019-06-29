@@ -1,6 +1,8 @@
 package com.ord_details.model;
 
-public class Ord_detailsVO {
+import java.io.Serializable;
+
+public class Ord_detailsVO implements Serializable{
 	private String det_ordno;
 	private String det_fono;
 	private Integer det_price;

@@ -1,7 +1,7 @@
 package com.feastinfo.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class FeastInfoVO implements Serializable
 {
@@ -13,9 +13,9 @@ public class FeastInfoVO implements Serializable
     private Integer fea_number;
     private Integer fea_upLim;
     private Integer fea_lowLim;
-    private Date fea_date;
-    private Date fea_startDate;
-    private Date fea_endDate;
+    private Timestamp fea_date;
+    private Timestamp fea_startDate;
+    private Timestamp fea_endDate;
     private String fea_type;
     private String fea_loc;
     private String fea_status;
@@ -26,8 +26,8 @@ public class FeastInfoVO implements Serializable
     }
 
     public FeastInfoVO(String fea_no, String fea_resNo, String fea_memNo, String fea_title, String fea_text,
-            Integer fea_number, Integer fea_upLim, Integer fea_lowLim, Date fea_date, Date fea_startDate,
-            Date fea_endDate, String fea_type, String fea_loc, String fea_status)
+            Integer fea_number, Integer fea_upLim, Integer fea_lowLim, Timestamp fea_date, Timestamp fea_startDate,
+            Timestamp fea_endDate, String fea_type, String fea_loc, String fea_status)
     {
         super();
         this.fea_no = fea_no;
@@ -126,32 +126,32 @@ public class FeastInfoVO implements Serializable
         this.fea_lowLim = fea_lowLim;
     }
 
-    public Date getFea_date()
+    public Timestamp getFea_date()
     {
         return fea_date;
     }
 
-    public void setFea_date(Date fea_date)
+    public void setFea_date(Timestamp fea_date)
     {
         this.fea_date = fea_date;
     }
 
-    public Date getFea_startDate()
+    public Timestamp getFea_startDate()
     {
         return fea_startDate;
     }
 
-    public void setFea_startDate(Date fea_startDate)
+    public void setFea_startDate(Timestamp fea_startDate)
     {
         this.fea_startDate = fea_startDate;
     }
 
-    public Date getFea_endDate()
+    public Timestamp getFea_endDate()
     {
         return fea_endDate;
     }
 
-    public void setFea_endDate(Date fea_endDate)
+    public void setFea_endDate(Timestamp fea_endDate)
     {
         this.fea_endDate = fea_endDate;
     }

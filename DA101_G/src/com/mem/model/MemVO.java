@@ -1,8 +1,9 @@
-package com.mem.modle;
+package com.mem.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class MemVO {
+public class MemVO implements Serializable{
 	private String mem_no;
 	private String mem_name;
 	private String mem_adrs;
