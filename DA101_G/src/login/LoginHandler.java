@@ -4,8 +4,8 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import com.member.model.MemberService;
-import com.member.model.MemberVO;
+import com.mem.model.MemService;
+import com.mem.model.MemVO;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -15,11 +15,11 @@ public class LoginHandler extends HttpServlet {
 
 	// 【檢查使用者輸入的帳號(account) 密碼(password)是否有效】
 	// 【實際上應至資料庫搜尋比對】
-	protected MemberVO allowUser(String member_id, String mem_pwd) {
+	protected MemVO allowUser(String member_id, String mem_pwd) {
 
-		MemberService ms = new MemberService();
-		MemberVO memberVO = ms.getOneMember(member_id);
-		if (memberVO != null && mem_pwd.equals(memberVO.getMem_pwd()))
+		MemService ms = new MemService();
+		MemVO memberVO = ms.memFindByPrimaryKey(member_id);
+		if (memberVO != null && mem_pwd.equals(memberVO.getMem_pass()))
 			return memberVO;
 		else
 			return null;
@@ -40,7 +40,7 @@ public class LoginHandler extends HttpServlet {
 		String mem_pwd = req.getParameter("mem_pwd");
 
 		// 【檢查該帳號 , 密碼是否有效】
-		MemberVO memberVO = allowUser(member_id, mem_pwd);
+		MemVO memberVO = allowUser(member_id, mem_pwd);
 
 		if ((memberVO = allowUser(member_id, mem_pwd)) == null) { // 【帳號 , 密碼無效時】
 			out.println("<HTML><HEAD><TITLE>Access Denied</TITLE></HEAD>");

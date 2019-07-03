@@ -37,7 +37,7 @@ public class FooditemServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 
-		if ("getOne_For_Display".equals(action)) { // ¨Ó¦Ûselect_page.jspªº½Ğ¨D
+		if ("getOne_For_Display".equals(action)) { //ä¾†è‡ªselect_page.jspçš„è«‹æ±‚
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -45,59 +45,59 @@ public class FooditemServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ - ¿é¤J®æ¦¡ªº¿ù»~³B²z **********************/
+				/*************************** 1.æ¥æ”¶è«‹æ±‚åƒæ•¸ - è¼¸å…¥æ ¼å¼çš„éŒ¯èª¤è™•ç† **********************/
 				String str = req.getParameter("fo_no");
 				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("½Ğ¿é¤J­û¤u½s¸¹");
+					errorMsgs.add("è«‹è¼¸å…¥é¤é»ç·¨è™Ÿ");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/fooditem_select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/fooditem_select_page.jsp");
 					failureView.forward(req, res);
-					return;// µ{¦¡¤¤Â_
+					return;// ç¨‹å¼ä¸­æ–·
 				}
 
 				String fo_no = null;
 				try {
 					fo_no = new String(str);
 				} catch (Exception e) {
-					errorMsgs.add("­û¤u½s¸¹®æ¦¡¤£¥¿½T");
+					errorMsgs.add("é¤å»³ç·¨è™Ÿæ ¼å¼ä¸æ­£ç¢º");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/fooditem_select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/fooditem_select_page.jsp");
 					failureView.forward(req, res);
-					return;// µ{¦¡¤¤Â_
+					return;// ç¨‹å¼ä¸­æ–·
 				}
 
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ *****************************************/
+				/*************************** 2.é–‹å§‹æŸ¥è©¢è³‡æ–™ *****************************************/
 				FooditemService fooditemSvc = new FooditemService();
 				FooditemVO fooditemVO = fooditemSvc.getOneFooditem(fo_no);
 				if (fooditemVO == null) {
-					errorMsgs.add("¬dµL¸ê®Æ");
+					errorMsgs.add("æŸ¥ç„¡è³‡æ–™");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/fooditem_select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/fooditem_select_page.jsp");
 					failureView.forward(req, res);
-					return;// µ{¦¡¤¤Â_
+					return;// ç¨‹å¼ä¸­æ–·
 				}
 
-				/*************************** 3.¬d¸ß§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
-				req.setAttribute("fooditemVO", fooditemVO); // ¸ê®Æ®w¨ú¥XªºempVOª«¥ó,¦s¤Jreq
+				/*************************** 3.æŸ¥è©¢å®Œæˆ,æº–å‚™è½‰äº¤(Send the Success view) *************/
+				req.setAttribute("fooditemVO", fooditemVO); // è³‡æ–™åº«å–å‡ºçš„empVOç‰©ä»¶,å­˜å…¥req
 				String url = "/fooditem/listOneFooditem.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ¦¨¥\Âà¥æ listOneEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // æˆåŠŸè½‰äº¤ listOneEmp.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** å…¶ä»–å¯èƒ½çš„éŒ¯èª¤è™•ç†*************************************/
 			} catch (Exception e) {
-				errorMsgs.add("µLªk¨ú±o¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ç„¡æ³•å–å¾—è³‡æ–™:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/listOneFooditem.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
-		if ("getOne_For_Update".equals(action)) { // ¨Ó¦ÛlistAllFooditem.jspªº½Ğ¨D
+		if ("getOne_For_Update".equals(action)) { // ä¾†è‡ªlistAllFooditem.jspçš„è«‹æ±‚
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -105,28 +105,29 @@ public class FooditemServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ ****************************************/
+				/*************************** 1.æ¥æ”¶è«‹æ±‚åƒæ•¸ ****************************************/
 				String fo_no = new String(req.getParameter("fo_no"));
 
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ ****************************************/
+				/*************************** 2.é–‹å§‹æŸ¥è©¢è³‡æ–™ ****************************************/
 				FooditemService fooditemSvc = new FooditemService();
 				FooditemVO fooditemVO = fooditemSvc.getOneFooditem(fo_no);
 
-				/*************************** 3.¬d¸ß§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) ************/
-				req.setAttribute("fooditemVO", fooditemVO); // ¸ê®Æ®w¨ú¥XªºfooditemVOª«¥ó,¦s¤Jreq
+				/*************************** 3.æŸ¥è©¢å®Œæˆ,æº–å‚™è½‰äº¤(Send the Success view) ************/
+				req.setAttribute("fooditemVO", fooditemVO); // è³‡æ–™åº«å–å‡ºçš„fooditemVOç‰©ä»¶,å­˜å…¥req
 				String url = "/fooditem/update_fooditem_input.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// ¦¨¥\Âà¥æ update_fooditem_input.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url);// æˆåŠŸè½‰äº¤ update_fooditem_input.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z **********************************/
+				/***************************å…¶ä»–å¯èƒ½çš„éŒ¯èª¤è™•ç† **********************************/
 			} catch (Exception e) {
-				errorMsgs.add("µLªk¨ú±o­n­×§ïªº¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ç„¡æ³•å–å¾—è³‡æ–™:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/listAllFooditem.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
-		if ("update".equals(action)) { // ¨Ó¦Ûupdate_fooditem_input.jspªº½Ğ¨D
+		if ("update".equals(action)) { // ä¾†è‡ªupdate_fooditem_input.jspçš„è«‹æ±‚
+
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -134,16 +135,16 @@ public class FooditemServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ - ¿é¤J®æ¦¡ªº¿ù»~³B²z **********************/
+				/*************************** 1.æ¥æ”¶è«‹æ±‚åƒæ•¸ - è¼¸å…¥æ ¼å¼çš„éŒ¯èª¤è™•ç† **********************/
 				String fo_no = req.getParameter("fo_no").trim();
 				String fo_resno = req.getParameter("fo_resno").trim();
 			
 				String fo_name = req.getParameter("fo_name");
 				String fo_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,100}$";
 				if (fo_name == null || fo_name.trim().length() == 0) {
-					errorMsgs.add("À\ÂI¦WºÙ: ½Ğ¤ÅªÅ¥Õ");
-				} else if (!fo_name.trim().matches(fo_nameReg)) { // ¥H¤U½m²ß¥¿«h(³W)ªí¥Ü¦¡(regular-expression)
-					errorMsgs.add("À\ÂI¦WºÙ: ¥u¯à¬O¤¤¡B­^¤å¦r¥À¡B¼Æ¦r©M_ , ¥Bªø«×¥²»İ¦b2¨ì10¤§¶¡");
+					errorMsgs.add("é¤é»åç¨±: è«‹å‹¿ç©ºç™½");
+				} else if (!fo_name.trim().matches(fo_nameReg)) { // ï¿½Hï¿½Uï¿½mï¿½ß¥ï¿½ï¿½h(ï¿½W)ï¿½ï¿½Ü¦ï¿½(regular-expression)
+					errorMsgs.add("é¤é»åç¨±: åªèƒ½æ˜¯ä¸­ã€è‹±æ–‡å­—æ¯ã€æ•¸å­—å’Œ_ , ä¸”é•·åº¦å¿…éœ€åœ¨2åˆ°10ä¹‹é–“");
 				}
 				
 				Part part = req.getPart("fo_img");
@@ -166,23 +167,23 @@ public class FooditemServlet extends HttpServlet {
 					fo_price = new Integer(req.getParameter("fo_price").trim());
 				} catch (NumberFormatException e) {
 					fo_price = 0;
-					errorMsgs.add("½Ğ¶ñ¼Æ¦r.");
+					errorMsgs.add("è«‹å¡«æ•¸å­—:");
 				}
 
 				String fo_intro = new String(req.getParameter("fo_intro").trim());
 				String fo_introReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,100}$";
 				if (fo_intro == null || fo_intro.trim().length() == 0) {
-					errorMsgs.add("À\ÂIª¬ºA: ½Ğ¤ÅªÅ¥Õ");
-				} else if (!fo_name.trim().matches(fo_introReg)) { // ¥H¤U½m²ß¥¿«h(³W)ªí¥Ü¦¡(regular-expression)
-					errorMsgs.add("À\ÂIª¬ºA: ¥u¯à¬O¤¤¡B­^¤å¦r¥À¡B¼Æ¦r©M_ , ¥Bªø«×¥²»İ¦b2¨ì10¤§¶¡");
+					errorMsgs.add("é¤é»ç‹€æ…‹: è«‹å‹¿ç©ºç™½");
+				} else if (!fo_name.trim().matches(fo_introReg)) { // ï¿½Hï¿½Uï¿½mï¿½ß¥ï¿½ï¿½h(ï¿½W)ï¿½ï¿½Ü¦ï¿½(regular-expression)
+					errorMsgs.add("é¤é»ç‹€æ…‹: åªèƒ½æ˜¯ä¸­ã€è‹±æ–‡å­—æ¯ã€æ•¸å­—å’Œ_ , ä¸”é•·åº¦å¿…éœ€åœ¨2åˆ°10ä¹‹é–“");
 				}
 
 				String fo_status = new String(req.getParameter("fo_status").trim());
 				String fo_statusReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,100}$";
 				if (fo_status == null || fo_status.trim().length() == 0) {
-					errorMsgs.add("À\ÂI¤¶²Ğ: ½Ğ¤ÅªÅ¥Õ");
-				} else if (!fo_name.trim().matches(fo_statusReg)) { // ¥H¤U½m²ß¥¿«h(³W)ªí¥Ü¦¡(regular-expression)
-					errorMsgs.add("À\ÂI¤¶²Ğ: ¥u¯à¬O¤¤¡B­^¤å¦r¥À¡B¼Æ¦r©M_ , ¥Bªø«×¥²»İ¦b2¨ì10¤§¶¡");
+					errorMsgs.add("é¤é»ä»‹ç´¹: è«‹å‹¿ç©ºç™½");
+				} else if (!fo_name.trim().matches(fo_statusReg)) { // ä»¥ä¸‹ç·´ç¿’æ­£å‰‡(è¦)è¡¨ç¤ºå¼(regular-expression
+					errorMsgs.add("é¤é»ä»‹ç´¹: åªèƒ½æ˜¯ä¸­ã€è‹±æ–‡å­—æ¯ã€æ•¸å­—å’Œ_ , ä¸”é•·åº¦å¿…éœ€åœ¨2åˆ°10ä¹‹é–“");
 				}
 
 
@@ -198,32 +199,32 @@ public class FooditemServlet extends HttpServlet {
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("fooditemVO", fooditemVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
+					req.setAttribute("fooditemVO", fooditemVO); //å«æœ‰è¼¸å…¥æ ¼å¼éŒ¯èª¤çš„empVOç‰©ä»¶,ä¹Ÿå­˜å…¥req
 					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/update_fooditem_input.jsp");
 					failureView.forward(req, res);
-					return; // µ{¦¡¤¤Â_
+					return; // ç¨‹å¼ä¸­æ–·
 				}
 
-				/*************************** 2.¶}©l­×§ï¸ê®Æ *****************************************/
+				/*************************** 2.é–‹å§‹ä¿®æ”¹è³‡æ–™ *****************************************/
 				FooditemService fooditemSvc = new FooditemService();
 				fooditemVO = fooditemSvc.updateFooditem(fo_no, fo_resno, fo_name, fo_price, fo_img, fo_intro,
 						fo_status);
 
-				/*************************** 3.­×§ï§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
-				req.setAttribute("fooditemVO", fooditemVO); // ¸ê®Æ®wupdate¦¨¥\«á,¥¿½TªºªºempVOª«¥ó,¦s¤Jreq
+				/*************************** 3.ä¿®æ”¹å®Œæˆ,æº–å‚™è½‰äº¤(Send the Success view) *************/
+				req.setAttribute("fooditemVO", fooditemVO); // è³‡æ–™åº«updateæˆåŠŸå¾Œ,æ­£ç¢ºçš„çš„empVOç‰©ä»¶,å­˜å…¥req
 				String url = "/fooditem/listOneFooditem.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ­×§ï¦¨¥\«á,Âà¥ælistOneEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); //ä¿®æ”¹æˆåŠŸå¾Œ,è½‰äº¤listOneEmp.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** å…¶ä»–å¯èƒ½çš„éŒ¯èª¤è™•ç†*************************************/
 			} catch (Exception e) {
-				errorMsgs.add("­×§ï¸ê®Æ¥¢±Ñ:" + e.getMessage());
+				errorMsgs.add("ä¿®æ”¹è³‡æ–™å¤±æ•—:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/update_fooditem_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
-		if ("insert".equals(action)) { // ¨Ó¦ÛaddFooditem.jspªº½Ğ¨D
+		if ("insert".equals(action)) { //ä¾†è‡ªaddFooditem.jspçš„è«‹æ±‚
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -231,16 +232,16 @@ public class FooditemServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*********************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ - ¿é¤J®æ¦¡ªº¿ù»~³B²z *************************/
+				/*********************** 1.æ¥æ”¶è«‹æ±‚åƒæ•¸ - è¼¸å…¥æ ¼å¼çš„éŒ¯èª¤è™•ç† *************************/
 				
 				String fo_resno = req.getParameter("fo_resno").trim();
 				String fo_name  = req.getParameter("fo_name");
 				
 				String fo_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 				if (fo_name == null || fo_name.trim().length() == 0) {
-					errorMsgs.add("À\ÂI¦WºÙ: ½Ğ¤ÅªÅ¥Õ");
-				} else if (!fo_name.trim().matches(fo_nameReg)) { // ¥H¤U½m²ß¥¿«h(³W)ªí¥Ü¦¡(regular-expression)
-					errorMsgs.add("À\ÂI¦WºÙ: ¥u¯à¬O¤¤¡B­^¤å¦r¥À¡B¼Æ¦r©M_ , ¥Bªø«×¥²»İ¦b2¨ì10¤§¶¡");
+					errorMsgs.add("é¤é»åç¨±: è«‹å‹¿ç©ºç™½");
+				} else if (!fo_name.trim().matches(fo_nameReg)) { //ä»¥ä¸‹ç·´ç¿’æ­£å‰‡(è¦)è¡¨ç¤ºå¼(regular-expression)
+					errorMsgs.add("é¤é»åç¨±: åªèƒ½æ˜¯ä¸­ã€è‹±æ–‡å­—æ¯ã€æ•¸å­—å’Œ_ , ä¸”é•·åº¦å¿…éœ€åœ¨2åˆ°10ä¹‹é–“");
 				}
 
 				Part part = req.getPart("fo_img");
@@ -262,23 +263,23 @@ public class FooditemServlet extends HttpServlet {
 					fo_price = new Integer(req.getParameter("fo_price").trim());
 				} catch (NumberFormatException e) {
 					fo_price = 0;
-					errorMsgs.add("½Ğ¶ñ¼Æ¦r.");
+					errorMsgs.add("è«‹å¡«æ•¸å­—:");
 				}
 			
 				String fo_intro = (req.getParameter("fo_intro").trim());
 				String fo_introReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 				if (fo_intro == null || fo_intro.trim().length() == 0) {
-					errorMsgs.add("À\ÂIª¬ºA: ½Ğ¤ÅªÅ¥Õ");
-				} else if (!fo_name.trim().matches(fo_introReg)) { // ¥H¤U½m²ß¥¿«h(³W)ªí¥Ü¦¡(regular-expression)
-					errorMsgs.add("À\ÂIª¬ºA: ¥u¯à¬O¤¤¡B­^¤å¦r¥À¡B¼Æ¦r©M_ , ¥Bªø«×¥²»İ¦b2¨ì10¤§¶¡");
+					errorMsgs.add("é¤é»ç‹€æ…‹: è«‹å‹¿ç©ºç™½");
+				} else if (!fo_name.trim().matches(fo_introReg)) { // ä»¥ä¸‹ç·´ç¿’æ­£å‰‡(è¦)è¡¨ç¤ºå¼(regular-expression)
+					errorMsgs.add("é¤é»ç‹€æ…‹: åªèƒ½æ˜¯ä¸­ã€è‹±æ–‡å­—æ¯ã€æ•¸å­—å’Œ_ , ä¸”é•·åº¦å¿…éœ€åœ¨2åˆ°10ä¹‹é–“");
 				}
 
 				String fo_status = new String(req.getParameter("fo_status").trim());
 				String fo_statusReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 				if (fo_status == null || fo_status.trim().length() == 0) {
-					errorMsgs.add("À\ÂI¤¶²Ğ: ½Ğ¤ÅªÅ¥Õ");
-				} else if (!fo_name.trim().matches(fo_introReg)) { // ¥H¤U½m²ß¥¿«h(³W)ªí¥Ü¦¡(regular-expression)
-					errorMsgs.add("À\ÂI¤¶²Ğ: ¥u¯à¬O¤¤¡B­^¤å¦r¥À¡B¼Æ¦r©M_ , ¥Bªø«×¥²»İ¦b2¨ì10¤§¶¡");
+					errorMsgs.add("é¤é»ä»‹ç´¹: è«‹å‹¿ç©ºç™½");
+				} else if (!fo_name.trim().matches(fo_introReg)) { // ï¿½Hï¿½Uï¿½mï¿½ß¥ï¿½ï¿½h(ï¿½W)ï¿½ï¿½Ü¦ï¿½(regular-expression)
+					errorMsgs.add("é¤é»ä»‹ç´¹: åªèƒ½æ˜¯ä¸­ã€è‹±æ–‡å­—æ¯ã€æ•¸å­—å’Œ_ , ä¸”é•·åº¦å¿…éœ€åœ¨2åˆ°10ä¹‹é–“");
 				}
 				
 				FooditemVO fooditemVO = new FooditemVO();
@@ -290,22 +291,22 @@ public class FooditemServlet extends HttpServlet {
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("fooditemVO", fooditemVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
+					req.setAttribute("fooditemVO", fooditemVO); // ï¿½tï¿½ï¿½ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½~ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½]ï¿½sï¿½Jreq
 					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/addFooditem.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 
-				/*************************** 2.¶}©l·s¼W¸ê®Æ ***************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½sï¿½Wï¿½ï¿½ï¿½ ***************************************/
 				FooditemService fooditemSvc = new FooditemService();
 				fooditemVO = fooditemSvc.addFooditem(fo_resno, fo_name, fo_price, fo_img, fo_intro, fo_status);
 
-				/*************************** 3.·s¼W§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) ***********/
+				/*************************** 3.ï¿½sï¿½Wï¿½ï¿½ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) ***********/
 				String url = "/fooditem/listAllFooditem.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ·s¼W¦¨¥\«áÂà¥ælistAllFooditem.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // ï¿½sï¿½Wï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½listAllFooditem.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z **********************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/addFooditem.jsp");
@@ -313,7 +314,7 @@ public class FooditemServlet extends HttpServlet {
 			}
 		}
 
-		if ("delete".equals(action)) { // ¨Ó¦ÛlistAllFooditem.jsp
+		if ("delete".equals(action)) { // listAllFooditem.jsp
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -321,21 +322,21 @@ public class FooditemServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ ***************************************/
+				/*************************** 1.æ¥æ”¶è«‹æ±‚åƒæ•¸ ***************************************/
 				String fo_no = new String(req.getParameter("fo_no"));
 
-				/*************************** 2.¶}©l§R°£¸ê®Æ ***************************************/
+				/*************************** 2.é–‹å§‹åˆªé™¤è³‡æ–™ ***************************************/
 				FooditemService fooditemSvc = new FooditemService();
 				fooditemSvc.deleteFooditem(fo_no);
 
-				/*************************** 3.§R°£§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) ***********/
+				/*************************** 3.åˆªé™¤å®Œæˆ,æº–å‚™è½‰äº¤(Send the Success view) ***********/
 				String url = "/fooditem/listAllFooditem.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// §R°£¦¨¥\«á,Âà¥æ¦^°e¥X§R°£ªº¨Ó·½ºô­¶
+				RequestDispatcher successView = req.getRequestDispatcher(url);// ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½,ï¿½ï¿½ï¿½^ï¿½eï¿½Xï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½ï¿½ï¿½
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z **********************************/
+				/*************************** å…¶ä»–å¯èƒ½çš„éŒ¯èª¤è™•ç† **********************************/
 			} catch (Exception e) {
-				errorMsgs.add("§R°£¸ê®Æ¥¢±Ñ:" + e.getMessage());
+				errorMsgs.add("åˆªé™¤è³‡æ–™å¤±æ•—:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/listAllFooditem.jsp");
 				failureView.forward(req, res);
 			}

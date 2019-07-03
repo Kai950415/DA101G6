@@ -1,11 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-   <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
-    <div class="container text-center">
-      <small>2019 Copyright &copy; DA101G5</small>
-    </div>
-  </footer>
+<footer class="page-footer font-small  pt-4">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Call to action -->
+    <ul class="list-unstyled list-inline text-center py-2">
+      <li class="list-inline-item">
+        <h2 class="mb-1">EAT GROUP&GOOD</h2>
+      </li>
+    </ul>
+    <!-- Call to action -->
+
+  </div>
+  <!-- Footer Elements -->
+
+
+  <div class="footer-copyright text-center py-3">© 2019 Copyright:
+  </div>
+
+
+</footer>
     
     
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

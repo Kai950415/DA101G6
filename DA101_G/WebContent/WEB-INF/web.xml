@@ -9,8 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
-   <servlet>
+  <servlet>
     <servlet-name>MemServlet</servlet-name>
     <servlet-class>com.mem.controller.MemServlet</servlet-class>
   </servlet>
@@ -18,7 +17,26 @@
     <servlet-name>MemServlet</servlet-name>
     <url-pattern>/MEM-INF/mem.do</url-pattern>
   </servlet-mapping>
-<!-- android -->
+  <servlet>
+    <servlet-name>ResServlet</servlet-name>
+    <servlet-class>com.res.controller.ResServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResServlet</servlet-name>
+    <url-pattern>/back-end/res/res.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ResServlet</servlet-name>
+    <url-pattern>/front-end/res/res.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>PicServlet</servlet-name>
+    <servlet-class>com.pictools.ResPhoto</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PicServlet</servlet-name>
+    <url-pattern>/back-end/res/resPhoto.do</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>MemLogin</servlet-name>
     <servlet-class>com.mem.controller.MemLogin</servlet-class>
@@ -27,5 +45,4 @@
     <servlet-name>MemLogin</servlet-name>
     <url-pattern>/MemLogin</url-pattern>
   </servlet-mapping>
- <!-- android -->
 </web-app>

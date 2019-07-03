@@ -13,9 +13,8 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/myLib/json-20180813.jar"/>
-	<classpathentry kind="lib" path="C:/myLib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="C:/myLib/ojdbc6.jar"/>
-	<classpathentry kind="lib" path="C:/myLib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/MyLib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="C:/MyLib/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="C:/MyLib/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
