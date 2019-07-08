@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.res.model.*, com.tools.FindCodeName"%>
@@ -134,81 +135,40 @@ th, td {
 			<tr>
 				<td>營業時間:</td>
 				<td><input type="TEXT" id="f_date1" name="res_start"
-					value="<%=resVO.getRes_start()%>" />~ <input type="TEXT"
+					value="<%=resVO.getRes_start()%>" />~<input type="TEXT"
 					id="f_date2" name="res_end" value="<%=resVO.getRes_end()%>" /></td>
 			</tr>
-			<tr>
+				<tr>
+				<%int cost = 0;%>
+				<%String level[] = {"Free","Inexpensive","Moderate","Expensive","Very Expensive"};
+				%>
 				<td>消費水準:<font color=red><b>*</b></font></td>
 				<td><select size="1" name="res_cost">
-
-
-						<option value="0"
-							<%=(resVO != null && (resVO.getRes_cost()) == 0) ? "selected" : ""%>>Free
-
-
-						
-						<option value="1"
-							<%=(resVO != null && (resVO.getRes_cost()) == 1) ? "selected" : ""%>>Inexpensive
-
-
-						
-						<option value="2"
-							<%=(resVO != null && (resVO.getRes_cost()) == 2) ? "selected" : ""%>>Moderate
-
-
-						
-						<option value="3"
-							<%=(resVO != null && (resVO.getRes_cost()) == 3) ? "selected" : ""%>>Expensive
-
-
-						
-						<option value="4"
-							<%=(resVO != null && (resVO.getRes_cost()) == 4) ? "selected" : ""%>>Very
-							Expensive
+			<c:forEach var="cost" begin="1" end="5" step="1">
+				<option value="<%=cost%>"
+				<%=(resVO != null && (resVO.getRes_cost()) == cost)? "selected" : "" %>
+				><%=level[cost] %>
+				<%++cost; %>
+			</c:forEach>
 				</select></td>
 			</tr>
+
 
 			<tr>
 				<td>餐廳類型:</td>
 				<td><input type="TEXT" name="res_type" size="45"
 					value="<%=resVO.getRes_type()%>" /></td>
-			</tr>
-
-
-<!-- 			<tr> -->
-<!-- 				<td>餐廳狀態:<font color=red><b>*</b></font></td> -->
-<!-- 				<td><select size="1" name="xcv"> -->
-
-
-<!-- 						<option value="res1" -->
-<%-- 							<%=(resVO != null && (resVO.getRes_cost()) == 0) ? "selected" : ""%>>Free --%>
-
-
-<!-- 							<option value="res2" -->
-<%-- 							<%=(resVO != null && (resVO.getRes_cost()) == 1) ? "selected" : ""%>>Inexpensive --%>
-
-						
-						
-<!-- 						<option value="res3" -->
-<%-- 							<%=(resVO != null && (resVO.getRes_cost()) == 2) ? "selected" : ""%>>Moderate --%>
-
-						
-						
-<!-- 						<option value="res4" -->
-<%-- 							<%=(resVO != null && (resVO.getRes_cost()) == 3) ? "selected" : ""%>>Expensive --%>
-
-				
-<!-- 				</select></td> -->
-<!-- 			</tr> -->
-			
+			</tr>		
 			
 	<tr>
 	<%int i = 0;%>
-									<td>部門:<font color=red><b>*</b></font></td>
+	<td>餐廳狀態:<font color=red><b>*</b></font></td>
 		<td><select size="1" name="res_status">
 			<c:forEach var="i" begin="1" end="4" step="1">
-				<%String test="res" + ++i; %>
-				<option value="<%=test %>"><%=FindCodeName.meaning(test) %>
+				<%String status="res" + ++i; %>
+				<option value="<%=status%>"
+				<%=(resVO != null && (resVO.getRes_status()).equals(status))? "selected" : "" %>
+				><%=FindCodeName.meaning(status) %>
 			</c:forEach>
 		</select></td>
 	</tr>
@@ -345,6 +305,7 @@ $('#f_date2').datetimepicker({
 		}
 	}
 </script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 	crossorigin="anonymous"></script>

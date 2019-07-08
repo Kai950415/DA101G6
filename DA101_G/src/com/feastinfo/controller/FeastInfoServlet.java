@@ -1,16 +1,24 @@
 package com.feastinfo.controller;
 
-import java.io.*;
-import java.sql.Timestamp;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.servlet.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
-import com.feastinfo.model.*;
+import com.feastinfo.model.FeastInfoService;
+import com.feastinfo.model.FeastInfoVO;
+import com.myfeast.model.MyFeastService;
+import com.myfeast.model.MyFeastVO;
 
 @WebServlet("/FeastInfoServlet")
 public class FeastInfoServlet extends HttpServlet
@@ -22,6 +30,13 @@ public class FeastInfoServlet extends HttpServlet
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        HttpSession session = request.getSession();
+        
+        if (session.getAttribute("memberVO") == null)
+        {
+            session.setAttribute("location", request.getRequestURI());
+        }
+        
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
@@ -45,7 +60,7 @@ public class FeastInfoServlet extends HttpServlet
                 if (!errorMsgs.isEmpty())
                 {
                     RequestDispatcher failureView = request
-                            .getRequestDispatcher("/front-end/select_page.jsp");
+                            .getRequestDispatcher("/front-end/feast/select_page_feast.jsp");
                     failureView.forward(request, response);
                     return;// 程式中斷
                 }
@@ -63,7 +78,7 @@ public class FeastInfoServlet extends HttpServlet
                 if (!errorMsgs.isEmpty())
                 {
                     RequestDispatcher failureView = request
-                            .getRequestDispatcher("/front-end/select_page.jsp");
+                            .getRequestDispatcher("/front-end/feast/select_page_feast.jsp");
                     failureView.forward(request, response);
                     return;// 程式中斷
                 }
@@ -79,14 +94,14 @@ public class FeastInfoServlet extends HttpServlet
                 if (!errorMsgs.isEmpty())
                 {
                     RequestDispatcher failureView = request
-                            .getRequestDispatcher("/front-end/select_page.jsp");
+                            .getRequestDispatcher("/front-end/feast/select_page_feast.jsp");
                     failureView.forward(request, response);
                     return;// 程式中斷
                 }
 
                 /*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
                 request.setAttribute("feastInfoVO", feastInfoVO); // 資料庫取出的feastInfoVO物件,存入req
-                String url = "/front-end/listOneFeast.jsp";
+                String url = "/front-end/feast/listOneFeast.jsp";
                 RequestDispatcher successView = request.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
                 successView.forward(request, response);
 
@@ -96,7 +111,7 @@ public class FeastInfoServlet extends HttpServlet
             {
                 errorMsgs.add("無法取得資料:" + e.getMessage());
                 RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/select_page.jsp");
+                        .getRequestDispatcher("/front-end/feast/select_page_feast.jsp");
                 failureView.forward(request, response);
             }
         }
@@ -120,7 +135,7 @@ public class FeastInfoServlet extends HttpServlet
 
                 /*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
                 request.setAttribute("feastInfoVO", feastInfoVO); // 資料庫取出的feastInfoVO物件,存入req
-                String url = "/front-end/update_feast_input.jsp";
+                String url = "/front-end/feast/update_feast_input.jsp";
                 RequestDispatcher successView = request.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
                 successView.forward(request, response);
 
@@ -130,7 +145,7 @@ public class FeastInfoServlet extends HttpServlet
             {
                 errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
                 RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/listAllEmp.jsp");
+                        .getRequestDispatcher("/front-end/feast/listAllEmp.jsp");
                 failureView.forward(request, response);
             }
         }
@@ -142,9 +157,9 @@ public class FeastInfoServlet extends HttpServlet
             // Store this set in the request scope, in case we need to
             // send the ErrorPage view.
             request.setAttribute("errorMsgs", errorMsgs);
-//
-//            try
-//            {
+
+            try
+            {
                 System.out.println("");
                 String fea_no = new String(request.getParameter("fea_no").trim());
                 /*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
@@ -299,7 +314,7 @@ public class FeastInfoServlet extends HttpServlet
                 {
                     request.setAttribute("feastInfoVO", feastInfoVO); // 含有輸入格式錯誤的feastInfoVO物件,也存入req
                     RequestDispatcher failureView = request
-                            .getRequestDispatcher("/front-end/update_feast_input.jsp");
+                            .getRequestDispatcher("/front-end/feast/update_feast_input.jsp");
                     failureView.forward(request, response);
                     return; // 程式中斷
                 }
@@ -312,19 +327,19 @@ public class FeastInfoServlet extends HttpServlet
 
                 /*************************** 3.修改完成,準備轉交(Send the Success view) *************/
                 request.setAttribute("feastInfoVO", feastInfoVO); // 資料庫update成功後,正確的的feastInfoVO物件,存入req
-                String url = "/front-end/listOneFeast.jsp";
+                String url = "/front-end/feast/listOneFeast.jsp";
                 RequestDispatcher successView = request.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
                 successView.forward(request, response);
 
                 /*************************** 其他可能的錯誤處理 *************************************/
-//            }
-//            catch (Exception e)
-//            {
-//                errorMsgs.add("修改資料失敗:" + e.getMessage());
-//                RequestDispatcher failureView = request
-//                        .getRequestDispatcher("/front-end/update_feast_input.jsp");
-//                failureView.forward(request, response);
-//            }
+            }
+            catch (Exception e)
+            {
+                errorMsgs.add("修改資料失敗:" + e.getMessage());
+                RequestDispatcher failureView = request
+                        .getRequestDispatcher("/front-end/feast/update_feast_input.jsp");
+                failureView.forward(request, response);
+            }
         }
 
         if ("insert".equals(action))
@@ -382,7 +397,7 @@ public class FeastInfoServlet extends HttpServlet
                     errorMsgs.add("內文: 只能是中、英文字母、數字和_ , 且長度必需在2到100之間");
                 }
 
-                Integer fea_number = 1;
+                Integer fea_number = 0;
 
                 Integer fea_upLim = null;
                 try
@@ -391,7 +406,7 @@ public class FeastInfoServlet extends HttpServlet
                 }
                 catch (NumberFormatException e)
                 {
-                    fea_upLim = 0;
+                    fea_upLim = 100;
                     errorMsgs.add("人數上限請填數字.");
                 }
 
@@ -402,7 +417,7 @@ public class FeastInfoServlet extends HttpServlet
                 }
                 catch (NumberFormatException e)
                 {
-                    fea_lowLim = 0;
+                    fea_lowLim = 2;
                     errorMsgs.add("人數下限請填數字.");
                 }
 
@@ -468,27 +483,52 @@ public class FeastInfoServlet extends HttpServlet
                 String fea_status = "fea1";
 
                 FeastInfoVO feastInfoVO = new FeastInfoVO();
-
+                
                 feastInfoVO.setFea_resNo(fea_resNo);
+                System.out.println("fea_resNo " + fea_resNo);
+                
                 feastInfoVO.setFea_memNo(fea_memNo);
+                System.out.println("fea_memNo " + fea_memNo);
+                
                 feastInfoVO.setFea_title(fea_title);
+                System.out.println("fea_title " + fea_title);
+                
                 feastInfoVO.setFea_text(fea_text);
+                System.out.println("fea_text " + fea_text);
+                
                 feastInfoVO.setFea_number(fea_number);
+                System.out.println("fea_number " + fea_number);
+                
                 feastInfoVO.setFea_upLim(fea_upLim);
+                System.out.println("fea_upLim " + fea_upLim);
+                
                 feastInfoVO.setFea_lowLim(fea_lowLim);
+                System.out.println("fea_lowLim " + fea_lowLim);
+                
                 feastInfoVO.setFea_date(fea_date);
+                System.out.println("fea_date " + fea_date);
+                
                 feastInfoVO.setFea_startDate(fea_startDate);
+                System.out.println("fea_startDate " + fea_startDate);
+                
                 feastInfoVO.setFea_endDate(fea_endDate);
+                System.out.println("fea_endDate " + fea_endDate);
+                
                 feastInfoVO.setFea_type(fea_type);
+                System.out.println("fea_type " + fea_type);
+                
                 feastInfoVO.setFea_loc(fea_loc);
+                System.out.println("fea_loc " + fea_loc);
+                
                 feastInfoVO.setFea_status(fea_status);
+                System.out.println("fea_status " + fea_status);
 
                 // Send the use back to the form, if there were errors
                 if (!errorMsgs.isEmpty())
                 {
                     request.setAttribute("feastInfoVO", feastInfoVO); // 含有輸入格式錯誤的feastInfoVO物件,也存入req
                     RequestDispatcher failureView = request
-                            .getRequestDispatcher("/front-end/addFeast.jsp");
+                            .getRequestDispatcher("/front-end/feast/addFeast.jsp");
                     failureView.forward(request, response);
                     return;
                 }
@@ -497,9 +537,14 @@ public class FeastInfoServlet extends HttpServlet
                 FeastInfoService feastInfoSvc = new FeastInfoService();
                 feastInfoVO = feastInfoSvc.addFeastInfo(fea_resNo, fea_memNo, fea_title, fea_text, fea_number,
                         fea_upLim, fea_lowLim, fea_date, fea_startDate, fea_endDate, fea_type, fea_loc, fea_status);
-
+                System.out.println(feastInfoVO);
+                System.out.println("feastInfoVO.getFea_no() " + feastInfoVO.getFea_no());
+                System.out.println("feastInfoVO.getFea_memNo() " + feastInfoVO.getFea_memNo());
+                MyFeastService myFeastService = new MyFeastService();
+                myFeastService.addMyFeast(feastInfoVO.getFea_no(), feastInfoVO.getFea_memNo());
+                
                 /*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-                String url = "/front-end/listAllFeast.jsp";
+                String url = "/front-end/feast/listAllFeast.jsp";
                 RequestDispatcher successView = request.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
                 successView.forward(request, response);
 
@@ -509,7 +554,7 @@ public class FeastInfoServlet extends HttpServlet
             {
                 errorMsgs.add(e.getMessage());
                 RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/addFeast.jsp");
+                        .getRequestDispatcher("/front-end/feast/addFeast.jsp");
                 failureView.forward(request, response);
             }
         }
@@ -532,7 +577,7 @@ public class FeastInfoServlet extends HttpServlet
                 feastInfoSvc.deleteFeastInfo(fea_no);;
 
                 /*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-                String url = "/front-end/listAllFeast.jsp";
+                String url = "/front-end/feast/listAllFeast.jsp";
                 RequestDispatcher successView = request.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
                 successView.forward(request, response);
 
@@ -542,7 +587,7 @@ public class FeastInfoServlet extends HttpServlet
             {
                 errorMsgs.add("刪除資料失敗:" + e.getMessage());
                 RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/listAllFeast.jsp");
+                        .getRequestDispatcher("/front-end/feast/listAllFeast.jsp");
                 failureView.forward(request, response);
             }
         }

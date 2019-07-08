@@ -2,12 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.res.model.*"%>
+<%@ page import="com.tools.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
     ResService resSvc = new ResService();
     List<ResVO> list = resSvc.getAll();
     pageContext.setAttribute("list",list);
+    
+	String level[] = {"Free","Inexpensive","Moderate","Expensive","Very Expensive"};
+	pageContext.setAttribute("level",level);
+			
 //     ResVO resvo = (ResVO) request.getAttribute("res_img");
 %>
 
@@ -95,7 +100,6 @@
 	
 	<%@ include file="page1.file" %> 
 	<c:forEach var="resVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-		
 		<tr>
 			<td>${resVO.res_no}</td>
 			<td>${resVO.res_adrs}</td>
@@ -111,9 +115,14 @@
 			<td>${resVO.res_lot}</td>
 			<td>${resVO.res_score}</td> 
 			<td>${resVO.res_comcount}</td>
-			<td>${resVO.res_cost}</td>
+			<td>${(resVO.res_cost == 0)? level[0]:''}
+				${(resVO.res_cost == 1)? level[1]:''}
+				${(resVO.res_cost == 2)? level[2]:''}
+				${(resVO.res_cost == 3)? level[3]:''}
+				${(resVO.res_cost == 4)? level[4]:''}
+			</td>
 			<td>${resVO.res_type}</td> 
-			<td>${resVO.res_status}</td>
+			<td>${FindCodeName.meaning(resVO.res_status)}</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/res/res.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">

@@ -2,6 +2,7 @@ package com.ord.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class OrdVO implements Serializable{
 	
@@ -10,7 +11,7 @@ public class OrdVO implements Serializable{
 	private String ord_memno;
 	private String ord_resno;
 	private Integer ord_price;
-	private Date ord_date;
+	private Timestamp ord_date;
 	private String ord_status;
 	private String ord_type;
 	
@@ -58,11 +59,11 @@ public class OrdVO implements Serializable{
 		this.ord_price = ord_price;
 	}
 
-	public Date getOrd_date() {
+	public Timestamp getOrd_date() {
 		return ord_date;
 	}
 
-	public void setOrd_date(Date ord_date) {
+	public void setOrd_date(Timestamp ord_date) {
 		this.ord_date = ord_date;
 	}
 

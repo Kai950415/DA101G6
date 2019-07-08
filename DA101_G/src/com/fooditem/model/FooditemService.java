@@ -59,5 +59,8 @@ public class FooditemService {
 	public List<FooditemVO> getAll() {
 		return fo.getAll();
 	}
+	public List<FooditemVO> getByResNOFooditem(String fo_resno) {
+		return fo.getByResNO(fo_resno);
+	}
 }
 

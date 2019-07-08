@@ -7,6 +7,7 @@ public class FeastTrackVO implements Serializable
     private String tra_feaNo;
     private String tra_memNo;
 
+    
     public String getTra_feaNo()
     {
         return tra_feaNo;

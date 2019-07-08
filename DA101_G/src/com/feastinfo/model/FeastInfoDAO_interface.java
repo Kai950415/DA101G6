@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface FeastInfoDAO_interface
 {
-    public void insert(FeastInfoVO feastInfoVO);
+    public String insert(FeastInfoVO feastInfoVO);
 
     public void update(FeastInfoVO feastInfoVO);
 

@@ -302,10 +302,18 @@ public class ResServlet extends HttpServlet {
 				}else if(!res_name.trim().matches(res_nameReg)) {
 					errorMsgs.add("餐廳名稱:只能是中、日、韓、英文、數字且數字大於兩個字");
 				}
-				
-				String res_adrs = req.getParameter("res_adrs");
+				String res_city = req.getParameter("res_city");
+				if(res_city == null || res_city.trim().length() == 0) {
+					errorMsgs.add("請選擇縣市");
+				}
+				String res_town = req.getParameter("res_town");
+				if(res_town == null || res_town.trim().length() == 0) {
+					errorMsgs.add("請選擇鄉鎮市區");
+				}
+				String address = req.getParameter("address");
+				String res_adrs = res_city+res_town+address;
 				String res_adrsReg = "^[(\u4e00-\u9fa5)(0-9)(\\-)]{2,100}$";
-				if(res_adrs == null || res_adrs.trim().length() == 0) {
+				if(address == null || address.trim().length() == 0) {
 					errorMsgs.add("餐廳地址:請勿空白");
 				}else if(!res_adrs.trim().matches(res_adrsReg)) {
 					errorMsgs.add("餐廳地址:請輸入中文地址");

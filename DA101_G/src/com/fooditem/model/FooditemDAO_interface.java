@@ -8,7 +8,8 @@ public interface FooditemDAO_interface {
       public void delete(String fo_no);
       public FooditemVO findByPrimaryKey(String fo_no);
       public List<FooditemVO> getAll();
-      //¸U¥Î½Æ¦X¬d¸ß(¶Ç¤J°Ñ¼Æ«¬ºAMap)(¦^¶Ç List)
+      public List<FooditemVO> getByResNO(String fo_resno);
+      //ï¿½Uï¿½Î½Æ¦Xï¿½dï¿½ï¿½(ï¿½Ç¤Jï¿½Ñ¼Æ«ï¿½ï¿½AMap)(ï¿½^ï¿½ï¿½ List)
 //    public List<EmpVO> getAll(Map<String, String[]> map); 
 }
 

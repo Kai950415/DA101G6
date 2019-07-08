@@ -11,7 +11,7 @@ public class FeastInfoVO implements Serializable
     private String fea_title;
     private String fea_text;
     private Integer fea_number;
-    private Integer fea_upLim;
+    private Integer fea_upLim;     
     private Integer fea_lowLim;
     private Timestamp fea_date;
     private Timestamp fea_startDate;
@@ -19,6 +19,16 @@ public class FeastInfoVO implements Serializable
     private String fea_type;
     private String fea_loc;
     private String fea_status;
+
+    @Override
+    public String toString()
+    {
+        return "FeastInfoVO [fea_no=" + fea_no + ", fea_resNo=" + fea_resNo + ", fea_memNo=" + fea_memNo
+                + ", fea_title=" + fea_title + ", fea_text=" + fea_text + ", fea_number=" + fea_number + ", fea_upLim="
+                + fea_upLim + ", fea_lowLim=" + fea_lowLim + ", fea_date=" + fea_date + ", fea_startDate="
+                + fea_startDate + ", fea_endDate=" + fea_endDate + ", fea_type=" + fea_type + ", fea_loc=" + fea_loc
+                + ", fea_status=" + fea_status + "]";
+    }
 
     public FeastInfoVO()
     {

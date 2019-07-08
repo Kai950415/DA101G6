@@ -1,9 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.res.model.*"%>
+<%@ page import="com.tools.*"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
   ResVO resVO = (ResVO) request.getAttribute("resVO"); //ResServlet.java(Concroller), 存入req的resVO物件
+  
+  String level[] = {"Free","Inexpensive","Moderate","Expensive","Very Expensive"};
+  pageContext.setAttribute("level",level);
 %>
 
 <html>
@@ -49,7 +53,7 @@
 <h4>此頁暫練習採用 Script 的寫法取值:</h4>
 <table id="table-1" width="1600px">
 	<tr><td>
-		 	<h3>員工資料 - ListOneRes.jsp</h3>
+		 	<h3>餐廳資料 - ListOneRes.jsp</h3>
 		 </td>
 		 <td>
 		 	<h4><a href="/DA101G6/back-end/res/select_page.jsp">
@@ -94,9 +98,14 @@
 			<td>${resVO.res_lot}</td>
 			<td>${resVO.res_score}</td> 
 			<td>${resVO.res_comcount}</td>
-			<td>${resVO.res_cost}</td>
+			<td>${(resVO.res_cost == 0)? level[0]:''}
+				${(resVO.res_cost == 1)? level[1]:''}
+				${(resVO.res_cost == 2)? level[2]:''}
+				${(resVO.res_cost == 3)? level[3]:''}
+				${(resVO.res_cost == 4)? level[4]:''}
+			</td>
 			<td>${resVO.res_type}</td> 
-			<td>${resVO.res_status}</td>
+			<td>${FindCodeName.meaning(resVO.res_status)}</td>
 	</tr>
 </table>
 

@@ -25,7 +25,7 @@ public class FooditemDAO implements FooditemDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT FO_NO,FO_RESNO,FO_NAME,FO_PRICE,FO_IMG,FO_INTRO,FO_STATUS FROM FOODITEM where FO_NO = ?";
 	private static final String DELETE = "DELETE FROM FOODITEM where FO_NO = ?";
 	private static final String UPDATE = "UPDATE FOODITEM set fo_resno=?, fo_name=?, fo_price=?, fo_img=?,fo_intro=?,fo_status=? where fo_no = ?";
-
+	private static final String GET_BY_RESNO="SELECT * FROM FOODITEM WHERE FO_RESNO=? order by FO_NO";
 	@Override
 	public void insert(FooditemVO FooditemVO) {
 
@@ -245,6 +245,71 @@ public class FooditemDAO implements FooditemDAO_interface {
 
 			while (rs.next()) {
 				// empVO 嚙稽嚙誶穿蕭 Domain objects
+				FooditemVO = new FooditemVO();
+				FooditemVO.setFo_no(rs.getString("fo_no"));
+				FooditemVO.setFo_resno(rs.getString("fo_resno"));
+				FooditemVO.setFo_name(rs.getString("fo_name"));
+				FooditemVO.setFo_price(rs.getInt("fo_price"));
+				FooditemVO.setFo_img(rs.getBytes("fo_img"));
+				FooditemVO.setFo_intro(rs.getString("fo_intro"));
+				FooditemVO.setFo_status(rs.getString("fo_status"));
+
+				list.add(FooditemVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<FooditemVO> getByResNO(String fo_resno) {
+		List<FooditemVO> list = new ArrayList<FooditemVO>();
+		FooditemVO FooditemVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_BY_RESNO);
+			
+			pstmt.setString(1, fo_resno);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
 				FooditemVO = new FooditemVO();
 				FooditemVO.setFo_no(rs.getString("fo_no"));
 				FooditemVO.setFo_resno(rs.getString("fo_resno"));

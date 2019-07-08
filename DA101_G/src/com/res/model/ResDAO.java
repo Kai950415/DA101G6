@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class ResDAO implements ResDAO_interface {
 
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -37,6 +35,7 @@ public class ResDAO implements ResDAO_interface {
 	// 餐廳不能刪除只能更改狀態
 	private static final String DELETE = "DELETE FROM RESTAURANT WHERE RES_NO = ?";
 	private static final String UPDATE = "UPDATE RESTAURANT set RES_ADRS=?,RES_NAME=?,RES_PH=?,RES_POINT=?,RES_AC=?,RES_PASS=?,RES_IMG=?,RES_INTRO=?,RES_START=?,RES_END=?,RES_LAT=?,RES_LOT=?,RES_SCORE=?,RES_COST=?,RES_COMCOUNT=?,RES_TYPE=?,RES_STATUS=? WHERE RES_NO = ?";
+	private static final String GET_ONE_AC = "SELECT * FROM RESTAURANT where res_ac = ?";
 
 	@Override
 	public void insert(ResVO resVO) {
@@ -245,8 +244,7 @@ public class ResDAO implements ResDAO_interface {
 				resVO.setRes_comcount(rs.getInt("res_comcount"));
 				resVO.setRes_type(rs.getString("res_type"));
 				resVO.setRes_status(rs.getString("res_status"));
-				
-				
+
 			}
 
 			// Handle any driver errors
@@ -297,7 +295,7 @@ public class ResDAO implements ResDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
-			
+
 //			con = ds.getConnection();
 //			pstmt = con.prepareStatement(GET_ALL_STMT);
 //			rs = pstmt.executeQuery();
@@ -360,5 +358,80 @@ public class ResDAO implements ResDAO_interface {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public ResVO findByAC(String res_ac) {
+		// TODO Auto-generated method stub
+		ResVO resVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_AC);
+
+			pstmt.setString(1, res_ac);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVo �]�٬� Domain objects
+				resVO = new ResVO();
+
+				resVO.setRes_no(rs.getString("res_no"));
+				resVO.setRes_adrs(rs.getString("res_adrs"));
+				resVO.setRes_name(rs.getString("res_name"));
+				resVO.setRes_ph(rs.getString("res_ph"));
+				resVO.setRes_point(rs.getInt("res_point"));
+				resVO.setRes_ac(rs.getString("res_ac"));
+				resVO.setRes_pass(rs.getString("res_pass"));
+				resVO.setRes_img(rs.getBytes("res_img"));
+				resVO.setRes_intro(rs.getString("res_intro"));
+				resVO.setRes_start(rs.getString("res_start"));
+				resVO.setRes_end(rs.getString("res_end"));
+				resVO.setRes_lat(rs.getDouble("res_lat"));
+				resVO.setRes_lot(rs.getDouble("res_lot"));
+				resVO.setRes_score(rs.getInt("res_score"));
+				resVO.setRes_cost(rs.getInt("res_cost"));
+				resVO.setRes_comcount(rs.getInt("res_comcount"));
+				resVO.setRes_type(rs.getString("res_type"));
+				resVO.setRes_status(rs.getString("res_status"));
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return resVO;
 	}
 }

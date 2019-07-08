@@ -1,8 +1,8 @@
 package com.feastinfo.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FeastInfoService
 {
@@ -34,8 +34,10 @@ public class FeastInfoService
         feastInfoVO.setFea_loc(fea_loc);
         feastInfoVO.setFea_status(fea_status);
 
-        dao.insert(feastInfoVO);
+        String fea_no = dao.insert(feastInfoVO);
 
+        feastInfoVO.setFea_no(fea_no);
+        
         return feastInfoVO;
     }
 
@@ -65,7 +67,7 @@ public class FeastInfoService
 
         return feastInfoVO;
     }
-
+//無法刪
     public void deleteFeastInfo(String fea_no)
     {
         dao.delete(fea_no);
@@ -76,8 +78,15 @@ public class FeastInfoService
         return dao.findByPrimaryKey(fea_no);
     }
 
-    public List<FeastInfoVO> getAll()
+    public List<FeastInfoVO> getAllFeastInfoVOs()
     {
         return dao.getAll();
+    }
+    
+    public List<FeastInfoVO> getAllFeastInfoVOsRandomly()
+    {
+        return dao.getAll().stream()
+                .filter(feastInfo -> feastInfo.getFea_status().equals("fea1"))
+                .collect(Collectors.toList());
     }
 }

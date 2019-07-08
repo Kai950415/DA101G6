@@ -8,4 +8,5 @@ public interface ResDAO_interface {
     public void delete(String res_no);
     public ResVO findByPrimaryKey(String res_no);
     public List<ResVO> getAll();
+	ResVO findByAC(String res_ac);
 }

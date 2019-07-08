@@ -8,7 +8,7 @@ public class Ord_detailsService {
 		public Ord_detailsService() {
 			dao=new Ord_detailsDAO();
 		}
-	 	public void InsertOrd_details(String det_ordno,String det_fono,Integer det_price,Integer det_quantity) {
+	 	public Ord_detailsVO addOrd_details(String det_ordno,String det_fono,Integer det_price,Integer det_quantity) {
 	 		
 	 		Ord_detailsVO ord_detailsVO=new Ord_detailsVO();
 	 		ord_detailsVO.setDet_ordno(det_ordno);
@@ -17,26 +17,28 @@ public class Ord_detailsService {
 			ord_detailsVO.setDet_quantity(det_quantity);
 	 		
 	 		dao.insert(ord_detailsVO);
+	 		
+	 		return ord_detailsVO;
 	 	}
-	    public void updateOrd_details(String det_ordno,String det_fono,Integer det_price,Integer det_quantity) {
+	    public Ord_detailsVO updateOrd_details(String det_ordno,String det_fono,Integer det_price,Integer det_quantity) {
 	    	Ord_detailsVO ord_detailsVO=new Ord_detailsVO();
 	 		ord_detailsVO.setDet_ordno(det_ordno);
 			ord_detailsVO.setDet_fono(det_fono);
 			ord_detailsVO.setDet_price(det_price);
 			ord_detailsVO.setDet_quantity(det_quantity);
 	    	dao.update(ord_detailsVO);
+	    	
+	    	return ord_detailsVO;
 	    }
-	    public void deleteOrd_details(String det_ordno,String det_fono) {
-	    	dao.delete(det_ordno, det_fono);
-	    }
-	    public Ord_detailsVO findByPrimaryKeyOrd_details(String det_ordno,String det_fono) {
+
+	    public Ord_detailsVO getOneOrdDet(String det_ordno,String det_fono) {
 	    	return dao.findByPrimaryKey(det_ordno, det_fono);
 	    }
-	    public List<Ord_detailsVO> ord_detailsGetAll(){
+	    public List<Ord_detailsVO> getAll(){
 	    	return dao.getAll();
 	    }
-	    public List<Ord_detailsVO> getByOrdNoOrd_details(String det_ordno){
-	    	return dao.getByOrdNo(det_ordno);
-	    }//取出所有該ord的 點餐清單
 	    
+	    public void insert2(Ord_detailsVO ord_detailsVO,java.sql.Connection con) {
+	    	dao.insert2(ord_detailsVO, con);
+	    }
 }

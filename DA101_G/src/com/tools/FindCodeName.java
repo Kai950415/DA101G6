@@ -61,6 +61,11 @@ public class FindCodeName
         Map.put("ordt2", "外送");
         Map.put("ordt3", "訂位");
         
+        
+        Map.put("ads1", "未審核");
+        Map.put("ads2", "通過");
+        Map.put("ads3", "未通過");
+        
         return Map.get(StatusNum);
     }
     

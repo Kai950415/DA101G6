@@ -30,7 +30,7 @@ public class LogoutHandler extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(); 
 		session.invalidate();
-		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		response.sendRedirect(request.getContextPath() + "/hometag.jsp");
 	}
 
 	/**

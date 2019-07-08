@@ -81,4 +81,8 @@ public class ResService {
 	public List<ResVO> getAll(){
 		return dao.getAll();
 	}
+	
+	public ResVO resFindByAC(String res_ac) {		
+		return dao.findByAC(res_ac);
+	}
 }

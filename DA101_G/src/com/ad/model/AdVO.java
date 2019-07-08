@@ -1,6 +1,7 @@
 package com.ad.model;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class AdVO implements Serializable{
 	
@@ -8,10 +9,12 @@ public class AdVO implements Serializable{
 	private String ad_resno;
 	private String ad_text;
 	private byte[] ad_img;
-	private Date ad_start;
-	private Date ad_end;
+	private Timestamp ad_start;
+	private Timestamp ad_end;
 	private String ad_title;
+	private String ad_status;
 	
+
 	public AdVO() {
 		super();
 	}
@@ -48,19 +51,19 @@ public class AdVO implements Serializable{
 		this.ad_img = ad_img;
 	}
 
-	public Date getAd_start() {
+	public Timestamp getAd_start() {
 		return ad_start;
 	}
 
-	public void setAd_start(Date ad_start) {
+	public void setAd_start(Timestamp ad_start) {
 		this.ad_start = ad_start;
 	}
 
-	public Date getAd_end() {
+	public Timestamp getAd_end() {
 		return ad_end;
 	}
 
-	public void setAd_end(Date ad_end) {
+	public void setAd_end(Timestamp ad_end) {
 		this.ad_end = ad_end;
 	}
 
@@ -72,4 +75,11 @@ public class AdVO implements Serializable{
 		this.ad_title = ad_title;
 	}
 
+	public String getAd_status() {
+		return ad_status;
+	}
+
+	public void setAd_status(String ad_status) {
+		this.ad_status = ad_status;
+	}
 }
