@@ -2,7 +2,7 @@ package com.leavemessage.model;
 
 import java.io.Serializable;
 
-public class LeaveMessageVO implements Serializable {
+public class LeaveMessageVO implements java.io.Serializable {
 	private String lm_no;
 	private String lm_postno;
 	private String lm_memno;

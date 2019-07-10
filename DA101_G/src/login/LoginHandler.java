@@ -66,12 +66,12 @@ public class LoginHandler extends HttpServlet
             // 【檢查該帳號 , 密碼是否有效】
             MemVO memberVO = allowUser(member_id, mem_pwd);
 
-            Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
-            req.setAttribute("errorMsgs", errorMsgs);
+            Map<String, String> errorMsgsForLogin = new LinkedHashMap<String, String>();
+            req.setAttribute("errorMsgsForLogin", errorMsgsForLogin);
             
             if ((memberVO) == null)
             { // 【帳號 , 密碼無效時】
-                errorMsgs.put("member", "帳號或密碼輸入錯誤");
+                errorMsgsForLogin.put("member", "帳號或密碼輸入錯誤");
                 req.setAttribute("login", "false");
                 req.getRequestDispatcher("hometag.jsp").forward(req, res);
             }
@@ -108,12 +108,12 @@ public class LoginHandler extends HttpServlet
             // 【檢查該帳號 , 密碼是否有效】
             ResVO resVO = allowRes(res_ac, res_pass);
 
-            Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
-            req.setAttribute("errorMsgs", errorMsgs);
+            Map<String, String> errorMsgsForLogin = new LinkedHashMap<String, String>();
+            req.setAttribute("errorMsgsForLogin", errorMsgsForLogin);
 
             if ((resVO) == null)
             { // 【帳號 , 密碼無效時】
-                errorMsgs.put("resMember", "帳號或密碼輸入錯誤");
+                errorMsgsForLogin.put("resMember", "帳號或密碼輸入錯誤");
                 req.setAttribute("login", "false");
                 req.getRequestDispatcher("hometag.jsp").forward(req, res);
             }

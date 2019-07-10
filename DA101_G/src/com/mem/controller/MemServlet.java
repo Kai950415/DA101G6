@@ -2,6 +2,7 @@ package com.mem.controller;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import javax.websocket.Session;
 
 import com.mem.model.MemService;
 import com.mem.model.MemVO;
@@ -25,6 +28,11 @@ public class MemServlet extends HttpServlet{
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		if(session.getAttribute("memberVO") == null)
+		{
+			session.setAttribute("location", req.getRequestURI());
+		}
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
@@ -81,7 +89,7 @@ public class MemServlet extends HttpServlet{
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/MEM-INF/listOneMem.jsp";
+				String url = "/front-end/mem/mem.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneMem.jsp
 				successView.forward(req, res);
 
@@ -135,9 +143,11 @@ public class MemServlet extends HttpServlet{
 		
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-				String mem_no = req.getParameter("mem_no").trim();
+				MemVO memVOfromSession =(MemVO) session.getAttribute("memberVO");
+				String mem_no = memVOfromSession.getMem_no();
 				
-				String mem_name = req.getParameter("mem_name");
+				String mem_name = req.getParameter("mem_name").trim();
+				
 				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 				if (mem_name == null || mem_name.trim().length() == 0) {
 					errorMsgs.add("員工姓名: 請勿空白");
@@ -170,16 +180,17 @@ public class MemServlet extends HttpServlet{
 					errorMsgs.add("地址請勿空白");
 				}	
 				
-				Integer mem_point= new Integer(req.getParameter("mem_point").trim());
+				Integer mem_point= memVOfromSession.getMem_point();
 				
-				Part mem_img= req.getPart("mem_img");
-				if (mem_email == null || mem_email.trim().length() == 0) {
-					errorMsgs.add("地址請勿空白");
-				}	
-				//inputStream轉byte[]
-				byte[] data = new byte[mem_img.getInputStream().available()];
-				BufferedInputStream buffer=new BufferedInputStream(mem_img.getInputStream());
-				mem_img.getInputStream().read(data, 0, data.length);
+				Part part= req.getPart("mem_img");
+				InputStream is = part.getInputStream();
+				byte[] mem_img = new byte[is.available()];
+				is.read(mem_img);
+				is.close();	
+				
+				
+				
+
 				
 				
 				String mem_pass= req.getParameter("mem_pass").trim();
@@ -194,10 +205,7 @@ public class MemServlet extends HttpServlet{
 				if (mem_intro == null || mem_intro.trim().length() == 0) {
 					errorMsgs.add("地址請勿空白");
 				}
-				String mem_status= req.getParameter("mem_status").trim();
-				if (mem_status == null || mem_status.trim().length() == 0) {
-					errorMsgs.add("地址請勿空白");
-				}
+				String mem_status= memVOfromSession.getMem_status();
 
 				
 
@@ -205,13 +213,14 @@ public class MemServlet extends HttpServlet{
 
 				MemVO memVO = new MemVO();
 				memVO.setMem_name(mem_name);
+				System.out.println("mem_name" + mem_name + "len" + mem_name.length());
 				memVO.setMem_adrs(mem_adrs);
 				memVO.setMem_sex(mem_sex);
 				memVO.setMem_bd(mem_bd);
 				memVO.setMem_ph(mem_ph);
 				memVO.setMem_email(mem_email);
 				memVO.setMem_point(mem_point);
-				memVO.setMem_img(data);
+				memVO.setMem_img(mem_img);
 				memVO.setMem_pass(mem_pass);
 				memVO.setMem_ac(mem_ac);
 				memVO.setMem_intro(mem_intro);
@@ -222,26 +231,27 @@ public class MemServlet extends HttpServlet{
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/MEM-INF/update_mem_input.jsp");
+							.getRequestDispatcher("/front-end/mem/mem.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
 				
 				/***************************2.開始修改資料*****************************************/
 				MemService memSvc = new MemService();
-				//memVO = memSvc.memUpdate();
+				memVO = memSvc.memUpdate(mem_no, mem_name, mem_adrs, mem_sex, mem_bd, mem_ph, mem_email, mem_point, mem_img, mem_pass, mem_ac, mem_intro, mem_status);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("memVO", memVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/emp/listOneMem.jsp";
+				session.setAttribute("memberVO", memVO); // 資料庫update成功後,正確的的empVO物件,存入req
+				String url = "/front-end/mem/mem.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMem.jsp
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理*************************************/
-			} catch (Exception e) {
+			} 
+			catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/MEM-INF/update_mem_input.jsp");
+						.getRequestDispatcher("/front-end/mem/mem.jsp");
 				failureView.forward(req, res);
 			}
 		}

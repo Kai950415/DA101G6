@@ -4,11 +4,6 @@ import java.sql.*;
 import java.util.*;
 
 
-
-
-
-
-
 public class PostDAO implements PostDAO_interface {
 	
 	String driver = "oracle.jdbc.driver.OracleDriver";
@@ -16,14 +11,13 @@ public class PostDAO implements PostDAO_interface {
 	String userid = "DA101G6";
 	String passwd = "123456";
 	
-//	"Insert into leaveMessage (LM_NO, LM_POSTNO, LM_MEMNO, LM_TEXT, LM_STATUS)"
-//	+ "values ('LM'||LPAD(to_char(leaveMessage_seq.NEXTVAL), 6, '0'), ?, ?, ?, ?)";
+
 	
 	private static final String INSERT_STMT = 
 			"Insert into post (POST_NO, POST_MEMNO, POST_RES_NO, POST_TEXT, POST_IMG, POST_TIME, POST_RESPON, POST_RATE, POST_STATUS)" 
 					+"values ('PO'||LPAD(to_char(post_seq.NEXTVAL), 6, '0'), ? , ? , ? , ? , ? , ? , ? , ?)";
 	private static final String GET_ALL = 
-			"SELECT * FROM post order by post_no";
+			"SELECT * FROM post order by post_time desc";
 	private static final String GET_ONE = 
 			"SELECT * FROM post where post_no = ?";
 	private static final String DELETE = 
@@ -56,10 +50,13 @@ public class PostDAO implements PostDAO_interface {
 //			
 
 			pstmt.executeUpdate();
-		}catch (ClassNotFoundException e) {
-			throw new RuntimeException("未取得DB"+e.getMessage());
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
 		}catch(SQLException se) {
-			throw new RuntimeException("錯誤!"+ se.getMessage());
+			throw new RuntimeException("A database error occured."+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -195,9 +192,10 @@ public class PostDAO implements PostDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo �]�٬� Domain objects
+
 				PostVO = new PostVO();
 				
+				PostVO.setPost_no(rs.getString("post_no"));
 				PostVO.setPost_memno(rs.getString("post_memno"));
 				PostVO.setPost_res_no(rs.getString("post_res_no"));
 				PostVO.setPost_text(rs.getString("post_text"));
@@ -257,15 +255,15 @@ public class PostDAO implements PostDAO_interface {
 
 		try {
 
-			Class.forName(driver);
+
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo �]�٬� Domain objects
+
 				PostVO = new PostVO();
-				
+				PostVO.setPost_no(rs.getString("post_no"));
 				PostVO.setPost_memno(rs.getString("post_memno"));
 				PostVO.setPost_res_no(rs.getString("post_res_no"));
 				PostVO.setPost_text(rs.getString("post_text"));
@@ -279,11 +277,7 @@ public class PostDAO implements PostDAO_interface {
 				
 			}
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
+			
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -313,37 +307,41 @@ public class PostDAO implements PostDAO_interface {
 		}
 		return list;
 	}
-	public static void main(String[] args) {
-		Timestamp ts = new Timestamp(System.currentTimeMillis());  
+	
+	
+//	public static void main(String[] args) {
+//		Timestamp ts = new Timestamp(System.currentTimeMillis());  
+//		
+//		PostDAO dao = new PostDAO();
 		
-		PostDAO dao = new PostDAO();
-		//新增
+		
+//		//新增
 //		PostVO PostVO1 = new PostVO();
 //		PostVO1.setPost_memno("ME000005");
 //		PostVO1.setPost_res_no("RS000005");
-//		PostVO1.setPost_text("梆梆梆梆梆~梆梆梆梆");
+//		PostVO1.setPost_text("123132132132");
 //		PostVO1.setPost_img(null);
 //		PostVO1.setPost_time(ts);
-//		PostVO1.setPost_respon("麻煩請你講中文");
+//		PostVO1.setPost_respon("5252525525");
 //		PostVO1.setPost_rate(2);
 //		PostVO1.setPost_status("post1");
 //		dao.insert(PostVO1);
 		
 		// 修改
-		PostVO PostVO2 = new PostVO();
-		PostVO2.setPost_no("PO000005");
-		PostVO2.setPost_memno("ME000005");
-		PostVO2.setPost_res_no("RS000005");
-		PostVO2.setPost_text("梆梆梆梆梆~梆梆梆梆");
-		PostVO2.setPost_img(null);
-		PostVO2.setPost_time(ts);
-		PostVO2.setPost_respon("工三小朋友拉 好好打頻價!");
-		PostVO2.setPost_rate(2);
-		PostVO2.setPost_status("post1");
-	
-		dao.update(PostVO2);
-		
-		//刪除
+//		PostVO PostVO2 = new PostVO();
+//		PostVO2.setPost_no("PO000005");
+//		PostVO2.setPost_memno("ME000005");
+//		PostVO2.setPost_res_no("RS000005");
+//		PostVO2.setPost_text("DASDASDASDADS");
+//		PostVO2.setPost_img(null);
+//		PostVO2.setPost_time(ts);
+//		PostVO2.setPost_respon("ASDASDADSJNOIJDOI");
+//		PostVO2.setPost_rate(2);
+//		PostVO2.setPost_status("post1");
+//	
+//		dao.update(PostVO2);
+
+		//刪除
 //		dao.delete("PO000010");
 		
 		
@@ -359,7 +357,7 @@ public class PostDAO implements PostDAO_interface {
 //		System.out.println(PostVO3.getPost_status());
 //		System.out.println("---------------------");
 
-		//查詢全
+		//查詢
 //		List<PostVO> list = dao.getAll();
 //		for (PostVO aPos : list) {
 //		System.out.print(aPos.getPost_memno() + ",");
@@ -374,6 +372,6 @@ public class PostDAO implements PostDAO_interface {
 //		System.out.println();
 //		}
 		
-	}
+//	}
 }
 

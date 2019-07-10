@@ -25,6 +25,9 @@
 <title>Welcome to EGG !</title>
 
 <!-- Bootstrap core CSS -->
+<style>
+
+</style>
 
 </head>
 
@@ -114,8 +117,7 @@
 			<div class="card text-dark  my-5 py-4 text-center">
 				<img class="img" src="https://picsum.photos/1080/450" alt="">
 				<div class="card-body">
-					<p class="text-white m-0">這裡可以放網站宣傳圖片</p>
-
+					<a href="<%=request.getContextPath()%>/front-end/post/post.jsp"><p class="text-white m-0">進入評價貼文!</p></a>
 				</div>
 			</div>
 		</div>
@@ -206,31 +208,7 @@
 
 
 
-	<!-- Footer -->
-	<footer class="page-footer font-small  pt-4">
-
-		<!-- Footer Elements -->
-		<div class="container">
-
-			<!-- Call to action -->
-			<ul class="list-unstyled list-inline text-center py-2">
-				<li class="list-inline-item">
-					<h2 class="mb-1">EAT GROUP&GOOD</h2>
-				</li>
-
-			</ul>
-			<!-- Call to action -->
-
-		</div>
-		<!-- Footer Elements -->
-
-		<!-- Copyright -->
-		<div class="footer-copyright text-center py-3">© 2019 Copyright:
-		</div>
-		<!-- Copyright -->
-
-	</footer>
-	<!-- Footer -->
+<%@ include file="footer.jsp"%>
 
 
 

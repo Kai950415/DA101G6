@@ -2,6 +2,7 @@ package com.post.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class PostVO implements Serializable{
 	private String		post_no;
@@ -16,6 +17,12 @@ public class PostVO implements Serializable{
 	
 	public String getPost_no() {
 		return post_no;
+	}
+	@Override
+	public String toString() {
+		return "PostVO [post_no=" + post_no + ", post_memno=" + post_memno + ", post_res_no=" + post_res_no
+				+ ", post_text=" + post_text + ", post_img=" + Arrays.toString(post_img) + ", post_time=" + post_time
+				+ ", post_respon=" + post_respon + ", post_rate=" + post_rate + ", post_status=" + post_status + "]";
 	}
 	public void setPost_no(String post_no) {
 		this.post_no = post_no;

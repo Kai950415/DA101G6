@@ -33,7 +33,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MemServlet</servlet-name>
-		<url-pattern>/MEM-INF/mem.do</url-pattern>
+		<url-pattern>/front-end/mem/mem.do</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

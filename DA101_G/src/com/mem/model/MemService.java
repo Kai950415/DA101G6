@@ -29,7 +29,7 @@ public class MemService {
 
 			dao.insert(memVO);
 	 }
-	 public void memUpdate(String mem_no,String mem_name,String mem_adrs,String mem_sex,Date mem_bd,String mem_ph,
+	 public MemVO memUpdate(String mem_no,String mem_name,String mem_adrs,String mem_sex,Date mem_bd,String mem_ph,
 				String mem_email,Integer mem_point,byte[] mem_img,String mem_pass,String mem_ac,String mem_intro,String mem_status) {
 		 	MemVO memVO =new MemVO();
 		 	
@@ -48,6 +48,7 @@ public class MemService {
 			memVO.setMem_no(mem_no);
 			
 		 dao.update(memVO);
+		 return memVO;
 	 }
 	 public void memDelete(String mem_no) {
 		 dao.delete(mem_no);

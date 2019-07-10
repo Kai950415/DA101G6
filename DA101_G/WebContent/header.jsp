@@ -23,6 +23,9 @@ body {
 	background-color: #D9C5A8;
 }
 
+.card {
+	background-color: #ED8532;
+}
 .btn {
 	z-index: 1;
 	position: relative;
@@ -125,9 +128,7 @@ body {
 	color: #fff;
 }
 
-.card {
-	background-color: #ED8532;
-}
+
 
 footer {
 	background-color: #ED8532;
@@ -210,10 +211,13 @@ text-decoration: none;
 						<span><span>目前點數尚餘:&nbsp</span><span style="color: green;">${memberVO.mem_point}</span>點&nbsp</span>
 						&nbsp &nbsp
 
-						<button
-							type="submit" class="nav-link">
-							登出
-						</button>
+						<li class="nav-item">
+						<a class="nav-link" href="<%=request.getContextPath()%>/front-end/mem/mem.jsp">個人檔案</a>
+						</li>
+						<li class="nav-item">				
+						<input type="submit" class="btn btn-light" name="登出" value="登出">
+						</li>
+
 						
 					</form>
 					</li> 
@@ -225,10 +229,12 @@ text-decoration: none;
 						<span><span>目前點數尚餘:&nbsp</span><span style="color: green;">${resVO.res_point}</span>點&nbsp</span>
 						&nbsp &nbsp
 
-						<button
-							type="submit" class="nav-link">
-							登出
-						</button>
+						<li class="nav-item">
+						<a class="nav-link" href="#">餐廳檔案</a>
+						</li>
+						<li class="nav-item">				
+						<input type="submit" class="btn btn-light" name="登出" value="登出">
+						</li>
 						
 					</form>
 					</li>
@@ -245,54 +251,6 @@ text-decoration: none;
 	</div>
 </nav>
 <br>
-
-
-
-
-
-<!-- 登入跳出視窗 -->
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" -->
-<!-- 	aria-labelledby="exampleModalCenterTitle" aria-hidden="true"> -->
-<!-- 	<div class="modal-dialog modal-dialog-centered" role="document"> -->
-<!-- 		<div class="modal-content"> -->
-<!-- 			<div class="modal-header"> -->
-<!-- 				<h5 class="modal-title" id="exampleModalCenterTitle">會員登入</h5> -->
-<!-- 				<button type="button" class="close" data-dismiss="modal" -->
-<!-- 					aria-label="Close"> -->
-<!-- 					<span aria-hidden="true">&times;</span> -->
-<!-- 				</button> -->
-<!-- 			</div> -->
-<!-- 			<div class="modal-body"> -->
-
-<%-- 				<form id="form1" action="<%=request.getContextPath()%>/loginhandler" --%>
-<!-- 					method="post"> -->
-
-<!-- 					<div class="form-group row"> -->
-<!-- 						<label for="inputEmail3" class="col-sm-2 col-form-label">帳號</label> -->
-<!-- 						<div class="col-sm-10"> -->
-<!-- 							<input type="text" class="form-control" id="inputEmail3" -->
-<!-- 								placeholder="Account" name="member_id"> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="form-group row"> -->
-<!-- 						<label for="inputPassword3" class="col-sm-2 col-form-label">密碼</label> -->
-<!-- 						<div class="col-sm-10"> -->
-<!-- 							<input type="password" class="form-control" id="inputPassword3" -->
-<!-- 								placeholder="Password" name="mem_pwd"> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="modal-footer"> -->
-<!-- 						<button type="button" class="btn btn-secondary" -->
-<!-- 							data-dismiss="modal">關閉</button> -->
-<!-- 						<button type="submit" class="btn btn-primary">確認</button> -->
-
-<!-- 					</div> -->
-<!-- 				</form> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </div> -->
 
 <!-- 登入跳出視窗II -->
 <div class="modal fade" id="exampleModal" tabindex="-1"  role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
@@ -316,7 +274,7 @@ text-decoration: none;
 							</div>
 							<div class="form-group">
 								<input type="submit" class="btnSubmit" value="Login" /> 
-								<font style="color:red">&nbsp;&nbsp;${errorMsgs.member}</font>
+								<font style="color:red">&nbsp;&nbsp;${errorMsgsForLogin.member}</font>
 							</div>
 							<div class="form-group">
 								<a href="#" class="ForgetPwd">註冊成為會員</a>
@@ -339,7 +297,7 @@ text-decoration: none;
 							</div>
 							<div class="form-group">
 								<input type="submit" class="btnSubmit" value="Login" />
-								<font style="color:red">&nbsp;&nbsp;${errorMsgs.resMember}</font>
+								<font style="color:red">&nbsp;&nbsp;${errorMsgsForLogin.resMember}</font>
 							</div>
 							<div class="form-group">
 								<a href="#" class="ForgetPwd">註冊成為商家會員</a>
@@ -362,9 +320,14 @@ text-decoration: none;
 
 <script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 <c:if test="${login.equals(\"false\")}" var="flag" scope="request">
+<%session.removeAttribute("login");%>
 	<script>
 		$(function() {
 			$('#loginBtn').trigger('click');

@@ -22,9 +22,10 @@ body{
 /*background: linear-gradient(to bottom, #514A9D, #24C6DC);  W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
-.head{float:left;width:100%; font-family: "微軟正黑體";}
+/* .head{float:left;width:100%; height:100%; font-family: "微軟正黑體";} */
+
 .search-box{width:auto; margin:auto; box-shadow:20px 20px 0 rgba(0,0,0,0.2); font-family: "微軟正黑體";}
-.listing-block{background:#fff; height:1080px;  overflow-y:scroll;font-family: "微軟正黑體";}
+.listing-block{background:#fff;  overflow-y:scroll;font-family: "微軟正黑體";}
 .media {background:#fff; position:relative; margin-bottom:15px; font-family: "微軟正黑體";}
 .media img{width:200px;margin:0; height:136px;}
 /*.media-body{border:1px solid #bcbcbc; border-left:0; height:136px;}*/
@@ -36,7 +37,9 @@ body{
 .media .address{float:left; width:100%;font-size:14px; margin-top:5px; color:#888;font-family: "微軟正黑體";}
 .media .fav-box{position:absolute; right:10px; font-size:20px; top:4px; color:#E74C3C;font-family: "微軟正黑體";}
 
-.map-box{background-color:#A3CCFF;}
+.map-box{
+background-color:#A3CCFF;
+}
 
 .navbar {
   background-color: #ea771b;  font-family: "微軟正黑體";
@@ -97,6 +100,31 @@ body{
 }
 
 
+.listing-block{
+z-index: 1;
+position: absolute;
+height: 100%;
+width: 40%;
+padding: 0px;
+border-width: 0px;
+margin: 0px;
+left: 0px;
+op: 0px;
+ouch-action: pan-x pan-y;;
+}
+.map-box{
+z-index: 3;
+position: absolute;
+height: 100%; width: 60%;
+padding: 0px;
+border-width: 0px;
+margin: 0px;
+left:40%;
+top: 56px;
+touch-action: pan-x pan-y;
+}
+
+
 </style>
 
   </head>
@@ -137,13 +165,9 @@ body{
     </div>
   </nav>
 
-<div class="clearfix"></div>
-    <div class="container-fluid">
-      <div class="row">
 
 
-
-    <div class="col-md-4 listing-block">
+      <div class="listing-block">
          <div class="media">
             <div class="fav-box"><i class="fa fa-heart-o" aria-hidden="true"></i>           
             </div>
@@ -205,7 +229,7 @@ body{
             </div>
         <div class="media">
             <div class="fav-box"><i class="fa fa-heart-o" aria-hidden="true"></i>
-</div>
+              </div>
               <img class="d-flex align-self-start" src="https://picsum.photos/500/500" alt="Generic placeholder image">
               <div class="media-body pl-3">
                 <div class="price">$506,400<small>New York</small></div>
@@ -217,9 +241,9 @@ body{
             Cincinnati</div>
               </div>
             </div>
-        <div class="media">
+          <div class="media">
             <div class="fav-box"><i class="fa fa-heart-o" aria-hidden="true"></i>
-            </div>
+              </div>
               <img class="d-flex align-self-start" src="https://picsum.photos/500/500" alt="Generic placeholder image">
               <div class="media-body pl-3">
                 <div class="price">$506,400<small>New York</small></div>
@@ -231,43 +255,41 @@ body{
             Cincinnati</div>
               </div>
             </div>
-              <div class="media">
-            <div class="fav-box"><i class="fa fa-heart-o" aria-hidden="true"></i>
-            </div>
-              <img class="d-flex align-self-start" src="https://picsum.photos/500/500" alt="Generic placeholder image"/>
-              <div class="media-body pl-3">
-                <div class="price">$506,400<small>New York</small></div>
-                <div class="stats">
-                    <span><i class="fa fa-arrows-alt"></i>1678 Sq ft</span>
-                    <span><i class="fa fa-bath"></i>2 Beadrooms</span>
-                </div>
-                <div class="address">4062 Walnut Hill Drive
-            Cincinnati</div>
-              </div>
-            </div>
-              <div class="media">
-            <div class="fav-box"><i class="fa fa-heart-o" aria-hidden="true"></i>
-            </div>
-              <img class="d-flex align-self-start" src="https://picsum.photos/500/500" alt="Generic placeholder image">
-              <div class="media-body pl-3">
-                <div class="price">$506,400<small>New York</small></div>
-                <div class="stats">
-                    <span><i class="fa fa-arrows-alt"></i>1678 Sq ft</span>
-                    <span><i class="fa fa-bath"></i>2 Beadrooms</span>
-                </div>
-                <div class="address">4062 Walnut Hill Drive
-            Cincinnati</div>
-              </div>
-            </div>
+                      <ul class="pagination justify-content-center">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+
+  
     </div>
     <!--Google map -->
-    <div class="col-md-8 map-box mx-0 px-0">
-        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.uk/maps?f=q&source=s_q&hl=en&geocode=&815&sspn=23.047000,121.666992&ie=UTF8&hq=&hnear=15+Springfield+Way,+Hythe+CT21+5SH,+United+Kingdom&t=m&z=14&ll=23.077429,121.121722&output=embed">
-        </iframe>
-    </div>
-  </div>
-</div>
 
+<!--     <div class="container-fluid">
+      <div class="row"> -->
+    <div class="map-box">
+        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.uk/maps?f=q&source=s_q&hl=en&geocode=&815&sspn=23.047000,121.666992&ie=UTF8&hq=&hnear=15+Springfield+Way,+Hythe+CT21+5SH,+United+Kingdom&t=m&z=14&ll=23.077429,121.121722&output=embed"
+        style="z-index:2;">
+        </iframe>
+      </div>
 
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

@@ -5,12 +5,6 @@ import java.util.*;
 
 
 
-
-
-
-
-
-
 public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -51,11 +45,14 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 				
 
 			pstmt.executeUpdate();
-			
-		}catch (ClassNotFoundException e) {
-			throw new RuntimeException("沒有連上DB"+e.getMessage());
+		
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
 		}catch(SQLException se) {
-			throw new RuntimeException("錯誤發生!"+ se.getMessage());
+			throw new RuntimeException("A database error occured."+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -88,11 +85,11 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setString(1, LeavemessageVO.getLm_no());
-			pstmt.setString(2, LeavemessageVO.getLm_postno());
-			pstmt.setString(3, LeavemessageVO.getLm_memno());
-			pstmt.setString(4, LeavemessageVO.getLm_text());
-			pstmt.setString(5, LeavemessageVO.getLm_status());
+			pstmt.setString(5, LeavemessageVO.getLm_no());
+			pstmt.setString(1, LeavemessageVO.getLm_postno());
+			pstmt.setString(2, LeavemessageVO.getLm_memno());
+			pstmt.setString(3, LeavemessageVO.getLm_text());
+			pstmt.setString(4, LeavemessageVO.getLm_status());
 			
 
 			pstmt.executeUpdate();
@@ -102,7 +99,7 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
 			// Handle any SQL errors
-		} catch (SQLException se) {
+		}catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources
@@ -133,6 +130,7 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 
 		try {
 
+
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(DELETE);
@@ -143,7 +141,6 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
@@ -189,7 +186,7 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo 也稱為 Domain objects
+				// empVo = Domain objects
 				LeavemessageVO = new LeaveMessageVO();
 				LeavemessageVO.setLm_no(rs.getString("lm_no"));
 				LeavemessageVO.setLm_postno(rs.getString("lm_postno"));
@@ -199,12 +196,11 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 
 			}
 
-			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
 			// Handle any SQL errors
-		} catch (SQLException se) {
+		}catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources
@@ -244,14 +240,13 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 		ResultSet rs = null;
 
 		try {
-
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVO 也稱為 Domain objects
+				// empVO = Domain objects
 				LeavemessageVO = new LeaveMessageVO();
 				LeavemessageVO.setLm_no(rs.getString("lm_no"));
 				LeavemessageVO.setLm_postno(rs.getString("lm_postno"));
@@ -297,10 +292,10 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 		return list;
 	}
 	public static void main(String[] args) {
-
+//
 		LeaveMessageDAO dao = new LeaveMessageDAO();
 
-		// 新增
+		//新增
 //		LeaveMessageVO LeaveMessageVO1 = new LeaveMessageVO();
 //		
 //		LeaveMessageVO1.setLm_postno("PO000005");
@@ -311,18 +306,18 @@ public class LeaveMessageDAO implements LeaveMessageDAO_interface{
 //	
 	
 	// 修改
-//		LeaveMessageVO LeaveMessageVO2 = new LeaveMessageVO();
-//		LeaveMessageVO2.setLm_no("LM000020");
-//		LeaveMessageVO2.setLm_postno("PO000005");
-//		LeaveMessageVO2.setLm_memno("ME000005");
-//		LeaveMessageVO2.setLm_text("123456789");
-//		LeaveMessageVO2.setLm_status("lm1");
-//	
-//		dao.update(LeaveMessageVO2);
-		
-		// 刪除
+		LeaveMessageVO LeaveMessageVO2 = new LeaveMessageVO();
+		LeaveMessageVO2.setLm_no("LM000005");
+		LeaveMessageVO2.setLm_postno("PO000005");
+		LeaveMessageVO2.setLm_memno("ME000005");
+		LeaveMessageVO2.setLm_text("IHJOIJOIJOIJOIJ123");
+		LeaveMessageVO2.setLm_status("lm1");
+	
+		dao.update(LeaveMessageVO2);
+//		
+		//刪除
 //		dao.delete("LM000026");
-		// 查詢
+		//查詢
 //		LeaveMessageVO LeaveMessageVO3 = dao.findByPrimaryKey("LM000005");
 //		System.out.print(LeaveMessageVO3.getLm_postno() + ",");
 //		System.out.print(LeaveMessageVO3.getLm_memno() + ",");
