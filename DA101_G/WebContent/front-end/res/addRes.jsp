@@ -18,7 +18,7 @@
 	String res_town = null;
 	
 	int x = 0;
-	if(resVO!=null){
+	if(resVO!=null && resVO.getRes_adrs().length() !=0){
 		if(resVO.getRes_adrs().indexOf("鄉", 3)==4 ||
 				   resVO.getRes_adrs().indexOf("鎮", 3)==4 ||
 				   resVO.getRes_adrs().indexOf("市", 3)==4 ||

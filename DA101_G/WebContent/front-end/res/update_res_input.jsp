@@ -5,49 +5,50 @@
 
 <%
 	ResVO resVO = (ResVO) request.getAttribute("resVO"); //ResServlet.java (Concroller) 存入req的resVO物件 (包括幫忙取出的resVO, 也包括輸入資料錯誤時的resVO物件)
+	if(resVO==null){
+		resVO = (ResVO)session.getAttribute("resVO");
+	}
+	
+	session.getAttribute("resVO");
 	session.setAttribute("resVO", resVO);
 %>
-${resVO==null}--
-<%=resVO == null%>
+
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>餐廳資料修改 - update_res_input.jsp</title>
 
 <style>
-table#table-1 {
+  table#table-1 {
 	background-color: #CCCCFF;
-	border: 2px solid black;
-	text-align: center;
-}
-
-table#table-1 h4 {
-	color: red;
-	display: block;
-	margin-bottom: 1px;
-}
-
-h4 {
-	color: blue;
-	display: inline;
-}
+    border: 2px solid black;
+    text-align: center;
+  }
+  table#table-1 h4 {
+    color: red;
+    display: block;
+    margin-bottom: 1px;
+  }
+  h4 {
+    color: blue;
+    display: inline;
+  }
 </style>
 
 <style>
-table {
-	width: 800px;
+  table {
+	width: 1600px;
 	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-}
-
-table, th, td {
-	border: 0px solid #CCCCFF;
-}
-
-th, td {
-	padding: 1px;
-}
+	margin-top: 5px;
+	margin-bottom: 5px;
+  }
+  table, th, td {
+    border: 1px solid #CCCCFF;
+  }
+  th, td {
+    padding: 5px;
+    text-align: center;
+  }
 </style>
 </head>
 <body bgcolor='white'>
@@ -317,10 +318,4 @@ $('#f_date2').datetimepicker({
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
 </html>

@@ -10,15 +10,15 @@ public class ReportLmService {
 		dao = new ReportLmDAO();
 	}
 	
-	public ReportLmVO addRepLm(String repolm_no,String repolm_lmano,
-			String repolm_memno,String repolm_text,String repolm_status) {
+	public ReportLmVO addRepLm(String repolm_lmano,
+			String repolm_memno,String repolm_text) {
 		ReportLmVO ReportLmVO = new ReportLmVO();
 		
-		ReportLmVO.setRepolm_no(repolm_no);
+		
 		ReportLmVO.setRepolm_lmano(repolm_lmano);
 		ReportLmVO.setRepolm_memno(repolm_memno);
 		ReportLmVO.setRepolm_text(repolm_text);
-		ReportLmVO.setRepolm_status(repolm_status);
+		
 		dao.insert(ReportLmVO);
 		return ReportLmVO;
 	}
@@ -38,7 +38,7 @@ public class ReportLmService {
 	public void deleteRepoLm(String repolm_no) {
 		dao.delete(repolm_no);
 	}
-	public ReportLmVO getOneRepoLm(String repolm_no) {
+	public ReportLmVO getOneReportLm(String repolm_no) {
 		return dao.findByPrimaryKey(repolm_no);
 	}
 	public List<ReportLmVO> getAll(){

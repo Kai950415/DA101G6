@@ -32,7 +32,7 @@ public class ResAcDAO implements ResAcDAO_interface {
 				"VALUES (?, ?, ?, ?, ?, ?,?, ?)";
 		private static final String GET_ALL_STMT = "SELECT * FROM RESTAURANTAC ORDER BY RESAC_NO,RESAC_RESNO";
 		private static final String GET_ONE_STMT = "SELECT * FROM RESTAURANTAC WHERE RESAC_NO = ? AND RESAC_RESNO = ?";
-		
+		private static final String GET_ALLBYRESNO_STMT = "SELECT * FROM RESTAURANTAC  WHERE RESAC_RESNO = ? ORDER BY RESAC_NO DESC";
 		private static final String UPDATE = "UPDATE RESTAURANTAC set RESAC_PASS=?,RESAC_NAME=?,RESAC_PHONE=?,RESAC_PIC=?,RESAC_INTRO=?,RESAC_STATUS=? WHERE RESAC_NO = ? AND RESAC_RESNO = ?";
 
 		@Override
@@ -225,6 +225,81 @@ public class ResAcDAO implements ResAcDAO_interface {
 				Class.forName(driver);
 				con = DriverManager.getConnection(url, userid, passwd);
 				pstmt = con.prepareStatement(GET_ALL_STMT);
+				rs = pstmt.executeQuery();
+				
+//				con = ds.getConnection();
+//				pstmt = con.prepareStatement(GET_ALL_STMT);
+//				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					// resVO 也稱為 Domain objects
+
+					resAcVO = new ResAcVO();
+					
+					resAcVO.setResac_no(rs.getString("resac_no"));
+					resAcVO.setResac_resno(rs.getString("resac_resno"));
+					resAcVO.setResac_pass(rs.getString("resac_pass"));
+					resAcVO.setResac_name(rs.getString("resac_name"));
+					resAcVO.setResac_phone(rs.getString("resac_phone"));
+					resAcVO.setResac_pic(rs.getBytes("resac_pic"));
+					resAcVO.setResac_intro(rs.getString("resac_intro"));
+					resAcVO.setResac_status(rs.getString("resac_status"));
+
+
+					list.add(resAcVO);// Store the row in the list
+				}
+
+				// Handle any driver errors
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+				// Handle any SQL errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. " + se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return list;
+		}
+
+
+
+		@Override
+		public List<ResAcVO> getAllByResNO(String resac_resno) {
+			List<ResAcVO> list = new ArrayList<ResAcVO>();
+			ResAcVO resAcVO = null;
+
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+
+				Class.forName(driver);
+				con = DriverManager.getConnection(url, userid, passwd);
+				pstmt = con.prepareStatement(GET_ALLBYRESNO_STMT);
+				
+				pstmt.setString(1, resac_resno);
 				rs = pstmt.executeQuery();
 				
 //				con = ds.getConnection();

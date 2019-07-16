@@ -8,9 +8,10 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-import org.apache.catalina.Session;
+
 
 import com.res.model.*;
+import com.tools.*;
 
 @WebServlet("/res.do")
 @MultipartConfig(
@@ -121,7 +122,7 @@ public class ResServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher FailureView = req
-						.getRequestDispatcher("/front-end/res/update_res_input.jsp");
+						.getRequestDispatcher("/back-end/res/listAllRes.jsp");
 				FailureView.forward(req, res);
 			}
 		}
@@ -212,6 +213,11 @@ public class ResServlet extends HttpServlet {
 				Double res_lat = new Double(req.getParameter("res_lat")); 
 				Double res_lot = new Double(req.getParameter("res_lot")); 
 				
+				HashMap<String,Double> latLot = GMaps.Gmap(res_adrs);
+				if(latLot!=null) {
+					res_lot = latLot.get("lot");
+					res_lat = latLot.get("lat");
+				}
 				
 				
 				Integer res_score = new Integer(req.getParameter("res_score"));
@@ -369,10 +375,17 @@ public class ResServlet extends HttpServlet {
 				if(res_end.equals(res_start)) {
 					errorMsgs.add("營業開始時間不能等於結束時間");
 				}
-//				Double res_lat = new Double(req.getParameter("res_lat")); //緯度不用餐廳填寫
-//				Double res_lot = new Double(req.getParameter("res_lot")); //經度不用餐廳填寫
-				Double res_lat = 0.0;
 				Double res_lot = 0.0;
+				Double res_lat = 0.0;
+				if(res_city.trim().length() != 0 && res_town.trim().length() != 0 && address.trim().length() != 0) {
+					
+					HashMap<String,Double> latLot = GMaps.Gmap(res_adrs);
+					if(latLot!=null) {
+						res_lot = latLot.get("lot");
+						res_lat = latLot.get("lat");
+					}
+				}
+				
 				
 				
 				Integer res_score = 0; //新增餐廳預設0
@@ -413,6 +426,7 @@ public class ResServlet extends HttpServlet {
 				resVO.setRes_comcount(res_comcount);
 				resVO.setRes_type(res_type);
 				resVO.setRes_status(res_status);
+				
 				
 				// Send the use back to the form, if there were errors
 				if(!errorMsgs.isEmpty()) {

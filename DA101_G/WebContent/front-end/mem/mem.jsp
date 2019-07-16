@@ -11,7 +11,7 @@
 <html lang="en">
 <head>
 
-<!--   這裡是套bootstrap3.3.7喔~~~~~~! -->
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script
@@ -19,13 +19,10 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="css/all.css">
+
+
+
+
 
 <title>會員個人資料</title>
 
@@ -99,7 +96,7 @@ body {
 			</div>
 			<div class="col-sm-2">
 				<a href="#" class="pull-right"><img title="profile image"
-					class="img-circle img-responsive"
+					class="img-circle"
 					src="https://picsum.photos/100/100"></a>
 			</div>
 		</div>
@@ -108,21 +105,21 @@ body {
 				<!--left col-->
 
 				<div class="text-center">
-				
+
 					<c:if test="${memberVO.getMem_img()!=null }">
-						<%	
-							MemVO memVOfromSession =(MemVO) session.getAttribute("memberVO");
-							String pic = new String(Base64.getEncoder().encode(memVOfromSession.getMem_img()), "UTF-8");
+						<%
+							MemVO memVOfromSession = (MemVO) session.getAttribute("memberVO");
+								String pic = new String(Base64.getEncoder().encode(memVOfromSession.getMem_img()), "UTF-8");
 						%>
-						<img name="mem_img" class="card-img-top" id="mem_img"
+						<img name="mem_img" class="card-img-top img-circle" id="mem_img"
 							src="data:image/jpg;base64,<%=pic%>" />
 					</c:if>
 					<c:if test="${memberVO.getMem_img()==null }">
-						<img name="mem_img" class="card-img-top"
+						<img name="mem_img" class="card-img-top img-circle"
 							src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
 							alt="你沒有放圖片喔">
 					</c:if>
-					
+
 				</div>
 				<br>
 
@@ -146,96 +143,64 @@ body {
 			</div>
 			<!--/col-3-->
 			<div class="col-sm-9">
-				<ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#MemInfo">我的資料</a></li>
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item"><a class="nav-link active"
+						data-toggle="tab" href="#MemInfo" role="tab">我的資料</a></li>
 
-					<li><a data-toggle="tab" href="#point">我的點數</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#point" role="tab">我的點數</a></li>
 
-					<li><a data-toggle="tab" href="#MemInfoUpdate">資料修改</a></li>
-					
-					<li><a data-toggle="tab" href="#test">測試</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#MemInfoUpdate" role="tab">資料修改</a></li>
 				</ul>
+
+				<br>
 				<div class="tab-content">
-					<div class="tab-pane active" id="MemInfo">
+					<div role="tabpanel" class="tab-pane active" id="MemInfo">
 
-							<div class="form-group">
-
-								<div class="col-xs-6">
-									<label for="first_name"><h4>會員姓名</h4></label>
-									<p>${memberVO.mem_name}</p>
-								</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label for="first_name"><h4>會員姓名</h4></label>
+								<p>${memberVO.mem_name}</p>
 							</div>
-							<div class="form-group">
-
-								<div class="col-xs-6">
-									<label for="last_name"><h4>會員性別</h4></label>
-									<p>${memberVO.mem_sex}</p>
-								</div>
-
+							<div class="form-group col-sm-6">
+								<label for="last_name"><h4>會員性別</h4></label>
+								<p>${memberVO.mem_sex}</p>
 							</div>
+						</div>
 
-							<div class="form-group">
-
-								<div class="col-xs-6">
-									<label for="phone"><h4>出生 年/月/日</h4></label>
-									<p>${memberVO.mem_bd}</p>
-								</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label for="phone"><h4>出生 年/月/日</h4></label>
+								<p>${memberVO.mem_bd}</p>
 							</div>
-
-							<div class="form-group">
-								<div class="col-xs-6">
-									<label for="mobile"><h4>連絡電話</h4></label>
-									<p>${memberVO.mem_ph}</p>
-								</div>
+							<div class="form-group col-sm-6">
+								<label for="mobile"><h4>連絡電話</h4></label>
+								<p>${memberVO.mem_ph}</p>
 							</div>
-							<div class="form-group">
+						</div>
 
-								<div class="col-xs-6">
-									<label for="email"><h4>Email</h4></label>
-									<p>${memberVO.mem_email}</p>
-								</div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label for="email"><h4>Email</h4></label>
+								<p>${memberVO.mem_email}</p>
 							</div>
-							<div class="form-group">
-
-								<div class="col-xs-6">
-									<label for="location"><h4>地址</h4></label>
-									<p>${memberVO.mem_adrs}</p>
-								</div>
+							<div class="form-group col-sm-6">
+								<label for="location"><h4>地址</h4></label>
+								<p>${memberVO.mem_adrs}</p>
 							</div>
-							<div class="form-group">
+						</div>
 
-								<div class="col-xs-6">
-									<label for="ac"><h4>帳號</h4></label>
-									<p>${memberVO.mem_ac}</p>
-								</div>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<label for="AboutMe"><h4>自我介紹</h4></label>
+								<p>${memberVO.mem_intro}</p>
 							</div>
-							<div class="form-group">
-
-								<div class="col-xs-6">
-									<label for="password2"><h4>密碼</h4></label>
-									<p>${memberVO.mem_pass}</p>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-xs-12">
-									<label for="AboutMe"><h4>自我介紹</h4></label>
-									<p>${memberVO.mem_intro}</p>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-xs-12">
-									<br>
-
-								</div>
-							</div>
-
-						</form>
-
-
+						</div>
 					</div>
 					<!--/tab-pane-->
 					<!--------------------------------------------------------------------------------------------------->
-					<div class="tab-pane" id="point">
+					<div role="tabpanel" class="tab-pane fade" id="point">
 
 						<h2></h2>
 
@@ -243,7 +208,7 @@ body {
 							<div class="form-group">
 
 								<div class="col-xs-12">
-									<label for="point"><h4>目前點數</h4></label> 
+									<label for="point"><h4>目前點數</h4></label>
 									<p>${memberVO.mem_point}</p>
 								</div>
 							</div>
@@ -260,76 +225,63 @@ body {
 
 					</div>
 					<!---------------------------------------------------------------------->
-					<div class="tab-pane" id="MemInfoUpdate">
+					<div role="tabpanel" class="tab-pane fade" id="MemInfoUpdate">
 
-						<form class="form" action="mem.do" method="post" id="registrationForm" enctype="multipart/form-data">
+						<form class="form" action="mem.do" method="post"
+							id="registrationForm" enctype="multipart/form-data">
 							<input type="hidden" name="action" value="update">
-							<div class="form-group">
-
-								<div class="col-xs-6">
+							<div class="row">
+								<div class="form-group col-sm-6">
 									<label for="first_name"><h4>會員姓名</h4></label> <input
 										class="form-control" name="mem_name" id="first_name"
 										placeholder="你的名字" title="enter your  name ."
 										value="${memberVO.mem_name}">
 								</div>
-							</div>
-							<div class="form-group">
-
-								<div class="col-xs-6">
+								<div class="form-group col-sm-6">
 									<label for="last_name"><h4>會員性別</h4></label> <input type="text"
 										class="form-control" name="mem_sex" id="last_name"
 										placeholder="如:男性、女性" title="sex" value="${memberVO.mem_sex}">
 								</div>
-
 							</div>
 
-							<div class="form-group">
-
-								<div class="col-xs-6">
+							<div class="row">
+								<div class="form-group col-sm-6">
 									<label for="phone"><h4>出生 年/月/日</h4></label> <input type="date"
 										class="form-control" name="mem_bd" id="phone"
 										placeholder="年/月/日" title="Birthday"
 										value="${memberVO.mem_bd}">
 								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="col-xs-6">
+								<div class="form-group col-sm-6">
 									<label for="mobile"><h4>連絡電話</h4></label> <input type="text"
 										class="form-control" name="mem_ph" id="mobile"
 										placeholder="你的電話號碼" title="PhoneNumber"
 										value="${memberVO.mem_ph}">
 								</div>
 							</div>
-							<div class="form-group">
 
-								<div class="col-xs-6">
+							<div class="row">
+								<div class="form-group col-sm-6">
 									<label for="email"><h4>Email</h4></label> <input type="email"
 										class="form-control" name="mem_email" id="email"
 										placeholder="you@email.com" title="enter your email."
 										value="${memberVO.mem_email}">
 								</div>
-							</div>
-							<div class="form-group">
-
-								<div class="col-xs-6">
+								<div class="form-group col-sm-6">
 									<label for="location"><h4>地址</h4></label> <input type="text"
-										class="form-control" name="mem_adrs" id="location" placeholder="某地"
-										title="enter a location" value="${memberVO.mem_adrs}">
+										class="form-control" name="mem_adrs" id="location"
+										placeholder="某地" title="enter a location"
+										value="${memberVO.mem_adrs}">
 								</div>
 							</div>
-							<div class="form-group">
 
-								<div class="col-xs-6">
+							<div class="row">
+								<div class="form-group col-sm-6">
 									<label for="ac"><h4>帳號</h4></label> <input type="text"
 										class="form-control" name="mem_ac" id="ac" placeholder="你的帳號"
 										title="enter your password." value="${memberVO.mem_ac}">
 								</div>
-							</div>
-							<div class="form-group">
 
-								<div class="col-xs-6">
-
+								<div class="form-group col-sm-6">
 
 									<label for="password2"><h4>密碼</h4></label> <input
 										type="password" class="form-control" name="mem_pass"
@@ -337,30 +289,33 @@ body {
 										title="enter your password2." value="${memberVO.mem_pass}">
 								</div>
 							</div>
+
 							<div class="form-group">
 								<div class="col-xs-12">
 
 									<label for="AboutMe"><h4>自我介紹</h4></label>
-									<textarea name="mem_intro" class="form-control" placeholder="Say~Something"
-										id="AboutMe" style="flex-basis: auto; height: 150px;">
+									<textarea name="mem_intro" class="form-control"
+										placeholder="Say~Something" id="AboutMe"
+										style="height: 150px;">
 								${memberVO.mem_intro}
 								</textarea>
 								</div>
 								<div class="col-xs-3">
 									<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
-										class="avatar img-circle img-thumbnail" alt="avatar">
+										class="avatar img-circle-top" alt="avatar">
 									<h6>會員大頭照</h6>
-									<input name="mem_img" type="file" class="text-center center-block file-upload">
-									
+									<input name="mem_img" type="file"
+										class="text-center center-block file-upload">
+
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-xs-12">
+								<div class="col-xs-3">
 									<br>
-									<button class="btn btn-lg btn-success" type="submit">
+									<button class="btn btn-lg btn-outline-success" type="submit">
 										<i class="glyphicon glyphicon-ok-sign"></i> 修改確認
 									</button>
-									<button class="btn btn-lg" type="reset">
+									<button class="btn btn-lg btn-outline-secondary" type="reset">
 										<i class="glyphicon glyphicon-repeat"></i> 返回編輯
 									</button>
 								</div>
@@ -372,8 +327,7 @@ body {
 					</div>
 					<!--/tab-pane-->
 					<!---------------------------------------------------------------------->
-
-				
+				</div>
 			</div>
 			</form>
 		</div>

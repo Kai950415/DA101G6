@@ -48,7 +48,33 @@
 		<servlet-name>ResServlet</servlet-name>
 		<url-pattern>/front-end/res/res.do</url-pattern>
 	</servlet-mapping>
-	
+
+	<servlet>
+		<servlet-name>ResAcServlet</servlet-name>
+		<servlet-class>com.resac.controller.ResAcServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResAcServlet</servlet-name>
+		<url-pattern>/front-end/res/resAc.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ResAcServlet</servlet-name>
+		<url-pattern>/front-end/resAc/resAc.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AdServlet</servlet-name>
+		<servlet-class>com.ad.controller.AdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdServlet</servlet-name>
+		<url-pattern>/back-end/ad/ad.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AdServlet</servlet-name>
+		<url-pattern>/front-end/ad/ad.do</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>PicServlet</servlet-name>
 		<servlet-class>com.pictools.ResPhoto</servlet-class>
@@ -58,6 +84,24 @@
 		<url-pattern>/back-end/res/resPhoto.do</url-pattern>
 	</servlet-mapping>
 	
+		<servlet>
+		<servlet-name>PicServlet2</servlet-name>
+		<servlet-class>com.pictools.ResAcPhoto</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PicServlet2</servlet-name>
+		<url-pattern>/back-end/resAc/resAcPhoto.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PicServlet3</servlet-name>
+		<servlet-class>com.pictools.AdPhoto</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PicServlet3</servlet-name>
+		<url-pattern>/back-end/resAd/resAdPhoto.do</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>MemLogin</servlet-name>
 		<servlet-class>com.mem.controller.MemLogin</servlet-class>
@@ -65,5 +109,15 @@
 	<servlet-mapping>
 		<servlet-name>MemLogin</servlet-name>
 		<url-pattern>/MemLogin</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>LeaveMessageServlet</servlet-name>
+		<servlet-class>com.leavemessage.controller.LeaveMessageServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>LeaveMessageServlet</servlet-name>
+		<url-pattern>/front-end/post/leavemessage.do</url-pattern>
 	</servlet-mapping>
 </web-app>

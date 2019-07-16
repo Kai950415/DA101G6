@@ -2,6 +2,7 @@ package com.ad.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdService {
 	private AdDAO_interface dao;
@@ -52,7 +53,24 @@ public class AdService {
 		return dao.findByPrimaryKey(ad_no);
 	}
 	
+	public AdVO getOneAdbyRes(String ad_no,String ad_resno) {
+		
+		
+		AdVO adVO = dao.getAll().stream()
+                .filter(ad -> ad.getAd_resno().equals(ad_resno) && ad.getAd_no().equalsIgnoreCase(ad_no))
+                .findFirst()
+                .orElse(null);
+		return adVO;
+	}
+	
 	public List<AdVO> getAll(){
 		return dao.getAll();
 	}
+	
+	public List<AdVO> getAllByRes(String ad_resno){
+		return dao.getAll().stream()
+				.filter(ad -> ad.getAd_resno().equals(ad_resno))
+				.collect(Collectors.toList());
+	}
+	
 }

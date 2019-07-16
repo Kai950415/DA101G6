@@ -13,7 +13,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 	
 	private static final String INSERT_STMT		= 
 			"Insert into reportlm (REPOLM_NO, REPOLM_LMANO, REPOLM_MEMNO, REPOLM_TEXT, REPOLM_STATUS)"
-					+"values ('RL'||LPAD(to_char(reportLm_seq.NEXTVAL), 6, '0'), ?,?,?,?)";
+					+"values ('RL'||LPAD(to_char(reportLm_seq.NEXTVAL), 6, '0'), ?,?,?,'repolm3')";
 	private static final String GET_ALL_STMT	=
 			"SELECT * FROM reportLm order by REPOLM_NO";
 	private static final String GET_ONE_STMT	=
@@ -40,16 +40,19 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 			pstmt.setString(1, ReportLmVO.getRepolm_lmano());
 			pstmt.setString(2, ReportLmVO.getRepolm_memno());
 			pstmt.setString(3, ReportLmVO.getRepolm_text());
-			pstmt.setString(4, ReportLmVO.getRepolm_status());
+			
 			
 			
 //			
 
 			pstmt.executeUpdate();
-		}catch (ClassNotFoundException e) {
-			throw new RuntimeException("未連上DB"+e.getMessage());
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
 		}catch(SQLException se) {
-			throw new RuntimeException("發生錯誤!"+ se.getMessage());
+			throw new RuntimeException("A database error occured."+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -82,16 +85,16 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setString(5, ReportLmVO.getRepolm_no());
+			
 			pstmt.setString(1, ReportLmVO.getRepolm_lmano());
 			pstmt.setString(2, ReportLmVO.getRepolm_memno());
 			pstmt.setString(3, ReportLmVO.getRepolm_text());
 			pstmt.setString(4, ReportLmVO.getRepolm_status());
-			
+			pstmt.setString(5, ReportLmVO.getRepolm_no());
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
+		
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
@@ -137,7 +140,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
+		
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
@@ -183,7 +186,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo �]�٬� Domain objects
+				// empVo = Domain objects
 				ReportLmVO = new ReportLmVO();
 			
 				ReportLmVO.setRepolm_lmano(rs.getString("repolm_lmano"));
@@ -193,12 +196,14 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 
 			}
 
+		
+		
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
 			// Handle any SQL errors
-		} catch (SQLException se) {
+		}catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources
@@ -238,14 +243,13 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 		ResultSet rs = null;
 
 		try {
-
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVO �]�٬� Domain objects
+				// empVO = Domain objects
 				ReportLmVO = new ReportLmVO();
 				ReportLmVO.setRepolm_no(rs.getString("repolm_no"));
 				ReportLmVO.setRepolm_lmano(rs.getString("repolm_lmano"));
@@ -257,12 +261,13 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 				// Store the row in the list
 			}
 
+			
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
 					+ e.getMessage());
 			// Handle any SQL errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources
@@ -300,7 +305,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 //		ReportLmVO ReportLmVO1 = new ReportLmVO();
 //		ReportLmVO1.setRepolm_lmano("LM000005");
 //		ReportLmVO1.setRepolm_memno("ME000005");
-//		ReportLmVO1.setRepolm_text("梆梆梆梆梆~梆梆梆梆");
+//		ReportLmVO1.setRepolm_text("璇����璇����");
 //		ReportLmVO1.setRepolm_status("repolm1");
 //		dao.insert(ReportLmVO1);
 		
@@ -310,14 +315,14 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 //		rep.setRepolm_no("RL000006");
 //		rep.setRepolm_lmano("LM000005");
 //		rep.setRepolm_memno("ME000005");
-//		rep.setRepolm_text("你經死了");
+//		rep.setRepolm_text("測試測試");
 //
 //		dao.update(rep);
 //		
 		//刪除
 		dao.delete("RL000006");
 		
-		// 查詢
+		//查詢
 //		ReportLmVO ReportLmVO3 = dao.findByPrimaryKey("RL000001");
 //		System.out.print(ReportLmVO3.getRepolm_lmano() + ",");
 //		System.out.print(ReportLmVO3.getRepolm_memno() + ",");
@@ -325,7 +330,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 //		System.out.print(ReportLmVO3.getRepolm_status() + ",");
 
 		
-		//查詢
+		//�閰�
 //		List<ReportLmVO> list = dao.getAll();
 //		for (ReportLmVO aResl : list) {
 //		System.out.print(aResl.getRepolm_lmano() + ",");

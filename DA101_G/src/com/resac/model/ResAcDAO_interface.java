@@ -7,4 +7,5 @@ public interface ResAcDAO_interface {
     public void update(ResAcVO resAcVO);
     public ResAcVO findByPrimaryKey(String resac_no,String resac_resno);
     public List<ResAcVO> getAll();
+    public List<ResAcVO> getAllByResNO(String resac_resno);
 }

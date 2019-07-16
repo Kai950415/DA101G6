@@ -16,16 +16,31 @@
 %>
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/all.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <title>Welcome to EGG !</title>
 
 <!-- Bootstrap core CSS -->
 <style>
+
+#card{
+background-color: #ED8532;
+}
+
+
+
 
 </style>
 
@@ -98,13 +113,13 @@
 					<img class="img-fluid rounded mb-4 mb-lg-0"
 						src="https://picsum.photos/900/400?random=5" alt="">
 				</div>
-				<!-- /.col-lg-8 -->
+
 				<div class="col-lg-5">
 					<h1 class="font-weight-light">來看看附近美食吧!</h1>
 					<p>還在想要吃什麼嗎?加入會員，成為主揪，與他人製造美好的相遇吧! 我是一張900*400的圖片!</p>
 
-
-					<a class="btn" href="<%=request.getContextPath()%>/restaurant.jsp">點我進入美食搜尋!</a>
+					
+					<a class="btn btn-warning" href="<%=request.getContextPath()%>/restaurant.jsp">點我進入美食搜尋!</a>
 
 
 				</div>
@@ -114,9 +129,10 @@
 
 
 			<!-- Call to Action Well -->
-			<div class="card text-dark  my-5 py-4 text-center">
+			
+			<div class="card text-dark  my-5 py-4 text-center" id="card">
 				<img class="img" src="https://picsum.photos/1080/450" alt="">
-				<div class="card-body">
+				<div class="card-body" id="post">
 					<a href="<%=request.getContextPath()%>/front-end/post/post.jsp"><p class="text-white m-0">進入評價貼文!</p></a>
 				</div>
 			</div>

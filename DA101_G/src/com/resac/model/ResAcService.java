@@ -50,4 +50,8 @@ public class ResAcService {
 	public List<ResAcVO> getAll(){
 		return dao.getAll();
 	}
+	
+	public List<ResAcVO> getAllByResNo(String resac_no){
+		return dao.getAllByResNO(resac_no);
+	}
 }
