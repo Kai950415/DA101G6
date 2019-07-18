@@ -7,28 +7,20 @@
 
 <%
     FeastInfoService feaSvc = new FeastInfoService();
-    MyFeastService myeSvc = new MyFeastService();
-    
     List<FeastInfoVO> list = feaSvc.getAllFeastInfoVOsRandomly();
     
-    pageContext.setAttribute("myeSvc", myeSvc);
     pageContext.setAttribute("list", list);
 %>
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
-
+<jsp:useBean id="myeSvc" scope="page" class="com.myfeast.model.MyFeastService" />
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<!-- Bootstrap core CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/all.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+
 
 <title>Welcome to EGG !</title>
 
@@ -169,7 +161,7 @@ background-color: #ED8532;
 										value="getOne_For_Display"> <input type="hidden"
 										class="form-check-input" name="fea_no"
 										value="${feastInfoVO.fea_no}">
-									<button type="submit">
+									<button type="submit" style="background-color: #D9C5A8;width: 80%;background: transparent;border-color: #D9C5A8;border-style: solid;">
 										<img class="img-fluid rounded mb-3 mb-md-0"
 											src="https://picsum.photos/700/550?random=1" alt="">
 									</button>

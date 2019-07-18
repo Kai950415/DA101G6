@@ -255,7 +255,7 @@ public class PostDAO implements PostDAO_interface {
 
 		try {
 
-
+			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
@@ -278,7 +278,7 @@ public class PostDAO implements PostDAO_interface {
 			}
 
 			
-		} catch (SQLException se) {
+		} catch (SQLException | ClassNotFoundException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources

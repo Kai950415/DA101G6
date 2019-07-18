@@ -71,10 +71,10 @@ public class FindCodeName
         return Map.get(StatusNum);
     }
 
-//    public static void main(String[] args)
-//    {
-//        String test = FindCodeName.meaning("mem1");
-//        System.out.println(test);
-//        System.out.println(FindCodeName.meaning(null));
-//    }
+    public static void main(String[] args)
+    {
+        String test = FindCodeName.meaning("f1");
+        System.out.println(test);
+        System.out.println(FindCodeName.meaning(null));
+    }
 }

@@ -19,6 +19,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
+		<url-pattern>/front-end/feast/*</url-pattern>
 		<url-pattern>/front-end/fooditem/listAllFooditem.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
@@ -26,6 +27,26 @@
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>MyFeastServlet</servlet-name>
+		<servlet-class>com.myfeast.controller.MyFeastServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MyFeastServlet</servlet-name>
+		<url-pattern>/front-end/feast/myfeast.do</url-pattern>
+		<url-pattern>/back-end/feast/myfeast.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>FeastInfoServlet</servlet-name>
+		<servlet-class>com.feastinfo.controller.FeastInfoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FeastInfoServlet</servlet-name>
+		<url-pattern>/front-end/feast/feastinfo.do</url-pattern>
+		<url-pattern>/back-end/feast/feastinfo.do</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>MemServlet</servlet-name>

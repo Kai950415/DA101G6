@@ -44,7 +44,7 @@ public class LoginFilter implements Filter
         }
         else
         {
-            session.setAttribute("location", req.getRequestURI());
+            session.setAttribute("location", req.getHeader("referer") );
             session.setAttribute("login", "false");
             res.sendRedirect(req.getContextPath() + "/hometag.jsp");
             return;

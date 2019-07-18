@@ -24,7 +24,15 @@ public class ResVO implements Serializable {
 	private String res_status;
 	
 
-	public ResVO() {
+	@Override
+    public String toString()
+    {
+        return "ResVO [res_adrs=" + res_adrs + ", res_name=" + res_name + ", res_intro=" + res_intro + ", res_type="
+                + res_type + ", res_status=" + res_status + "]";
+    }
+
+
+    public ResVO() {
 		super();
 	}
 

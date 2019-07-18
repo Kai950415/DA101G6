@@ -9,4 +9,5 @@ public interface ResDAO_interface {
     public ResVO findByPrimaryKey(String res_no);
     public List<ResVO> getAll();
 	ResVO findByAC(String res_ac);
+	public List<ResVO> getAllOnliseRes();
 }
