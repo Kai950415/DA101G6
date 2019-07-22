@@ -3,13 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.feastinfo.model.*, com.myfeast.model.*"%>
+<%@ page import="com.feastinfo.model.*, com.myfeast.model.*,com.ad.model.*"%>
 
 <%
     FeastInfoService feaSvc = new FeastInfoService();
     List<FeastInfoVO> list = feaSvc.getAllFeastInfoVOsRandomly();
     
     pageContext.setAttribute("list", list);
+    
+    //***************************廣告要用的辣*******************************
+    AdService adSvc = new AdService();
+    List<AdVO> listAd = adSvc.getAllAding();
+    Collections.reverse(listAd);
+    pageContext.setAttribute("listAd", listAd);
+    int CountAd = 1;
+    
+    //***************************廣告要用的辣*******************************
 %>
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 <jsp:useBean id="myeSvc" scope="page" class="com.myfeast.model.MyFeastService" />
@@ -50,37 +59,43 @@ background-color: #ED8532;
 			<div id="carouselExampleCaptions" class="carousel slide"
 				data-ride="carousel">
 				<ol class="carousel-indicators">
-					<li data-target="#carouselExampleCaptions" data-slide-to="0"
+				<c:forEach var="i" items="${listAd}" begin="0" end="0">
+					<li data-target="#carouselExampleCaptions" data-slide-to="i"
 						class="active"></li>
-					<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-					<li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+				</c:forEach>
+				<c:forEach var="i" items="${listAd}" begin="1">		
+					<li data-target="#carouselExampleCaptions" data-slide-to="i"></li>
+				</c:forEach>
 				</ol>
+				
+				
 				<div class="carousel-inner">
+				<c:forEach var="adVO" items="${listAd}" begin="0" end="0">
 					<div class="carousel-item active">
-						<img src="https://picsum.photos/1080/500?random=1"
-							class="d-block w-100" alt="...">
+						<a href="<%=request.getContextPath()%>/front-end/ad/ad.do?ad_no=${adVO.ad_no}&action=showAdInfo">
+							<img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}"
+								class="d-block h-50 w-100" alt="...">
+						</a>
 						<div class="carousel-caption d-none d-md-block">
-							<h5>第一廣告區</h5>
-							<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+							<h5>第<%=CountAd%>廣告區</h5>
+							<p>${adVO.ad_title}</p>
+							<%CountAd++;%>
 						</div>
 					</div>
+				</c:forEach>
+				<c:forEach var="adVO" items="${listAd}" begin="1">
 					<div class="carousel-item">
-						<img src="https://picsum.photos/1080/500?random=2"
-							class="d-block w-100" alt="...">
+						<a href="<%=request.getContextPath()%>/front-end/ad/ad.do?ad_no=${adVO.ad_no}&action=showAdInfo">
+							<img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}"
+								class="d-block h-50 w-100" alt="...">
+						</a>
 						<div class="carousel-caption d-none d-md-block">
-							<h5>第二廣告區</h5>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+							<h5>第<%=CountAd%>廣告區</h5>
+							<p>${adVO.ad_title}</p>
+							<%CountAd++;%>
 						</div>
 					</div>
-					<div class="carousel-item">
-						<img src="http://placehold.it/1080x500" class="d-block w-100"
-							alt="...">
-						<div class="carousel-caption d-none d-md-block">
-							<h5>第三廣告區</h5>
-							<p>Praesent commodo cursus magna, vel scelerisque nisl
-								consectetur.</p>
-						</div>
-					</div>
+				</c:forEach>
 				</div>
 				<a class="carousel-control-prev" href="#carouselExampleCaptions"
 					role="button" data-slide="prev"> <span
@@ -93,6 +108,7 @@ background-color: #ED8532;
 				</a>
 			</div>
 		</div>
+
 
 
 

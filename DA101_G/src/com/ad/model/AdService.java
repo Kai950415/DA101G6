@@ -67,6 +67,18 @@ public class AdService {
 		return dao.getAll();
 	}
 	
+	public List<AdVO> getAllNotReview(){
+		return dao.getAll().stream()
+				.filter(ad -> ad.getAd_status().equals("ads1"))
+				.collect(Collectors.toList());
+	}
+	public List<AdVO> getAllAding(){
+		return dao.getAll().stream()
+				.filter(ad -> ad.getAd_status().equals("ads2"))
+				.filter(ad -> ad.getAd_start().before(new java.sql.Timestamp(System.currentTimeMillis())))
+				.filter(ad -> ad.getAd_end().after(new java.sql.Timestamp(System.currentTimeMillis())))
+				.collect(Collectors.toList());
+	}
 	public List<AdVO> getAllByRes(String ad_resno){
 		return dao.getAll().stream()
 				.filter(ad -> ad.getAd_resno().equals(ad_resno))

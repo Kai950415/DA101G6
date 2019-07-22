@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +18,6 @@ import com.feastinfo.model.FeastInfoVO;
 import com.mem.model.MemVO;
 import com.myfeast.model.MyFeastService;
 
-@WebServlet("/FeastInfoServlet")
 public class FeastInfoServlet extends HttpServlet
 {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -31,9 +29,17 @@ public class FeastInfoServlet extends HttpServlet
     {
         HttpSession session = request.getSession();
 
+        if (session.getAttribute("memberVO") == null)
+        {
+            session.setAttribute("location", request.getHeader("referer") );
+        }
+        
+        
+        
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
+        System.out.println("feastinfo = " + action);
         if ("getOne_For_Display".equals(action))
         { // 來自select_page.jsp的請求
 
@@ -111,7 +117,7 @@ public class FeastInfoServlet extends HttpServlet
         }
 
         if ("getOne_For_Update".equals(action))
-        { // 來自listAllEmp.jsp的請求
+        { // 來自listAllEmp.jsp的請求     
 
             List<String> errorMsgs = new LinkedList<String>();
             // Store this set in the request scope, in case we need to
@@ -126,11 +132,12 @@ public class FeastInfoServlet extends HttpServlet
                 /*************************** 2.開始查詢資料 ****************************************/
                 FeastInfoService feastInfoSvc = new FeastInfoService();
                 FeastInfoVO feastInfoVO = feastInfoSvc.getOneFeastInfo(fea_no);
-
+System.out.println(feastInfoVO);
                 /*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
                 request.setAttribute("feastInfoVO", feastInfoVO); // 資料庫取出的feastInfoVO物件,存入req
                 String url = "/front-end/feast/update_feast_input.jsp";
                 RequestDispatcher successView = request.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+                System.out.println(140);
                 successView.forward(request, response);
 
                 /*************************** 其他可能的錯誤處理 **********************************/
@@ -139,7 +146,7 @@ public class FeastInfoServlet extends HttpServlet
             {
                 errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
                 RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/feast/listAllEmp.jsp");
+                        .getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
                 failureView.forward(request, response);
             }
         }
@@ -154,19 +161,17 @@ public class FeastInfoServlet extends HttpServlet
 
             try
             {
-                System.out.println("");
+
+                MemVO memVO = (MemVO) session.getAttribute("memberVO");
+
+                String fea_memNo = memVO.getMem_no();
+                
                 String fea_no = new String(request.getParameter("fea_no").trim());
+                
+                FeastInfoService feastInfoService = new FeastInfoService();
+                FeastInfoVO feastInfoVO = feastInfoService.getOneFeastInfo(fea_no);
+                
                 /*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-                String fea_memNo = request.getParameter("fea_memNo");
-                String fea_memNoReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{8,8}$";
-                if (fea_memNo == null || fea_memNo.trim().length() == 0)
-                {
-                    errorMsgs.add("主揪姓名: 請勿空白");
-                }
-                else if (!fea_memNo.trim().matches(fea_memNoReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("主揪姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
-                }
 
                 String fea_resNoReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,60}$";
                 String fea_resNo = request.getParameter("fea_resNo").trim();
@@ -201,7 +206,7 @@ public class FeastInfoServlet extends HttpServlet
                     errorMsgs.add("飯局簡介: 只能是中、英文字母、數字和_ , 且長度必需在2到100之間");
                 }
 
-                Integer fea_number = new Integer(request.getParameter("fea_number").trim());
+                Integer fea_number = feastInfoVO.getFea_number();
 
                 Integer fea_upLim = null;
                 try
@@ -214,6 +219,10 @@ public class FeastInfoServlet extends HttpServlet
                     errorMsgs.add("人數上限請填數字.");
                 }
 
+                if (fea_upLim < feastInfoVO.getFea_number())
+                {
+                    errorMsgs.add("人數上限請勿小於現在人數");
+                }
                 Integer fea_lowLim = null;
                 try
                 {
@@ -233,7 +242,7 @@ public class FeastInfoServlet extends HttpServlet
                     fea_date = new java.sql.Timestamp(
                             dateFormat.parse(request.getParameter("fea_date").trim()).getTime());
                 }
-                catch (IllegalArgumentException | ParseException e)
+                catch (IllegalArgumentException | ParseException | NullPointerException e)
                 {
                     fea_date = new java.sql.Timestamp(System.currentTimeMillis());
                     errorMsgs.add("請輸入飯局日期!");
@@ -245,35 +254,32 @@ public class FeastInfoServlet extends HttpServlet
                     fea_startDate = new java.sql.Timestamp(
                             dateFormat.parse(request.getParameter("fea_startDate").trim()).getTime());
                 }
-                catch (IllegalArgumentException | ParseException e)
+                catch (IllegalArgumentException | ParseException | NullPointerException e)
                 {
                     fea_startDate = new java.sql.Timestamp(System.currentTimeMillis());
                     errorMsgs.add("請輸入報名截止日期!");
                 }
 
+                
+
+                String fea_type = request.getParameter("fea_type");
+                
+
                 java.sql.Timestamp fea_endDate = null;
-                try
+                if (fea_type.equals("外帶") || fea_type.equals("外送"))
                 {
-                    fea_endDate = new java.sql.Timestamp(
-                            dateFormat.parse(request.getParameter("fea_endDate").trim()).getTime());
+                    try
+                    {
+                        fea_endDate = new java.sql.Timestamp(
+                                dateFormat.parse(request.getParameter("fea_endDate").trim()).getTime());
+                    }
+                    catch (IllegalArgumentException | ParseException e)
+                    {
+                        fea_endDate = new java.sql.Timestamp(System.currentTimeMillis());
+                        errorMsgs.add("請輸入訂餐截止日期!");
+                    }
                 }
-                catch (IllegalArgumentException | ParseException e)
-                {
-                    fea_endDate = new java.sql.Timestamp(System.currentTimeMillis());
-                    errorMsgs.add("請輸入訂餐截止日期!");
-                }
-
-                String fea_typeReg = "^[(\u4e00-\u9fa5)]{2}$";
-                String fea_type = request.getParameter("fea_type").trim();
-                if (fea_type == null || fea_type.trim().length() == 0)
-                {
-                    errorMsgs.add("飯局類型請勿空白");
-                }
-                else if (!fea_type.trim().matches(fea_typeReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("飯局類型: 只能是外帶,外送或內用, 且長度必需在2到100之間");
-                }
-
+                
                 String fea_locReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9)(-_)]{10,30}$";
                 String fea_loc = request.getParameter("fea_loc").trim();
                 if (fea_loc == null || fea_loc.trim().length() == 0)
@@ -285,9 +291,9 @@ public class FeastInfoServlet extends HttpServlet
                     errorMsgs.add("聚會地址: 只能是中、英文字母、數字和_ , 且長度必需在10到30之間");
                 }
 
-                String fea_status = request.getParameter("fea_status").trim();
+                String fea_status = feastInfoVO.getFea_status();
 
-                FeastInfoVO feastInfoVO = new FeastInfoVO();
+                feastInfoVO = new FeastInfoVO();
 
                 feastInfoVO.setFea_no(fea_no);
                 feastInfoVO.setFea_resNo(fea_resNo);
@@ -415,9 +421,9 @@ public class FeastInfoServlet extends HttpServlet
                 try
                 {
                     fea_date = new java.sql.Timestamp(
-                            dateFormat.parse(request.getParameter("fea_date").trim()).getTime());
+                            dateFormat.parse(request.getParameter("fea_date")).getTime());
                 }
-                catch (IllegalArgumentException | ParseException e)
+                catch (IllegalArgumentException | ParseException | NullPointerException e)
                 {
                     fea_date = new java.sql.Timestamp(System.currentTimeMillis());
                     errorMsgs.add("請輸入飯局日期!");
@@ -427,9 +433,9 @@ public class FeastInfoServlet extends HttpServlet
                 try
                 {
                     fea_startDate = new java.sql.Timestamp(
-                            dateFormat.parse(request.getParameter("fea_startDate").trim()).getTime());
+                            dateFormat.parse(request.getParameter("fea_startDate")).getTime());
                 }
-                catch (IllegalArgumentException | ParseException e)
+                catch (IllegalArgumentException | ParseException | NullPointerException e)
                 {
                     fea_startDate = new java.sql.Timestamp(System.currentTimeMillis());
                     errorMsgs.add("請輸入報名截止日期!");

@@ -33,18 +33,38 @@ public class LoginFilter implements Filter
         Object account = session.getAttribute("memberVO");
         Object resAccount = session.getAttribute("resVO");
 
+        System.out.println("account = " + account);
+        System.out.println("resAccount = " + resAccount);
+        
+        System.out.println("req.getRequestURL() = " + req.getRequestURL());
+        System.out.println("req.getHeader(\"referer\") = " + req.getHeader("referer"));
+
+        System.out.println(req.getRequestURL().toString().contains("mem.jsp"));
+        
         if (account != null)
         {
             chain.doFilter(request, response);
 
         }
-        else if (resAccount != null)
+        else if (resAccount != null && !req.getRequestURL().toString().contains("mem"))
         {
             chain.doFilter(request, response);
         }
         else
         {
-            session.setAttribute("location", req.getHeader("referer") );
+
+            if (req.getAttribute("location") == null)
+            {
+                String location = req.getHeader("referer");
+                if (location == null || location.endsWith(".do"))
+                {
+                    session.setAttribute("location", req.getHeader("referer"));
+                }
+                else
+                {
+                    session.setAttribute("location", req.getRequestURL());
+                }
+            }
             session.setAttribute("login", "false");
             res.sendRedirect(req.getContextPath() + "/hometag.jsp");
             return;

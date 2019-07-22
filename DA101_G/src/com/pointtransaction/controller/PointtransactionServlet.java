@@ -34,7 +34,7 @@ public class PointtransactionServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 
-		if ("getOne_For_Display".equals(action)) { // ¨Ó¦Ûselect_page.jspªº½Ð¨D
+		if ("getOne_For_Display".equals(action)) { // ï¿½Ó¦ï¿½select_page.jspï¿½ï¿½ï¿½Ð¨D
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -42,61 +42,61 @@ public class PointtransactionServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ð¨D°Ñ¼Æ - ¿é¤J®æ¦¡ªº¿ù»~³B²z **********************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ð¨Dï¿½Ñ¼ï¿½ - ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************/
 				String str = req.getParameter("pt_no");
 				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("½Ð¿é¤JÂI¼Æ½s¸¹");
+					errorMsgs.add("ï¿½Ð¿ï¿½Jï¿½Iï¿½Æ½sï¿½ï¿½");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/pointtransaction/pointtransaction_select_page.jsp");
 					failureView.forward(req, res);
-					return;// µ{¦¡¤¤Â_
+					return;// ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½_
 				}
 
 				String pt_no = null;
 				try {
 					pt_no = new String(str);
 				} catch (Exception e) {
-					errorMsgs.add("ÂI¼Æ½s¸¹®æ¦¡¤£¥¿½T");
+					errorMsgs.add("ï¿½Iï¿½Æ½sï¿½ï¿½ï¿½æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½T");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/pointtransaction/pointtransaction_select_page.jsp");
 					failureView.forward(req, res);
-					return;// µ{¦¡¤¤Â_
+					return;// ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½_
 				}
 
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ *****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ *****************************************/
 				PointtransactionService pointtransactionSvc = new PointtransactionService();
 				PointtransactionVO pointtransactionVO = pointtransactionSvc.getOnePointtransaction(pt_no);
 				if (pointtransactionVO == null) {
-					errorMsgs.add("¬dµL¸ê®Æ");
+					errorMsgs.add("ï¿½dï¿½Lï¿½ï¿½ï¿½");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/fooditem_select_page.jsp");
 					failureView.forward(req, res);
-					return;// µ{¦¡¤¤Â_
+					return;// ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½_
 				}
 
-				/*************************** 3.¬d¸ß§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
-				req.setAttribute("pointtransactionVO", pointtransactionVO); // ¸ê®Æ®w¨ú¥XªºempVOª«¥ó,¦s¤Jreq
+				/*************************** 3.ï¿½dï¿½ß§ï¿½ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				req.setAttribute("pointtransactionVO", pointtransactionVO); // ï¿½ï¿½Æ®wï¿½ï¿½ï¿½Xï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½sï¿½Jreq
 				String url = "/pointtransactionVO/listOnePointtransactionVO.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ¦¨¥\Âà¥æ listOneEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ listOneEmp.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("µLªk¨ú±o¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ï¿½Lï¿½kï¿½ï¿½ï¿½oï¿½ï¿½ï¿½:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/listOneFooditem.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
-		if ("getOne_For_Update".equals(action)) { // ¨Ó¦ÛlistAllFooditem.jspªº½Ð¨D
+		if ("getOne_For_Update".equals(action)) { // ï¿½Ó¦ï¿½listAllFooditem.jspï¿½ï¿½ï¿½Ð¨D
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -104,29 +104,29 @@ public class PointtransactionServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ð¨D°Ñ¼Æ ****************************************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ð¨Dï¿½Ñ¼ï¿½ ****************************************/
 				String pt_no = new String(req.getParameter("pt_no"));
 
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ ****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
 				PointtransactionService pointtransactionSvc = new PointtransactionService();
 				PointtransactionVO pointtransactionVO = pointtransactionSvc.getOnePointtransaction(pt_no);
 
-				/*************************** 3.¬d¸ß§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) ************/
-				req.setAttribute("pointtransactionVO", pointtransactionVO); // ¸ê®Æ®w¨ú¥XªºfooditemVOª«¥ó,¦s¤Jreq
+				/*************************** 3.ï¿½dï¿½ß§ï¿½ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) ************/
+				req.setAttribute("pointtransactionVO", pointtransactionVO); // ï¿½ï¿½Æ®wï¿½ï¿½ï¿½Xï¿½ï¿½fooditemVOï¿½ï¿½ï¿½ï¿½,ï¿½sï¿½Jreq
 				String url = "/pointtransaction/update_pointtransaction_input.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// ¦¨¥\Âà¥æ update_fooditem_input.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url);// ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ update_fooditem_input.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z **********************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************************/
 			} catch (Exception e) {
-				errorMsgs.add("µLªk¨ú±o­n­×§ïªº¸ê®Æ:" + e.getMessage());
+				errorMsgs.add("ï¿½Lï¿½kï¿½ï¿½ï¿½oï¿½nï¿½×§ïªºï¿½ï¿½ï¿½:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/pointtransaction/listAllpointtransaction.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
-		if ("update".equals(action)) { // ¨Ó¦Ûupdate_fooditem_input.jspªº½Ð¨D
+		if ("update".equals(action)) { // ï¿½Ó¦ï¿½update_fooditem_input.jspï¿½ï¿½ï¿½Ð¨D
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -134,7 +134,7 @@ public class PointtransactionServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ð¨D°Ñ¼Æ - ¿é¤J®æ¦¡ªº¿ù»~³B²z **********************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ð¨Dï¿½Ñ¼ï¿½ - ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************/
 				String pt_no = req.getParameter("pt_no").trim();
 				String pt_memno = req.getParameter("pt_memno").trim();
 				String pt_resno = req.getParameter("pt_memno").trim();
@@ -144,7 +144,7 @@ public class PointtransactionServlet extends HttpServlet {
 					pt_nt = new Double(req.getParameter("pt_nt").trim());
 				} catch (NumberFormatException e) {
 					pt_nt = 0.0;
-					errorMsgs.add("½Ð¶ñ¼Æ¦r.");
+					errorMsgs.add("ï¿½Ð¶ï¿½Æ¦r.");
 				}
 
 				PointtransactionVO pointtransactionVO = new PointtransactionVO();
@@ -156,32 +156,32 @@ public class PointtransactionServlet extends HttpServlet {
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("pointtransactionVO", pointtransactionVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
+					req.setAttribute("pointtransactionVO", pointtransactionVO); // ï¿½tï¿½ï¿½ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½~ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½]ï¿½sï¿½Jreq
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/pointtransaction/update_pointtransaction_input.jsp");
 					failureView.forward(req, res);
-					return; // µ{¦¡¤¤Â_
+					return; // ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½_
 				}
 
-				/*************************** 2.¶}©l­×§ï¸ê®Æ *****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
 				PointtransactionService pointtransactionSvc = new PointtransactionService();
 				pointtransactionVO = pointtransactionSvc.updatePointtransaction(pt_no, pt_memno, pt_resno, pt_nt);
 
-				/*************************** 3.­×§ï§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
-				req.setAttribute("pointtransactionVO", pointtransactionVO); // ¸ê®Æ®wupdate¦¨¥\«á,¥¿½TªºªºempVOª«¥ó,¦s¤Jreq
+				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				req.setAttribute("pointtransactionVO", pointtransactionVO); // ï¿½ï¿½Æ®wupdateï¿½ï¿½ï¿½\ï¿½ï¿½,ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½sï¿½Jreq
 				String url = "/pointtransactionVO/listOnepointtransactionVO.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ­×§ï¦¨¥\«á,Âà¥ælistOneEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // ï¿½×§ï¦¨ï¿½\ï¿½ï¿½,ï¿½ï¿½ï¿½listOneEmp.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("­×§ï¸ê®Æ¥¢±Ñ:" + e.getMessage());
+				errorMsgs.add("ï¿½×§ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/update_fooditem_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
-		if ("insert".equals(action)) { // ¨Ó¦ÛaddFooditem.jspªº½Ð¨D
+		if ("insert".equals(action)) { // ï¿½Ó¦ï¿½addFooditem.jspï¿½ï¿½ï¿½Ð¨D
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -189,7 +189,7 @@ public class PointtransactionServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*********************** 1.±µ¦¬½Ð¨D°Ñ¼Æ - ¿é¤J®æ¦¡ªº¿ù»~³B²z *************************/
+				/*********************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ð¨Dï¿½Ñ¼ï¿½ - ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************/
 				String pt_no = req.getParameter("pt_no").trim();	
 				String pt_memno = req.getParameter("fo_resno").trim();
 				String pt_resno = req.getParameter("fo_name");
@@ -199,7 +199,7 @@ public class PointtransactionServlet extends HttpServlet {
 					pt_nt = new Double(req.getParameter("pt_nt").trim());
 				} catch (NumberFormatException e) {
 					pt_nt = 0.0;
-					errorMsgs.add("½Ð¶ñ¼Æ¦r.");
+					errorMsgs.add("ï¿½Ð¶ï¿½Æ¦r.");
 				}
 				
 			
@@ -211,22 +211,22 @@ public class PointtransactionServlet extends HttpServlet {
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("pointtransactionVO", pointtransactionVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
+					req.setAttribute("pointtransactionVO", pointtransactionVO); // ï¿½tï¿½ï¿½ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½~ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½]ï¿½sï¿½Jreq
 					RequestDispatcher failureView = req.getRequestDispatcher("/pointtransaction/addPointtransaction.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 
-				/*************************** 2.¶}©l·s¼W¸ê®Æ ***************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½sï¿½Wï¿½ï¿½ï¿½ ***************************************/
 				PointtransactionService pointtransactionSvc = new PointtransactionService();
-				pointtransactionVO = pointtransactionSvc.addPointtransaction(pt_no, pt_memno, pt_resno, pt_nt);
+				pointtransactionVO = pointtransactionSvc.addPointtransaction(pt_memno, pt_resno, pt_nt);
 
-				/*************************** 3.·s¼W§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) ***********/
+				/*************************** 3.ï¿½sï¿½Wï¿½ï¿½ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) ***********/
 				String url = "/pointtransaction/listAllpointtransaction.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ·s¼W¦¨¥\«áÂà¥ælistAllFooditem.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // ï¿½sï¿½Wï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½listAllFooditem.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z **********************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/pointtransaction/addPointtransaction.jsp");
@@ -234,7 +234,7 @@ public class PointtransactionServlet extends HttpServlet {
 			}
 		}
 
-		if ("delete".equals(action)) { // ¨Ó¦ÛlistAllFooditem.jsp
+		if ("delete".equals(action)) { // ï¿½Ó¦ï¿½listAllFooditem.jsp
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -242,21 +242,21 @@ public class PointtransactionServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*************************** 1.±µ¦¬½Ð¨D°Ñ¼Æ ***************************************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ð¨Dï¿½Ñ¼ï¿½ ***************************************/
 				String pt_no = (req.getParameter("pt_no"));
 
-				/*************************** 2.¶}©l§R°£¸ê®Æ ***************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½ ***************************************/
 				PointtransactionService pointtransactionSvc = new PointtransactionService();
 				pointtransactionSvc.deletePointtransaction(pt_no);
 
-				/*************************** 3.§R°£§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) ***********/
+				/*************************** 3.ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) ***********/
 				String url = "/pointtransaction/listAllPointtransaction.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// §R°£¦¨¥\«á,Âà¥æ¦^°e¥X§R°£ªº¨Ó·½ºô­¶
+				RequestDispatcher successView = req.getRequestDispatcher(url);// ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½,ï¿½ï¿½ï¿½^ï¿½eï¿½Xï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½ï¿½ï¿½
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z **********************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************************/
 			} catch (Exception e) {
-				errorMsgs.add("§R°£¸ê®Æ¥¢±Ñ:" + e.getMessage());
+				errorMsgs.add("ï¿½Rï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/pointtransaction/listAllPointtransaction.jsp");
 				failureView.forward(req, res);
 			}

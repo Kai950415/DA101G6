@@ -55,12 +55,16 @@ public class OrdService {
 	public List<OrdVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public List<OrdVO> getAllOrdByResFromFea(String ord_resno,String ord_fea_no) {
+		return dao.getAll();
+	}
 
 	public Set<Ord_detailsVO> getOrdDetByOrdno(String ord_no) {
 		return dao.getOrdDetByOrdno(ord_no);
 	}
 
-	public void addWithDetails(String ord_fea_no, String ord_memno, String ord_resno, Integer ord_price,
+	public OrdVO addWithDetails(String ord_fea_no, String ord_memno, String ord_resno, Integer ord_price,
 			Timestamp ord_date, String ord_status, String ord_type, List<Ord_detailsVO> list) {
 		OrdVO ordVO = new OrdVO();
 		
@@ -74,5 +78,7 @@ public class OrdService {
 		ordVO.setOrd_type(ord_type);
 		
 		dao.insertWithDetails(ordVO, list);
+		
+		return ordVO;
 	}
 }

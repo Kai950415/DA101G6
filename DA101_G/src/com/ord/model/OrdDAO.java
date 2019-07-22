@@ -385,6 +385,7 @@ public class OrdDAO implements OrdDAO_interface {
 				System.out.println("未取得自增主鍵值");
 			}
 			rs.close();
+			ordVO.setOrd_no(next_ord_no);//將綁出來的主鍵 set到VO 方便秀資料
 			// 再同時新增員工
 			Ord_detailsDAO dao = new Ord_detailsDAO();
 			System.out.println("list.size()-A="+list.size());

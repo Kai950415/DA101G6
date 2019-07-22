@@ -85,7 +85,7 @@ body {
 
 </head>
 <body>
-<%@ include file="/header.jsp"%>
+	<%@ include file="/header.jsp"%>
 	<br>
 	<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 	<jsp:useBean id="MemVO" scope="page" class="com.mem.model.MemVO" />
@@ -95,9 +95,7 @@ body {
 				<h1>關於我</h1>
 			</div>
 			<div class="col-sm-2">
-				<a href="#" class="pull-right"><img title="profile image"
-					class="img-circle"
-					src="https://picsum.photos/100/100"></a>
+				<a href="#" class="pull-right"><img id="logo" src="<%=request.getContextPath()%>/images/lol.gif" style="width:100px;height: 100%;"></a>
 			</div>
 		</div>
 		<div class="row">
@@ -252,7 +250,7 @@ body {
 										value="${memberVO.mem_bd}">
 								</div>
 								<div class="form-group col-sm-6">
-									<label for="mobile"><h4>連絡電話</h4></label> <input type="text"
+									<label for="mobile"><h4>連絡電話</h4></label> <input type="number"
 										class="form-control" name="mem_ph" id="mobile"
 										placeholder="你的電話號碼" title="PhoneNumber"
 										value="${memberVO.mem_ph}">
@@ -267,10 +265,9 @@ body {
 										value="${memberVO.mem_email}">
 								</div>
 								<div class="form-group col-sm-6">
-									<label for="location"><h4>地址</h4></label> <input type="text"
-										class="form-control" name="mem_adrs" id="location"
-										placeholder="某地" title="enter a location"
-										value="${memberVO.mem_adrs}">
+										<label for="location"><h4>地址</h4></label> <input type="text"
+										class="form-control" name="mem_adrs" id="location" placeholder="某地"
+										title="enter a location" value="${memberVO.mem_adrs}">
 								</div>
 							</div>
 

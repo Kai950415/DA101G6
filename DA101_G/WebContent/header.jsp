@@ -28,32 +28,6 @@ body {
 #logout {
 	background-color: #F4D03F;
 }
-
-/* #logout .btn ::before {  */
-/*  	content: '';  */
-/*  	z-index: -1;  */
-/*  	position: absolute;  */
-/*  	top: 50%;  */
-/*  	left: 50%;  */
-/*  	width: 1em;  */
-/*  	height: 1em;  */
-/*  	border-radius: 50%;  */
-/*  	background-color: #F4D03F;  */
-/*  	transform-origin: center;  */
-/*  	transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 0);  */
-/*  	transition: transform 0.45s ease-in-out;  */
-/*  }  */
-
-/* #logout  :hover {  */
-/*  	cursor: pointer;  */
-/*  	color: #ccc;  */
-/*  	opacity: 0.5; */
-/*  }  */
-
-/* #logout :hover ::before {  */
-/* 	transform: translate3d(-50%, -50%, 0) scale3d(15, 15, 15); */
-/* 	background-color: #F4D03F; */
-/*  }  */
 .navbar .navbar-nav .nav-item .nav-link {
 	position: relative;
 }
@@ -215,11 +189,20 @@ footer {
 						<span><span>目前點數尚餘:&nbsp</span><span style="color: green;">${memberVO.mem_point}</span>點&nbsp</span>
 						&nbsp &nbsp
 
-						<li class="nav-item"><a class="nav-link"
-							href="<%=request.getContextPath()%>/front-end/mem/mem.jsp">個人檔案</a>
-						</li>
+						<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+						id="navbarDropdown"	href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						設定</a>
+						
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/mem/mem.jsp">個人檔案設定</a>
+						<a class="dropdown-item" href="#">...</a>
+						<a class="dropdown-item" href="#">...要甚麼自己加</a>
+						<a class="dropdown-item" href="#">...要甚麼自己加</a>
+						
 						<li class="nav-item"><input id="logout" type="submit"
-							class="btn" name="登出" value="登出"></li>
+							class="btn" name="登出" value="登出">
+						</li>
+						</div>
 
 
 					</form>

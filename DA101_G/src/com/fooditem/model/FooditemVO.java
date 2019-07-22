@@ -10,7 +10,14 @@ public class FooditemVO implements Serializable {
 	private byte[] fo_img;
 	private String fo_intro;
 	private String fo_status;
+	private Integer fo_quantity; // for 訂單使用 不存資料庫
 	
+	public Integer getFo_quantity() {
+		return fo_quantity;
+	}
+	public void setFo_quantity(Integer fo_quantity) {
+		this.fo_quantity = fo_quantity;
+	}
 	public String getFo_no() {
 		return fo_no;
 	}
@@ -56,6 +63,29 @@ public class FooditemVO implements Serializable {
 	}
 	public void setFo_status(String fo_status) {
 		this.fo_status = fo_status;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fo_no == null) ? 0 : fo_no.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FooditemVO other = (FooditemVO) obj;
+		if (fo_no == null) {
+			if (other.fo_no != null)
+				return false;
+		} else if (!fo_no.equals(other.fo_no))
+			return false;
+		return true;
 	}
 
 	

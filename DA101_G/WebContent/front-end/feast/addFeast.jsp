@@ -182,6 +182,8 @@ section.range-slider input[type=range]::-moz-focus-outer {
 
 	<%@ include file="/header.jsp"%>
 
+<br>
+<br>
 	<div class="container">
 		<div class="row center">
 			<div class="col-md-8">
@@ -236,7 +238,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 								<div id="otherBox" style="visibility: hidden;">
 									<label>訂餐截止日期:</label> <input class="form-control"
 										name="fea_endDate" id="enddate"
-										value="<%=(feastInfoVO == null) ? "" : dateFormat.format(endDate)%>">
+										value="<%=(feastInfoVO == null) ? "" : ((feastInfoVO.getFea_endDate() != null) ? dateFormat.format(endDate) : "")%>">
 								</div>
 							</div>
 						</div>
@@ -265,17 +267,16 @@ section.range-slider input[type=range]::-moz-focus-outer {
 								<section class="range-slider">
 									<span class="rangeValues"></span> <input
 										value="<%=(feastInfoVO == null) ? "2" : feastInfoVO.getFea_lowLim()%>"
-										min="2" max="100" step="1" type="range" name="fea_lowLim">
+										min="2" max="20" step="1" type="range" name="fea_lowLim">
 									<input
-										value="<%=(feastInfoVO == null) ? "100" : feastInfoVO.getFea_upLim()%>"
-										min="2" max="100" step="1" type="range" name="fea_upLim"
+										value="<%=(feastInfoVO == null) ? "20" : feastInfoVO.getFea_upLim()%>"
+										min="2" max="20" step="1" type="range" name="fea_upLim"
 										class="form-control">
 								</section>
 							</div>
 								<div class="col-sm-6">
 					  			<input type="hidden" name="action" value="insert" >
-<input type="submit" value="送出新增"
-									class="form-control btn btn-success">
+							<input type="submit" value="送出新增" class="form-control btn btn-primary">
 							</div>
 								
 						</div>
@@ -311,7 +312,7 @@ function otherSelect() {
 
 <script>
 
-$('#startdate').attr('disabled', 'disabled');
+$('#startdate').attr('readonly', 'readonly');
 $('#enddate').attr('disabled', 'disabled');
 
 $.datetimepicker.setLocale('zh');
@@ -321,12 +322,10 @@ $('#feastdate').datetimepicker({
 	   timepicker:true,       //timepicker:true,
 	   step: 30,                //step: 60 (這是timepicker的預設間隔60分鐘)
 	   format:'Y-m-d H:i',         //format:'Y-m-d H:i:s',
-	   value: '<%=feastDate%>
-	',
+	   value: '<%=feastDate%>',
 		minDate : '-1970-01-01',
-		minTime : 0,
 		onShow : function() {
-			this.setOptions({}, $('#startdate').removeAttr('disabled'))
+			this.setOptions({}, $('#startdate').removeAttr('readonly'))
 		}
 	});
 

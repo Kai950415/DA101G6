@@ -13,12 +13,12 @@ public class PointtransactionService {
 		po = new PointtransactionDAO();
 	}
 	
-	public PointtransactionVO addPointtransaction(String pt_no, String pt_memno,
+	public PointtransactionVO addPointtransaction(String pt_memno,
 			String pt_resno, Double pt_nt) {
 
 		PointtransactionVO pointtransactionVO = new PointtransactionVO();
 
-		pointtransactionVO.setPt_no(pt_no);
+
 		pointtransactionVO.setPt_memno(pt_memno);
 		pointtransactionVO.setPt_resno(pt_resno);
 		pointtransactionVO.setPt_nt(pt_nt);

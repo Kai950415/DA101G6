@@ -19,8 +19,34 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
-		<url-pattern>/front-end/feast/*</url-pattern>
-		<url-pattern>/front-end/fooditem/listAllFooditem.jsp</url-pattern>
+		<url-pattern>/front-end/feast/addFeast.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/front-end/feast/listOneFeast.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/front-end/feast/update_feast_input.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/front-end/mem/mem.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -95,6 +121,15 @@
 		<servlet-name>AdServlet</servlet-name>
 		<url-pattern>/front-end/ad/ad.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>OrdServlet</servlet-name>
+		<servlet-class>com.ord.controller.OrdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrdServlet</servlet-name>
+		<url-pattern>/front-end/ord/ord.do</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>PicServlet</servlet-name>
@@ -121,6 +156,15 @@
 	<servlet-mapping>
 		<servlet-name>PicServlet3</servlet-name>
 		<url-pattern>/back-end/resAd/resAdPhoto.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PicServlet4</servlet-name>
+		<servlet-class>com.pictools.FoodPhoto</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PicServlet4</servlet-name>
+		<url-pattern>/back-end/ord/resOrdPhoto.do</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
