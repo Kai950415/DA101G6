@@ -7,14 +7,14 @@
 
 <%
     AdService adSvc = new AdService();
-    List<AdVO> list = adSvc.getAll();
+    List<AdVO> list = adSvc.getAllNotReview();
     pageContext.setAttribute("list",list);
 %>
 
 
 <html>
 <head>
-<title>所有廣告資料 - listAllAd.jsp</title>
+<title>所有待審核廣告 - listAllAd_BE.jsp</title>
 
 <style>
   table#table-1 {
@@ -55,7 +55,7 @@
 <h4>此頁練習採用 EL 的寫法取值:</h4>
 <table id="table-1" width="1600px">
 	<tr><td>
-		 <h3>所有廣告資料 - listAllAd.jsp</h3>
+		 <h3>所有待審核廣告 - listAllAd_BE.jsp</h3>
 		 <h4><a href="/DA101G6/back-end/ad/ad_BE.jsp"><img src="/DA101G6/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
 	</td></tr>
 </table>
@@ -83,13 +83,15 @@
 		<th>修改</th>
 	</tr>
 	 
-	<%@ include file="/page1.file" %> 
+	<%@ include file="/page1.file" %>
 	<c:forEach var="adVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr>
 			<td>${adVO.ad_no}</td>
 			<td>${adVO.ad_resno}</td>
 			<td>${adVO.ad_title}</td>
-			<td>${adVO.ad_text}</td>
+			<td><textarea class="form-control" id="exampleFormControlTextarea3" cols="150" rows="50"
+					style="resize:none;border: 0px;outline:none;Comparator.reverseOrder()" 
+					readonly="readonly">${adVO.ad_text}</textarea></td>
 			<td><img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}" width="300" height="200"> </td>
 			<td>${adVO.ad_start}</td> 
 			<td>${adVO.ad_end}</td> 
@@ -98,7 +100,9 @@
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/ad/ad.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
 			     <input type="hidden" name="ad_no"  value="${adVO.ad_no}">
-			     <input type="hidden" name="action"	value="getOneResAd_For_Update_By_Admin"></FORM>
+			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 		</tr>
 	</c:forEach>

@@ -21,7 +21,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 	private static final String DELETE			=
 			"DELETE FROM reportLm where REPOLM_NO = ?";
 	private static final String UPDATE			=
-			"UPDATE reportLm set REPOLM_LMANO=?, REPOLM_MEMNO=?, REPOLM_TEXT=?, REPOLM_STATUS=? where REPOLM_NO = ?";
+			"UPDATE reportLm set  REPOLM_STATUS=? where REPOLM_NO = ?";
 	
 
 	@Override
@@ -85,12 +85,9 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
-			
-			pstmt.setString(1, ReportLmVO.getRepolm_lmano());
-			pstmt.setString(2, ReportLmVO.getRepolm_memno());
-			pstmt.setString(3, ReportLmVO.getRepolm_text());
-			pstmt.setString(4, ReportLmVO.getRepolm_status());
-			pstmt.setString(5, ReportLmVO.getRepolm_no());
+			pstmt.setString(1, ReportLmVO.getRepolm_status());
+			pstmt.setString(2, ReportLmVO.getRepolm_no());
+
 
 			pstmt.executeUpdate();
 
@@ -296,10 +293,10 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 		}
 		return list;
 	}
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 		
-		ReportLmDAO dao = new ReportLmDAO();
+//		ReportLmDAO dao = new ReportLmDAO();
 		
 		//新增
 //		ReportLmVO ReportLmVO1 = new ReportLmVO();
@@ -320,7 +317,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 //		dao.update(rep);
 //		
 		//刪除
-		dao.delete("RL000006");
+//		dao.delete("RL000006");
 		
 		//查詢
 //		ReportLmVO ReportLmVO3 = dao.findByPrimaryKey("RL000001");
@@ -340,7 +337,7 @@ public class ReportLmDAO implements ReportLmDAO_interface {
 //
 //		System.out.println();
 //		}
-	}
+//	}
 	
 }
 

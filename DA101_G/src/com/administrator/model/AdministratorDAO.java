@@ -24,6 +24,7 @@ public class AdministratorDAO implements AdministratorDAO_interface
     private static final String GET_ALL_STMT = "SELECT * FROM administrator order by ADMIN_NO";
     private static final String GET_ONE_STMT = "SELECT * FROM administrator where ADMIN_NO = ?";
 
+    private static final String GET_ONE_STMT_BT_AC = "SELECT * FROM administrator where ADMIN_AC = ?";
 	@Override
 	public void insert(AdministratorVO administratorVO) {
 
@@ -277,14 +278,61 @@ public class AdministratorDAO implements AdministratorDAO_interface
 	}
 
 	@Override
-	public void delete(Integer admin_no) {
-		// TODO Auto-generated method stub
-		
-	}
+    public AdministratorVO findByPrimaryKeyByAc(String admin_ac) {
 
-	@Override
-	public AdministratorVO findByPrimaryKey(Integer admin_no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        AdministratorVO administratorVO = null;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName(driver);
+            con = DriverManager.getConnection(url, userid, passwd);
+            pstmt = con.prepareStatement(GET_ONE_STMT_BT_AC);
+
+            pstmt.setString(1, admin_ac);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // empVo �]�٬� Domain objects
+                administratorVO = new AdministratorVO();
+                administratorVO.setAdmin_no(rs.getString("admin_no"));
+                administratorVO.setAdmin_ac(rs.getString("admin_ac"));
+                administratorVO.setAdmin_pass(rs.getString("admin_pass"));
+                administratorVO.setAdmin_name(rs.getString("admin_name"));
+            }
+            // Handle any driver errors
+        } catch (SQLException se) {
+            throw new RuntimeException("A database error occured. "
+                    + se.getMessage());
+            // Clean up JDBC resources
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return administratorVO;
+    }
 }

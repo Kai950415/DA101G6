@@ -74,7 +74,7 @@ background-color: #ED8532;
 					<div class="carousel-item active">
 						<a href="<%=request.getContextPath()%>/front-end/ad/ad.do?ad_no=${adVO.ad_no}&action=showAdInfo">
 							<img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}"
-								class="d-block h-50 w-100" alt="...">
+								 alt="..." style="width:1080px; height:500px;">
 						</a>
 						<div class="carousel-caption d-none d-md-block">
 							<h5>第<%=CountAd%>廣告區</h5>
@@ -87,7 +87,7 @@ background-color: #ED8532;
 					<div class="carousel-item">
 						<a href="<%=request.getContextPath()%>/front-end/ad/ad.do?ad_no=${adVO.ad_no}&action=showAdInfo">
 							<img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}"
-								class="d-block h-50 w-100" alt="...">
+								 alt="..." style="width:1080px; height:500px;">
 						</a>
 						<div class="carousel-caption d-none d-md-block">
 							<h5>第<%=CountAd%>廣告區</h5>
@@ -205,7 +205,7 @@ background-color: #ED8532;
 										value="getOne_For_Display"> <input type="hidden"
 										class="form-check-input" name="fea_no"
 										value="${feastInfoVO.fea_no}">
-									<button type="submit" class="btn btn-primary" id="join">JOIN!</button>
+									<button type="submit" class="btn btn-primary">JOIN!</button>
 								</form>
 							</div>
 						</div>
@@ -215,7 +215,6 @@ background-color: #ED8532;
 
 				<hr>
 				<%@ include file="/front-end/page2.file"%>
-
 
 			</div>
 			<!-- /.container -->

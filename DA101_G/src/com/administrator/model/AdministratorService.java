@@ -40,6 +40,11 @@ public class AdministratorService {
 	public AdministratorVO getOneAdministrator(String admin_no) {
 		return dao.findByPrimaryKey(admin_no);
 	}
+	
+	public AdministratorVO getOneAdminByAccount(String admin_ac) {
+        return dao.findByPrimaryKeyByAc(admin_ac);
+    }
+	
 	public List<AdministratorVO> getAll(){
 		return dao.getAll();
 	}

@@ -85,9 +85,13 @@
 			</tr>
 			
 			<tr>
-				<td>廣告內文::</td>
-				<td><textarea type="TEXT" name="ad_text" size="45" style="resize:none;margin: 0px; width: 1080px; height: 500px;">
-				<%=(adVO == null) ? "" : adVO.getAd_text()%></textarea></td>
+				<td>廣告內文:</td>
+				<td>
+					<div class="form-group">
+ 				 	<label for="exampleFormControlTextarea3"></label>
+  					<textarea class="form-control" id="exampleFormControlTextarea3" name="ad_text" cols="150" rows="50" style="resize:none;"><%=(adVO == null) ? "" : adVO.getAd_text()%></textarea>
+  					</div>
+  				</td>
 			</tr>
 			
 			<tr>

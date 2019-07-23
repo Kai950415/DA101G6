@@ -54,6 +54,20 @@
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>loginFilterForBack</filter-name>
+		<filter-class>filters.LoginFilterForBackEnd</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilterForBack</filter-name>
+		<url-pattern>/back-end/BackTag.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
 	<servlet>
 		<servlet-name>MyFeastServlet</servlet-name>
 		<servlet-class>com.myfeast.controller.MyFeastServlet</servlet-class>
@@ -185,4 +199,29 @@
 		<servlet-name>LeaveMessageServlet</servlet-name>
 		<url-pattern>/front-end/post/leavemessage.do</url-pattern>
 	</servlet-mapping>
+	
+	 <servlet>
+    <servlet-name>FriendListServlet</servlet-name>
+    <servlet-class>com.friendlist.controller.FriendListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FriendListServlet</servlet-name>
+    <url-pattern>/front-end/friendlist/friendlist.do</url-pattern>
+  </servlet-mapping>
+  
+  	<servlet>
+		<servlet-name>ReportLmServlet</servlet-name>
+		<servlet-class>com.reportlm.controller.ReportLmServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ReportLmServlet</servlet-name>
+		<url-pattern>/front-end/post/reportLM.do</url-pattern>
+	</servlet-mapping>
+		
+	<servlet-mapping>
+		<servlet-name>ReportLmServlet</servlet-name>
+		<url-pattern>/back-end/reportlm/reportLM.do</url-pattern>
+	</servlet-mapping>
+  
 </web-app>

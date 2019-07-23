@@ -13,8 +13,11 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/all.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/imges/lol.gif" width="10px">
 
-
+<!-- Custom styles for this template -->
+<link href="<%=request.getContextPath()%>/css/small-business.css"
+	rel="stylesheet">
 <style>
 body {
 	font-family: "微軟正黑體";
@@ -28,6 +31,7 @@ body {
 #logout {
 	background-color: #F4D03F;
 }
+
 .navbar .navbar-nav .nav-item .nav-link {
 	position: relative;
 }
@@ -189,24 +193,24 @@ footer {
 						<span><span>目前點數尚餘:&nbsp</span><span style="color: green;">${memberVO.mem_point}</span>點&nbsp</span>
 						&nbsp &nbsp
 
-						<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
-						id="navbarDropdown"	href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						設定</a>
-						
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/mem/mem.jsp">個人檔案設定</a>
-						<a class="dropdown-item" href="#">...</a>
-						<a class="dropdown-item" href="#">...要甚麼自己加</a>
-						<a class="dropdown-item" href="#">...要甚麼自己加</a>
-						
-						<li class="nav-item"><input id="logout" type="submit"
-							class="btn" name="登出" value="登出">
-						</li>
-						</div>
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" id="navbarDropdown1" href="#"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> 設定</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+								<a class="dropdown-item"
+									href="<%=request.getContextPath()%>/front-end/mem/mem.jsp">個人檔案設定</a>
+								<a class="dropdown-item" href="#">...</a> <a
+									class="dropdown-item" href="#">...要甚麼自己加</a> <a
+									class="dropdown-item" href="#">...要甚麼自己加</a>
 
-
+								<li class="nav-item"><input id="logout" type="submit"
+									class="btn" name="登出" value="登出"></li>
+							</div>
 					</form>
 				</li>
+
+
 				<%
 					} else if (session.getAttribute("resVO") != null) {
 				%>
@@ -217,17 +221,23 @@ footer {
 						<span><span>目前點數尚餘:&nbsp</span><span style="color: green;">${resVO.res_point}</span>點&nbsp</span>
 						&nbsp &nbsp
 
-						<li class="nav-item"><a class="nav-link" href="#">餐廳檔案</a></li>
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> 餐廳檔案設定 </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="#">...</a> <a
+									class="dropdown-item" href="#">...</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">...</a>
+							</div></li>
 						<li class="nav-item"><input id="logout" type="submit"
 							class=" btn" name="登出" value="登出"></li>
-
 					</form> <%
  	} else {
- %> <a data-toggle="modal" class="btn" href="#" id="loginBtn"
-					data-target="#exampleModal">登入</a>
+ %> <a data-toggle="modal" class="btn" href="#"
+					data-target="#exampleModal" id="logout">登入</a>
 				</li>
-
-
 
 				<%
 					}
@@ -238,103 +248,103 @@ footer {
 		</div>
 	</div>
 </nav>
-<br>
+
 
 <!-- 登入跳出視窗II -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
-<div class="col-lg-12">
-		<div class="modal-content">
+		<div class="col-lg-12">
+			<div class="modal-content">
 
-			
-			<ul class="nav nav-tabs" role="tablist">
-						<li class="nav-item"><a class="nav-link active btn-light"
-							data-toggle="tab" href="#MemLogin" role="tab">會員登入</a></li>
 
-						<li class="nav-item" ><a class="nav-link  btn-light" data-toggle="tab"
-							href="#ShopLogin" role="tab"  >商家登入</a></li>
-			</ul>
-<div class="tab-content">					
-<div role="tabpanel" class="tab-pane active" id="MemLogin">
-					<div class="modal-body col-12 login-form-1" >
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h3>會員登入</h3>
-						<form action="<%=request.getContextPath()%>/loginhandler"
-							method="post">
-							<input type="hidden" name="action" value="memLogin">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="請輸入會員帳號"
-									value="" name="member_id" />
+				<ul class="nav nav-pills" role="tablist">
+					<li class="nav-item"><a class="nav-link active btn-light"
+						data-toggle="tab" href="#MemLogin" role="tab">會員登入</a></li>
+
+					<li class="nav-item"><a class="nav-link  btn-light"
+						data-toggle="tab" href="#ShopLogin" role="tab">商家登入</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="MemLogin">
+						<div class="modal-body col-12 login-form-1">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h3>會員登入</h3>
+							<form action="<%=request.getContextPath()%>/loginhandler"
+								method="post">
+								<input type="hidden" name="action" value="memLogin">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="請輸入會員帳號"
+										value="" name="member_id" />
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control"
+										placeholder="請輸入會員密碼" value="" name="mem_pwd" />
+								</div>
+								<div class="form-group">
+									<input type="submit" class="btnSubmit" value="Login" /> <font
+										style="color: red">&nbsp;&nbsp;${errorMsgsForLogin.member}</font>
+								</div>
+								<div class="form-group">
+									<a href="#" class="ForgetPwd">註冊成為會員</a>
+								</div>
+							</form>
+							<div class="modal-footer">
+								<button id="BtnS" type="button" class="btn btn-secondary"
+									data-dismiss="modal">關閉</button>
 							</div>
-							<div class="form-group">
-								<input type="password" class="form-control"
-									placeholder="請輸入會員密碼" value="" name="mem_pwd" />
-							</div>
-							<div class="form-group">
-								<input type="submit" class="btnSubmit" value="Login" /> <font
-									style="color: red">&nbsp;&nbsp;${errorMsgsForLogin.member}</font>
-							</div>
-							<div class="form-group">
-								<a href="#" class="ForgetPwd">註冊成為會員</a>
-							</div>
-						</form>
-						<div class="modal-footer">
-							<button id="BtnS" type="button" class="btn btn-secondary"
-								data-dismiss="modal">關閉</button>
 						</div>
 					</div>
-</div>
-					
-<div role="tabpanel" class="tab-pane fade" id="ShopLogin">
-					<div class="modal-body col-12 login-form-2" >
-						<h3>商家登入</h3>
-						<form action="<%=request.getContextPath()%>/loginhandler"
-							method="post">
-							<input type="hidden" name="action" value="resLogin">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="請輸入商家帳號"
-									value="" name="res_ac" />
-							</div>
-							<div class="form-group">
-								<input type="password" class="form-control"
-									placeholder="請輸入商家密碼" value="" name="res_pass" />
-							</div>
-							<div class="form-group">
-								<input type="submit" class="btnSubmit" value="Login" /> <font
-									style="color: red">&nbsp;&nbsp;${errorMsgsForLogin.resMember}</font>
-							</div>
-							<div class="form-group">
-								<a href="#" class="ForgetPwd">註冊成為商家會員</a>
-							</div>
 
-						</form>
-						<div class="modal-footer">
-							<button id="BtnS" type="button" class="btn btn-secondary"
-								data-dismiss="modal">關閉</button>
+					<div role="tabpanel" class="tab-pane fade" id="ShopLogin">
+						<div class="modal-body col-12 login-form-2">
+							<h3>商家登入</h3>
+							<form action="<%=request.getContextPath()%>/loginhandler"
+								method="post">
+								<input type="hidden" name="action" value="resLogin">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="請輸入商家帳號"
+										value="" name="res_ac" />
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control"
+										placeholder="請輸入商家密碼" value="" name="res_pass" />
+								</div>
+								<div class="form-group">
+									<input type="submit" class="btnSubmit" value="Login" /> <font
+										style="color: red">&nbsp;&nbsp;${errorMsgsForLogin.resMember}</font>
+								</div>
+								<div class="form-group">
+									<a href="#" class="ForgetPwd">註冊成為商家會員</a>
+								</div>
+
+							</form>
+							<div class="modal-footer">
+								<button id="BtnS" type="button" class="btn btn-secondary"
+									data-dismiss="modal">關閉</button>
+							</div>
 						</div>
 					</div>
-</div>
-</div>
-</div>
-
 				</div>
 			</div>
+
 		</div>
+	</div>
+</div>
 
 
 
 
 
-
-<script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
-<script
-	src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
 	integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"

@@ -1,165 +1,200 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*, com.feastinfo.model.*, com.myfeast.model.*"%>
+<%@ page
+	import="java.util.*, com.feastinfo.model.*, com.myfeast.model.*"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-    FeastInfoVO feastInfoVO = (FeastInfoVO) request.getAttribute("feastInfoVO");
+	FeastInfoVO feastInfoVO = (FeastInfoVO) request.getAttribute("feastInfoVO");
 
 	MyFeastService myeSvc = new MyFeastService();
-	
+
 	List<MyFeastVO> list = myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no());
-	
-	
-    pageContext.setAttribute("myeSvc", myeSvc);
-    pageContext.setAttribute("list", list);
+
+	pageContext.setAttribute("myeSvc", myeSvc);
+	pageContext.setAttribute("list", list);
 %>
 
 <html lang="en">
-<head></head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="css/all.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<head>
+<title>EGG飯局資料</title>
+<style>
+table {
+	width: 800px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+b,h4{
+	color:#0c85cf;
+}
+</style>
+
+</head>
 
 <body id="list_one_feast">
-<%@ include file="/header.jsp" %>
+	<%@ include file="/header.jsp"%>
+	<c:if test="${not empty errorMsgs}">
+		<font style="color: red">請修正以下錯誤:</font>
+		<ul>
+			<c:forEach var="message" items="${errorMsgs}">
+				<li style="color: red">${message}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
 <br>
-<br>
-<br>
-<br>
-<br>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>飯局資料 - listOneFeast.jsp</h3>
-
-			</td>
-		</tr>
-	</table>
 	<div class="container">
+		
+		
+
+
+
+	</div>
+	</div>
+	<div class="container" id="myfeast">
 		<div class="row">
-				<table class="table">
-
-					<tr>
-
-						<td>飯局編號</td>
-						<td>餐廳編號</td>
-						<td>會員編號</td>
-						<td>標題</td>
-						<td>介紹</td>
-						<td>目前人數</td>
-						<td>人數上限</td>
-						<td>人數下限</td>
-						<td>飯局日期</td>
-						<td>報名截止時間</td>
-						<td>訂餐截止時間</td>
-						
-						
-						<td>飯局類型</td>
-						<div class="col-6">
-						<td>飯局地點</td>
+				<div class="col-9">
+				<div class="card text-center">
+						<div class="card-header" style="display:inline-flex;flex-direction: row;justify-content: space-between;">
+						<c:if test="${!list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))&&(resVO==null)}">
+							<button class="btn btn-outline-success" id="joinfeast" name="mye_feano"value="${feastInfoVO.fea_no}"
+							 style="align-content:flex-start;">加入飯局</button>		 
+						</c:if>
+							<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
+								<FORM METHOD="post"
+									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do"
+									style="margin-bottom: 0px;">
+									<input type="hidden" name="fea_no" value="${feastInfoVO.fea_no}">
+									<input type="hidden" name="action" value="getOne_For_Update">
+									<input type="submit" value="修改" class="btn btn-outline-info">
+								</FORM>
+						</c:if>
+							<h3 style=" align-items:center;">飯局</h3>
+							<h3 style=" align-content:flex-end;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 						</div>
-						<td>飯局狀態</td>
-						
-					</tr>
-					<tr>
-						<td>${feastInfoVO.fea_no}</td>
-						<td>${feastInfoVO.fea_resNo}</td>
-						<td>${feastInfoVO.fea_memNo}</td>
-						<td>${feastInfoVO.fea_title}</td>
-						<td>${feastInfoVO.fea_text}</td>
-						<td>${feastInfoVO.fea_number}</td>
-						<td>${feastInfoVO.fea_upLim}</td>
-						<td>${feastInfoVO.fea_lowLim}</td>
-						<td>${feastInfoVO.fea_date}</td>
-						<td>${feastInfoVO.fea_startDate}</td>
-						<td>${feastInfoVO.fea_endDate}</td>
-						<div class="col-6">
-						<td>${feastInfoVO.fea_type}</td>
+						<div class="card-body">
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label><h4>標題</h4></label>
+									<p class="card-text">${feastInfoVO.fea_title}</p>
+								</div>
+								<div class="form-group col-sm-6">
+									<label><h4>介紹</h4></label>
+									<p>${feastInfoVO.fea_text}</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-4">
+									<p>
+										<b>飯局編號 :</b>${feastInfoVO.fea_no}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<p>
+										<b>餐廳編號 :</b>${feastInfoVO.fea_resNo}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<p>
+										<b>會員編號 :</b>${feastInfoVO.fea_memNo}</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-4">
+									<p><b>目前人數 :</b>${feastInfoVO.fea_number}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<p><b>人數上限 :</b>${feastInfoVO.fea_upLim}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<p><b>人數下限 :</b>${feastInfoVO.fea_lowLim}</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-4">
+									<p><b>飯局類型 :</b>${feastInfoVO.fea_type}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<p><b>飯局地點 :</b>${feastInfoVO.fea_loc}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<p><b>飯局狀態 :</b>${feastInfoVO.fea_status}</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-4">
+									<label><h4>飯局日期 :</h4></label>
+									<p>${feastInfoVO.fea_date}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<label><h4>報名截止時間 :</h4></label>
+									<p>${feastInfoVO.fea_startDate}</p>
+								</div>
+								<div class="form-group col-sm-4">
+									<label><h4>訂餐截止時間 :</h4></label>
+									<p>${feastInfoVO.fea_endDate}</p>
+								</div>
+							</div>
 						</div>
-						<td>${feastInfoVO.fea_loc}</td>
-						<td>${feastInfoVO.fea_status}</td>
-						
-						<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo)}"> 
-						
-						<td>
-							<FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do"
-								style="margin-bottom: 0px;">
-								<input type="hidden" name="fea_no" value="${feastInfoVO.fea_no}"> 
-								<input type="hidden" name="action" value="getOne_For_Update">
-								<input type="submit" value="修改" class="btn btn-primary"> 
-							</FORM>
-						</td>
-						</c:if> 
-						<c:if test="${!list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))&&(resVO==null)}"> 
-						<td>
-							<button class="btn btn-primary" id="joinfeast" name="mye_feano" value="${feastInfoVO.fea_no}">加入飯局</button>
-								
-						</td>
-						</c:if> 
-						
-						<c:if test="${list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && !memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
-						<td>
-							<button class="btn btn-primary" id="leftfeast" name="mye_feano" value="${feastInfoVO.fea_no}">退出</button> 
-							
-						</td>
-						</c:if> 
-						
-						<td>
-						<button type="button" class="btn btn-primary"  onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'" >訂餐</button> 
-						</td>
+						<div class="card-footer text-muted">
+
+							<button type="button" class="btn btn-primary"
+								onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'">訂餐</button>
+							<c:if
+								test="${list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && !memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
+								<button class="btn btn-outline-secondary" id="leftfeast"
+									name="mye_feano" value="${feastInfoVO.fea_no}">退出</button>
+							</c:if>
+						</div>
+					</div>
+					</div>
+					<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
+					<div class="col-3">
+					<table class="table" sytle="border-style:none;">
+					
+					<tr sytle="border-style:none;"><td width="30%">參加者:</td>
+					
 					</tr>
-				</table>
-			</div>
-		</div>
-
-
-		<div class="container" id="myfeast">
-				<div class="row">
-					<div class="col-sm">
-						<table class="table">
-							<tr>
-		
-								<td>飯局編號</td>
-								<td>會員編號</td>
-
-							</tr>
+					
+					<c:forEach var="myFeastVO" items="${list}">
+						<tr sytle="border-style:none;">
+					
 							
-							
-							
-							<c:forEach var="myFeastVO" items="${list}" >
-								
-		
-								<tr>
-									<td>${myFeastVO.mye_feaNo}</td>
-									<td>${myFeastVO.mye_memNo}</td>
-									
-									<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo) && !memberVO.mem_no.equals(myFeastVO.mye_memNo)}"> 
+							<td>${memSvc.memFindByPrimaryKey(myFeastVO.mye_memNo).mem_name}</td>
+
+							<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo) && !memberVO.mem_no.equals(myFeastVO.mye_memNo)}"> 
 						 
-										<td>
-											<button class="btn btn-primary" id="kick_from_feast" name="mye_feano" feano="${myFeastVO.mye_feaNo}" memno="${myFeastVO.mye_memNo}">踢除</button> 
+										<td width="30%">
+											<button class="btn btn-outline-danger kick_from_feast" name="mye_feano" feano="${myFeastVO.mye_feaNo}" memno="${myFeastVO.mye_memNo}">踢</button> 
 										</td>
 								
-									</c:if> 	
-								</tr>
-								
-							</c:forEach>
-							
-							
-						</table>
+									<jsp:useBean id="FLSvc" scope="page" class="com.friendlist.model.FriendListService" />
+									
+<%-- 									<c:if test="${FLSvc.getAll(memberVO.mem_no).contains(FLSvc.findByTwoPrimaryKey(memberVO.mem_no, myFeastVO.mye_memNo))}"> --%>
+										<td width="70%">
+											<button class="btn btn-primary add_friend_feast" name="mye_feano" feano="${myFeastVO.mye_feaNo}" memno="${myFeastVO.mye_memNo}">加好友</button> 
+										</td>
+<%-- 									</c:if> 	 --%>
+									
+							</c:if> 
+						</tr>
+						
+					</c:forEach>
+					</table>
 					</div>
-				</div>
 			</div>
-<script>
+		</div>
+	</div>
+	<script>
 $("#joinfeast"). click(function()
 {
 	console.log('joinFeast')
@@ -196,26 +231,42 @@ $("#leftfeast"). click(function()
 	
 });
 		
-$("#kick_from_feast"). click(function()
-{
-	console.log('kick_from_feast')
-	$.post
-	(
-		"<%=request.getContextPath()%>/front-end/feast/myfeast.do",
-		{ "action": "kick_from_feast", "mye_feano": $('#kick_from_feast').attr('feano'), "mye_memno": $('#kick_from_feast').attr('memno') }
-	).done(function(data)
-			{
+$(".kick_from_feast"). click(function()
+		{
+			console.log('kick_from_feast');
+			console.log($(this).attr('feano'))
+			console.log($(this).attr('memno'))
+			$.post
+			(
+				"<%=request.getContextPath()%>/front-end/feast/myfeast.do",
+				{ "action": "kick_from_feast", "mye_feano": $(this).attr('feano'), "mye_memno": $(this).attr('memno') }
+			).done(function(data)
+					{
+						var newDoc = document.open("text/html", "replace");
+					    newDoc.write(data);
+					    newDoc.close();
+					}
+				  )
+			
+		});
 
-				var newDoc = document.open("text/html", "replace");
-			    newDoc.write(data);
-			    newDoc.close();
-			}
-		  )
-	
-});
-		
-
-</script>
-
+		$(".add_friend_feast"). click(function()
+				{
+					console.log('add_friend_feast')
+					$.post
+					(
+						"<%=request.getContextPath()%>/front-end/friendlist/friendlist.do",
+						{ "action": "insert", "mye_feano": $(this).attr('feano'),  "f_memno": $(this).attr('memno'),  }
+					).done(function(data)
+							{
+								var newDoc = document.open("text/html", "replace");
+							    newDoc.write(data);
+							    newDoc.close();
+							}
+						  )
+					
+				});
+				
+	</script>
 </body>
 </html>

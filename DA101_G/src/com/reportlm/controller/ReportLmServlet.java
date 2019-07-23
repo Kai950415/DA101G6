@@ -7,6 +7,8 @@ import java.util.*;
 
 import javax.servlet.*;
 
+import com.leavemessage.model.LeaveMessageService;
+import com.leavemessage.model.LeaveMessageVO;
 import com.mem.model.MemVO;
 import com.reportlm.model.*;
 
@@ -109,6 +111,7 @@ public class ReportLmServlet extends HttpServlet{
 				/***************************1.接收請求參數****************************************/
 				String repolm_no = new String(req.getParameter("repolm_no"));
 				
+				
 				/***************************2.開始查詢資料****************************************/
 				ReportLmService ReportLmService = new ReportLmService();
 				ReportLmVO ReportLmVO = ReportLmService.getOneReportLm(repolm_no);
@@ -133,64 +136,39 @@ if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-		
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				String repolm_no = new String(req.getParameter("repolm_no").trim());
-				
-				String repolm_lmano = req.getParameter("repolm_lmano");
-				if (repolm_lmano == null || repolm_lmano.trim().length() == 0) {
-					errorMsgs.add("被檢舉的留言編號,請勿空白");
-	            }
-				
-
-				
-				String repolm_memno = req.getParameter("repolm_memno").trim();
-				if (repolm_memno == null || repolm_memno.trim().length() == 0) {
-					errorMsgs.add("會員編號請勿空白");
-				}
-				
-				String repolm_text = req.getParameter("repolm_text").trim();
-				if (repolm_text == null || repolm_text.trim().length() == 0);
-				
+		System.out.println("repolm_no" + repolm_no);
 				String repolm_status = req.getParameter("repolm_status").trim();
-				if (repolm_status == null || repolm_status.trim().length() == 0) {
-					errorMsgs.add("檢舉留言狀態請勿空白");
-				}
-				
-
-				ReportLmVO ReportLmVO = new ReportLmVO();
-				ReportLmVO.setRepolm_no(repolm_no);
-				ReportLmVO.setRepolm_lmano(repolm_lmano);
-				ReportLmVO.setRepolm_memno(repolm_memno);
-				ReportLmVO.setRepolm_text(repolm_text);
-				ReportLmVO.setRepolm_status(repolm_status);
-
+		System.out.println("repolm_status" + repolm_status);
+		
+				String repolm_lmano = new String(req.getParameter("repolm_lmano").trim());
 
 				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("ReportLmVO", ReportLmVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/reportlm/update_reportlm_input.jsp");
-					failureView.forward(req, res);
-					return; //程式中斷
-				}
 				
 				/***************************2.開始修改資料*****************************************/
 				ReportLmService ReportLmService = new ReportLmService();
-				ReportLmVO = ReportLmService.updateRepoLm(repolm_no,repolm_lmano,repolm_memno,repolm_text,repolm_status);
-				
+				ReportLmService.updateRepoLm(repolm_no,repolm_status);
+				if (repolm_status.equals("repolm1")) {
+					LeaveMessageService leaveMessageService = new LeaveMessageService();
+					LeaveMessageVO leaveMessageVO = leaveMessageService.getOneLeaveMessage(repolm_lmano);
+					leaveMessageVO.setLm_status("lm2");
+					leaveMessageService.updateLeaveMessage(leaveMessageVO.getLm_no(),leaveMessageVO.getLm_postno(), leaveMessageVO.getLm_memno(), leaveMessageVO.getLm_text(), leaveMessageVO.getLm_status());		
+				}
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("ReportLmVO", ReportLmVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/reportlm/listOne_ReportLm.jsp";
+				req.setAttribute("update", "true");
+
+				String url = "/BackTag2.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				req.setAttribute("update", "true");
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/reportlm/update_reportlm_input.jsp");
+						.getRequestDispatcher("/BackTag2.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -208,8 +186,7 @@ if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 				String LeaveMessage_lmno = null;
 				String memno = null;
 				MemVO memberVO = new MemVO();
-				
-				
+							
 				LeaveMessage_lmno = req.getParameter("LeaveMessage_lmno");
 				System.out.println(LeaveMessage_lmno);
 				System.out.println("213");

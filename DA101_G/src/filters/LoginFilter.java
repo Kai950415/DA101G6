@@ -22,7 +22,7 @@ public class LoginFilter implements Filter
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws ServletException, IOException
     {
-
+        System.out.println("LoginFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         // 【取得 session】

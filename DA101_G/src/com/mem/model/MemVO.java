@@ -21,7 +21,12 @@ public class MemVO implements Serializable{
 	public MemVO() {
 		super();
 	}
-	
+	public MemVO(String mem_name,String mem_sex,String mem_intro) {
+		super();
+		this.mem_name= mem_name;
+		this.mem_sex = mem_sex;
+		this.mem_intro = mem_intro;
+	}
 	
 
 	public MemVO(String mem_no, String mem_name, String mem_adrs, String mem_sex, Date mem_bd, String mem_ph,

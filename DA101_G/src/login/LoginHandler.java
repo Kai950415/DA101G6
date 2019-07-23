@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.administrator.model.AdministratorService;
+import com.administrator.model.AdministratorVO;
 import com.mem.model.MemService;
 import com.mem.model.MemVO;
 import com.res.model.ResService;
@@ -39,6 +41,23 @@ public class LoginHandler extends HttpServlet
         MemVO memberVO = ms.memFindByAC(member_id);
         if (memberVO != null && mem_pwd.equals(memberVO.getMem_pass()))
             return memberVO;
+        else
+            return null;
+    }
+    
+    protected AdministratorVO allowAdmin(String adminAccount, String adminPass)
+    {
+
+        AdministratorService administratorService = new AdministratorService();
+        AdministratorVO adminVO = administratorService.getOneAdminByAccount(adminAccount);
+        
+        System.out.println("adminAccount = " + adminAccount);
+        System.out.println("adminPass = " + adminPass);
+        System.out.println("adminVO.getAdmin_ac() = " + adminVO.getAdmin_ac());
+        System.out.println("adminVO.getAdmin_pass() = " + adminVO.getAdmin_pass());
+        
+        if (adminVO != null && adminPass.equals(adminVO.getAdmin_pass()))
+            return adminVO;
         else
             return null;
     }
@@ -136,6 +155,32 @@ public class LoginHandler extends HttpServlet
                 {
                 }
                 res.sendRedirect(req.getContextPath() + "/hometag.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
+            }
+        }
+        
+        if ("adminLogin".equals(action))
+        {
+            // 【取得使用者 帳號(account) 密碼(password)】
+            String adminAccount = req.getParameter("adminAccount");
+            String adminPass = req.getParameter("adminPass");
+
+            // 【檢查該帳號 , 密碼是否有效】
+            AdministratorVO adminVO = allowAdmin(adminAccount, adminPass);
+
+            Map<String, String> errorMsgsForLogin = new LinkedHashMap<String, String>();
+            req.setAttribute("errorMsgsForLogin", errorMsgsForLogin);
+            
+            if ((adminVO) == null)
+            { // 【帳號 , 密碼無效時】
+                errorMsgsForLogin.put("adminAccount", "帳號或密碼輸入錯誤");
+                req.getRequestDispatcher("/back-end/adminLogin.jsp").forward(req, res);
+            }
+            else
+            { // 【帳號 , 密碼有效時, 才做以下工作】
+                
+                session.setAttribute("adminVO", adminVO); // *工作1: 才在session內做已經登入過的標識
+
+                res.sendRedirect(req.getContextPath() + "/back-end/BackTag.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
             }
         }
     }

@@ -196,7 +196,6 @@ body.loading .modalForLoad {
 <body>
 
 	<%@ include file="\header.jsp"%>
-	
 
 	<div class="listing-block">
 
@@ -268,6 +267,7 @@ body.loading .modalForLoad {
     } 
 %>
 		<div class="container">
+		<br>
 		<form method="get" accept-charset="UTF-8" action="<%=request.getContextPath()%>/restaurant.jsp?search=<%=search%>" >
 			<div class="form-row align-items-center">
 				<div class="col-9">
@@ -275,7 +275,7 @@ body.loading .modalForLoad {
 				</div>
 				
 				<div class=" mb-2">
-					<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+					<button type="submit" class="btn btn-primary">&nbsp;<i class="fa fa-search"></i>&nbsp;</button>
 				</div>
 				</div>
 		</form>

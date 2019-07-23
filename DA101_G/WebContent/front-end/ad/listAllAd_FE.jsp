@@ -91,16 +91,20 @@
 			<td>${adVO.ad_no}</td>
 			<td>${adVO.ad_resno}</td>
 			<td>${adVO.ad_title}</td>
-			<td>${adVO.ad_text}</td>
+			<td><textarea class="form-control" id="exampleFormControlTextarea3" cols="150" rows="50"
+					style="resize:none;border: 0px;outline:none;" 
+					readonly="readonly">${adVO.ad_text}</textarea></td>
 			<td><img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}" width="300" height="200"> </td>
 			<td>${adVO.ad_start}</td> 
 			<td>${adVO.ad_end}</td> 
 			<td>${FindCodeName.meaning(adVO.ad_status)}</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/ad/ad.do" style="margin-bottom: 0px;">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/ad/ad.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
 			     <input type="hidden" name="ad_no"  value="${adVO.ad_no}">
-			     <input type="hidden" name="action"	value="getOneResAd_For_Update_By_Admin"></FORM>
+			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 		</tr>
 	</c:forEach>
