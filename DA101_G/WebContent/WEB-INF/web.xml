@@ -224,4 +224,16 @@
 		<url-pattern>/back-end/reportlm/reportLM.do</url-pattern>
 	</servlet-mapping>
   
+  
+  <servlet>
+    <servlet-name>FooditemServlet</servlet-name>
+    <servlet-class>com.fooditem.controller.FooditemServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FooditemServlet</servlet-name>
+    <url-pattern>/front-end/fooditem/fooditem.do</url-pattern>
+  </servlet-mapping>
+  
+
+  
 </web-app>

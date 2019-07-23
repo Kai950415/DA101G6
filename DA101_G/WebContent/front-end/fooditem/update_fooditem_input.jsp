@@ -44,11 +44,11 @@
 
 </head>
 <body bgcolor='white'>
-
+<%@ include file="/header.jsp"%>
 <table id="table-1">
 	<tr><td>
 		 <h3>餐點資料修改 - update_fooditem_input.jsp</h3>
-		 <h4><a href="fooditem_select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
+		 <h4><a href="<%=request.getContextPath()%>/front-end/fooditem/fooditem_select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
 	</td></tr>
 </table>
 
@@ -72,7 +72,7 @@
 	</tr>
 	<tr>
 		<td>餐廳編號:</td>
-		<td><input type="TEXT" name="fo_resno" size="45" value="<%=fooditemVO.getFo_resno()%>" /></td>
+		<td><input type="hidden" name="fo_resno" size="45" value="<%=fooditemVO.getFo_resno()%>"/><%=fooditemVO.getFo_resno()%></td>
 	</tr>
 	<tr>
 		<td>名稱:</td>

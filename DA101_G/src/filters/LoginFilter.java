@@ -39,7 +39,6 @@ public class LoginFilter implements Filter
         System.out.println("req.getRequestURL() = " + req.getRequestURL());
         System.out.println("req.getHeader(\"referer\") = " + req.getHeader("referer"));
 
-        System.out.println(req.getRequestURL().toString().contains("mem.jsp"));
         
         if (account != null)
         {

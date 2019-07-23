@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 public class FeastInfoService
 {
     private FeastInfoDAO_interface dao;
@@ -87,6 +89,22 @@ public class FeastInfoService
     {
         return dao.getAll().stream()
                 .filter(feastInfo -> feastInfo.getFea_status().equals("fea1"))
+                .filter(feastInfo -> feastInfo.getFea_startDate().after(new java.sql.Timestamp(System.currentTimeMillis())))
                 .collect(Collectors.toList());
     }
+    
+    public List<FeastInfoVO> getAllHistoryFeastInfo()
+    {
+        return dao.getAll().stream()
+                .filter(feastInfo -> feastInfo.getFea_date().before(new java.sql.Timestamp(System.currentTimeMillis())))
+                .collect(Collectors.toList());
+    }
+    
+    public List<FeastInfoVO> getAllCurrentFeastInfo()
+    {
+        return dao.getAll().stream()
+                .filter(feastInfo -> feastInfo.getFea_date().after(new java.sql.Timestamp(System.currentTimeMillis())))
+                .collect(Collectors.toList());
+    }
+    
 }

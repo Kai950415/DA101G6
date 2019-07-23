@@ -14,7 +14,7 @@ public class PointtransactionDAO implements PointtransactionDAO_interface {
 	String userid = "DA101G6";
 	String passwd = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO PointTransaction (PT_NO,PT_MEMNO,PT_RESNO,PT_NT) VALUES (PointTransaction_seq.NEXTVAL, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO PointTransaction (PT_NO,PT_MEMNO,PT_RESNO,PT_NT) VALUES ('PT'||LPAD(to_char(PointTransaction_seq.NEXTVAL), 6, '0'), ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT PT_NO , PT_MEMNO, PT_RESNO,PT_NT FROM PointTransaction order by PT_NO";
 	private static final String GET_ONE_STMT = "SELECT PT_NO , PT_MEMNO, PT_RESNO,PT_NT FROM PointTransaction where PT_NO = ?";
 	private static final String DELETE = "DELETE FROM PointTransaction where PT_NO = ?";
@@ -28,7 +28,7 @@ public class PointtransactionDAO implements PointtransactionDAO_interface {
 
 		try {
 
-			Class.forName(driver);
+			Class.forName(driver);  //註冊
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
@@ -43,7 +43,7 @@ public class PointtransactionDAO implements PointtransactionDAO_interface {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());  
 			// Clean up JDBC resources
 		} finally {
 			if (pstmt != null) {
@@ -79,6 +79,7 @@ public class PointtransactionDAO implements PointtransactionDAO_interface {
 			pstmt.setString(1, PointtransactionVO.getPt_memno());
 			pstmt.setString(2, PointtransactionVO.getPt_resno());
 			pstmt.setDouble(3, PointtransactionVO.getPt_nt());
+			pstmt.setString(4, PointtransactionVO.getPt_no());
 
 			pstmt.executeUpdate();
 
@@ -87,7 +88,7 @@ public class PointtransactionDAO implements PointtransactionDAO_interface {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
+			throw new RuntimeException("AAA database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
 			if (pstmt != null) {

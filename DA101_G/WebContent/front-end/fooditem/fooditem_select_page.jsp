@@ -1,6 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- fooditem_select_page ­º­¶ -->
+<!-- fooditem_select_page é¦–é  -->
 <html>
 <head>
 <title>FoodItem: Home</title>
@@ -28,18 +28,18 @@
 
 </head>
 <body bgcolor='white'>
-
+<%@ include file="/header.jsp"%>
 <table id="table-1">
    <tr><td><h3>FoodItem: Home</h3><h4>( MVC )</h4></td></tr>
 </table>
 
 <p>This is the Home page for FoodItem: Home</p>
 
-<h3>¸ê®Æ¬d¸ß:</h3>
+<h3>è³‡æ–™æŸ¥è©¢:</h3>
 	
-<%-- ¿ù»~ªí¦C --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
+<c:if test="${not empty errorMsgs}">   
+	<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 	<ul>
 	    <c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
@@ -49,53 +49,46 @@
 
 <ul>
   <li><a href='listAllFooditem.jsp'>List</a> all FoodItem.  <br><br></li>
-
   
+
+  <% if (session.getAttribute("memberVO") == null && session.getAttribute("resVO") == null) { %>
+			<script>
+			alert('æ¬²ç€è¦½å…¶ä»–é é¢ï¼Œè«‹å…ˆç™»å…¥!');
+			</script>
+			<form class="form-inline my-2 my-lg-0" action="<%=request.getContextPath()%>/loginhandler" method="post">
+				<input class="form-control mr-sm-2 bg-white" type="text" placeholder="member_id" name="member_id">
+				<input class="form-control mr-sm-2 bg-white" type="password" placeholder="password" name="mem_pwd">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+			</form>
+			<% } else { %>
+			<form class="form-inline my-2 my-lg-0"  method="GET" action="<%=request.getContextPath()%>/logouthandler">
+				<span><span style="color:blue;">${memberVO.mem_name}</span>ï¼Œæ­¡è¿å›ä¾†!&nbsp&nbsp</span>
+				<span><span>ç›®å‰é»æ•¸å°šé¤˜:&nbsp</span><span style="color:red;">${memberVO.mem_point}</span>é»&nbsp</span>
+				&nbsp &nbsp<button style="padding:0px; padding-left:5px; padding-right:5px; height:28px;" type="submit" class="btn btn-secondary"><span style="font-size:12px;">ç™»å‡º</span></button>
+			</form>
+			<% } %>
   
   
   <li>
     <FORM METHOD="post" ACTION="fooditem.do" >
-        <b>¿é¤JÀ\ÂI½s¸¹ (¦pFO000001):</b>
+        <b>è¼¸å…¥é¤é»ç·¨è™Ÿ (å¦‚FO000001):</b>
         <input type="text" name="fo_no">
         <input type="hidden" name="action" value="getOne_For_Display">
-        <input type="submit" value="°e¥X">
+        <input type="submit" value="é€å‡º">
     </FORM>
   </li>
 
-<%--   <jsp:useBean id="fooditemSvc" scope="page" class="com.fooditem.model.FooditemService" /> --%>
-   
-<!--   <li> -->
-<!--      <FORM METHOD="post" ACTION="fooditem.do" > -->
-<!--        <b>¿ï¾ÜÀ\ÂI½s¸¹:</b> -->
-<!--        <select size="1" name="fo_no"> -->
-<%--          <c:forEach var="fooditemVO" items="${fooditemSvc.all}" >  --%>
-<%--           <option value="${fooditemVO.fo_no}">${fooditemVO.fo_no} --%>
-<%--          </c:forEach>    --%>
-<!--        </select> -->
-<!--        <input type="hidden" name="action" value="getOne_For_Display"> -->
-<!--        <input type="submit" value="°e¥X"> -->
-<!--     </FORM> -->
-<!--   </li> -->
-  
-<!--   <li> -->
-<!--      <FORM METHOD="post" ACTION="fooditem.do" > -->
-<!--        <b>¿ï¾Ü­û¤u©m¦W:</b> -->
-<!--        <select size="1" name="fo_no"> -->
-<%--          <c:forEach var="fooditemVO" items="${fooditemSvc.all}" >  --%>
-<%--           <option value="${fooditemVO.fo_no}">${fooditemVO.ename} --%>
-<%--          </c:forEach>    --%>
-<!--        </select> -->
-<!--        <input type="hidden" name="action" value="getOne_For_Display"> -->
-<!--        <input type="submit" value="°e¥X"> -->
-<!--      </FORM> -->
-<!--   </li> -->
+
 </ul>
 
 
-<h3>À\ÂIºŞ²z</h3>
+<h3>é¤é»ç®¡ç†</h3>
+
+
+
 
 <ul>
-  <li><a href='addFooditem.jsp'>Add</a> a new Fooditem.</li>
+  <li><a href='addFooditem.jsp'>è¨»å†Š</a> a new Fooditem.</li>
 </ul>
 
 </body>

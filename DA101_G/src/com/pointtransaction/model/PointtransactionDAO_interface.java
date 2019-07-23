@@ -8,6 +8,7 @@ public interface PointtransactionDAO_interface {
      public void delete(String pt_no);
      public PointtransactionVO findByPrimaryKey(String pt_no);
      public List<PointtransactionVO> getAll();
-     //�U�νƦX�d��(�ǤJ�Ѽƫ��AMap)(�^�� List)
+     
+   //萬用複合查詢(傳入參數型態Map)(回傳 List)
 //   public List<EmpVO> getAll(Map<String, String[]> map); 
 }

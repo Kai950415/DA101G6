@@ -186,7 +186,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 <br>
 	<div class="container">
 		<div class="row center">
-			<div class="col-md-8">
+			<div class="col md-8 xs-4">
 
 				<%-- 錯誤表列 --%>
 				<c:if test="${not empty errorMsgs}">
@@ -225,7 +225,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 						<div class="form-group row">
 							<div class="col-sm-6">
 
-								飯局類型: <select class="browser-default custom-select"
+								<label>飯局類型:</label> <select class="browser-default custom-select"
 									class="form-control" name="fea_type" id="fea_type"
 									onchange="otherSelect()">
 									<option selected>選擇飯局類型:</option>
@@ -276,8 +276,8 @@ section.range-slider input[type=range]::-moz-focus-outer {
 							</div>
 								<div class="col-sm-6">
 					  			<input type="hidden" name="action" value="insert" >
-							<input type="submit" value="送出新增" class="form-control btn btn-primary">
-							</div>
+								<input type="submit" value="送出新增" class="form-control btn btn-primary">
+								</div>
 								
 						</div>
 

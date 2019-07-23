@@ -1,18 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.mem.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.mem.model.*"%>
-<%@ page import="com.pointtransaction.model.*,com.mem.model.*"%>
-<%
-	PointtransactionService pointtransactionSvc = new PointtransactionService();
-	MemVO memVO=(MemVO)session.getAttribute("memberVO");
-    List<PointtransactionVO> list = pointtransactionSvc.getAllPointByMem(memVO.getMem_no());
-    pageContext.setAttribute("list",list);
-    pageContext.setAttribute("memVO",memVO);
-%>
 
+
+<%
+  MemVO memVO = (MemVO)request.getAttribute("memVO");
+%>
+<%=memVO==null %>-- ${memVO==null}
 
 <!doctype html>
 
@@ -34,10 +31,10 @@
 
 
 
-<title>æœƒå“¡å€‹äººè³‡æ–™</title>
+<title>·|­û­Ó¤H¸ê®Æ</title>
 
 <c:if test="${not empty errorMsgs}">
-	<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
+	<font style="color: red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
 	<ul>
 		<c:forEach var="message" items="${errorMsgs}">
 			<li style="color: red">${message}</li>
@@ -60,10 +57,10 @@
 
 
 
-<title>å€‹äººæœƒå“¡è³‡æ–™</title>
+<title>­Ó¤H·|­û¸ê®Æ</title>
 <style type="text/css">
 body {
-	font-family: "å¾®è»Ÿæ­£é»‘é«”";
+	font-family: "·L³n¥¿¶ÂÅé";
 }
 
 .title {
@@ -102,7 +99,7 @@ body {
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-10">
-				<h1>é—œæ–¼æˆ‘</h1>
+				<h1>Ãö©ó§Ú</h1>
 			</div>
 			<div class="col-sm-2">
 				<a href="#" class="pull-right"><img title="profile image"
@@ -126,7 +123,7 @@ body {
 					<c:if test="${memberVO.getMem_img()==null }">
 						<img name="mem_img" class="card-img-top img-circle"
 							src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
-							alt="ä½ æ²’æœ‰æ”¾åœ–ç‰‡å–”">
+							alt="§A¨S¦³©ñ¹Ï¤ù³á">
 					</c:if>
 
 				</div>
@@ -137,11 +134,11 @@ body {
 
 
 				<ul class="list-group">
-					<li class="list-group-item text-muted">æœƒå“¡ <i
+					<li class="list-group-item text-muted">·|­û <i
 						class="fa fa-dashboard fa-1x"></i></li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>æœƒå“¡ç·¨è™Ÿ:</strong></span>
+					<li class="list-group-item text-right"><span class="pull-left"><strong>·|­û½s¸¹:</strong></span>
 						${memberVO.mem_no}</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>æœƒå“¡ç‹€æ…‹:</strong></span>
+					<li class="list-group-item text-right"><span class="pull-left"><strong>·|­ûª¬ºA:</strong></span>
 						${memberVO.mem_status}</li>
 
 				</ul>
@@ -150,143 +147,94 @@ body {
 
 
 			</div>
-<!-- 			/col-3 -->
+			<!--/col-3-->
 			<div class="col-sm-9">
 				<ul class="nav nav-tabs" role="tablist">
-					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#MemInfo" role="tab">æˆ‘çš„è³‡æ–™</a></li>
+					
 
 					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#point" role="tab">æˆ‘çš„é»æ•¸</a></li>
-
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#MemInfoUpdate" role="tab">è³‡æ–™ä¿®æ”¹</a></li>
+						href="#MemInfoUpdate" role="tab">·|­ûµù¥U</a></li>
 				</ul>
 
-				<br>
-				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane active" id="MemInfo">
+<!-- 				<br> -->
+<!-- 				<div class="tab-content"> -->
+<!-- 					<div role="tabpanel" class="tab-pane active" id="MemInfo"> -->
 
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<label for="first_name"><h4>æœƒå“¡å§“å</h4></label>
-								<p>${memberVO.mem_name}</p>
-							</div>
-							<div class="form-group col-sm-6">
-								<label for="last_name"><h4>æœƒå“¡æ€§åˆ¥</h4></label>
-								<p>${memberVO.mem_sex}</p>
-							</div>
-						</div>
+<!-- 						<div class="row"> -->
+<!-- 							<div class="form-group col-sm-6"> -->
+<!-- 								<label for="first_name"><h4>·|­û©m¦W</h4></label> -->
+<%-- 								<p>${memberVO.mem_name}</p> --%>
+<!-- 							</div> -->
+<!-- 							<div class="form-group col-sm-6"> -->
+<!-- 								<label for="last_name"><h4>·|­û©Ê§O</h4></label> -->
+<%-- 								<p>${memberVO.mem_sex}</p> --%>
+<!-- 							</div> -->
+<!-- 						</div> -->
 
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<label for="phone"><h4>å‡ºç”Ÿ å¹´/æœˆ/æ—¥</h4></label>
-								<p>${memberVO.mem_bd}</p>
-							</div>
-							<div class="form-group col-sm-6">
-								<label for="mobile"><h4>é€£çµ¡é›»è©±</h4></label>
-								<p>${memberVO.mem_ph}</p>
-							</div>
-						</div>
+<!-- 						<div class="row"> -->
+<!-- 							<div class="form-group col-sm-6"> -->
+<!-- 								<label for="phone"><h4>¥X¥Í ¦~/¤ë/¤é</h4></label> -->
+<%-- 								<p>${memberVO.mem_bd}</p> --%>
+<!-- 							</div> -->
+<!-- 							<div class="form-group col-sm-6"> -->
+<!-- 								<label for="mobile"><h4>³sµ¸¹q¸Ü</h4></label> -->
+<%-- 								<p>${memberVO.mem_ph}</p> --%>
+<!-- 							</div> -->
+<!-- 						</div> -->
 
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<label for="email"><h4>Email</h4></label>
-								<p>${memberVO.mem_email}</p>
-							</div>
-							<div class="form-group col-sm-6">
-								<label for="location"><h4>åœ°å€</h4></label>
-								<p>${memberVO.mem_adrs}</p>
-							</div>
-						</div>
+<!-- 						<div class="row"> -->
+<!-- 							<div class="form-group col-sm-6"> -->
+<!-- 								<label for="email"><h4>Email</h4></label> -->
+<%-- 								<p>${memberVO.mem_email}</p> --%>
+<!-- 							</div> -->
+<!-- 							<div class="form-group col-sm-6"> -->
+<!-- 								<label for="location"><h4>¦a§}</h4></label> -->
+<%-- 								<p>${memberVO.mem_adrs}</p> --%>
+<!-- 							</div> -->
+<!-- 						</div> -->
 
-						<div class="form-group">
-							<div class="col-xs-12">
-								<label for="AboutMe"><h4>è‡ªæˆ‘ä»‹ç´¹</h4></label>
-								<p>${memberVO.mem_intro}</p>
-							</div>
-						</div>
-					</div>
-					<!--/tab-pane-->
+<!-- 						<div class="form-group"> -->
+<!-- 							<div class="col-xs-12"> -->
+<!-- 								<label for="AboutMe"><h4>¦Û§Ú¤¶²Ğ</h4></label> -->
+<%-- 								<p>${memberVO.mem_intro}</p> --%>
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					/tab-pane -->
 					<!--------------------------------------------------------------------------------------------------->
-					<div role="tabpanel" class="tab-pane fade" id="point">
-
-						<h2></h2>
-
-
-							<div class="form-group">
-
-								<div class="col-xs-12">
-									<label for="mem_point"><h4>ç›®å‰é»æ•¸</h4></label>
-									<p>${memberVO.mem_point}</p>
-
-								</div>
-										<c:forEach var="pointtransactionVO" items="${list}">
-				
-										<tr>
-											<td>${pointtransactionVO.pt_no}</td>
-											<td>${pointtransactionVO.pt_memno}</td>
-											<td>${pointtransactionVO.pt_resno}</td>
-											<td>${pointtransactionVO.pt_nt}</td>
-										
-											
-											<td>
-											  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pointtransaction/pointtransaction.do" style="margin-bottom: 0px;">
-		
-											     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
-											     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-											</td>
-											<td>
-											  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pointtransaction/pointtransaction.do" style="margin-bottom: 0px;">
-								
-											     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
-											     <input type="hidden" name="action" value="delete"></FORM>
-											</td>
-										</tr>
-									</c:forEach>
-							</div>
-							<div class="form-group"></div>
-							<div class="form-group">
-								<div class="col-xs-12">
-									<br>
-									<a href="deposit.jsp"><button class="btn btn-lg btn-success" type="submit">å„²å€¼é»æ•¸</button></a>
-
-								</div>
-							</div>
-
-					</div>
 					
-<!----è³‡æ–™ä¿®æ”¹---------------------------------------------------------------------------------->
+					
+<!----¸ê®Æ­×§ï---------------------------------------------------------------------------------->
 					<div role="tabpanel" class="tab-pane fade" id="MemInfoUpdate">
 
-						<form class="form" action="mem.do" method="post"
+						<form class="form" action="<%=request.getContextPath()%>/front-end/mem/mem.do" method="post"
 							id="registrationForm" enctype="multipart/form-data">
-							<input type="hidden" name="action" value="update">
+							<input type="hidden" name="action" value="insert">
 							<div class="row">
 								<div class="form-group col-sm-6">
-									<label for="first_name"><h4>æœƒå“¡å§“å</h4></label> <input
+									<label for="first_name"><h4>·|­û©m¦W</h4></label> <input
 										class="form-control" name="mem_name" id="first_name"
-										placeholder="ä½ çš„åå­—" title="enter your  name ."
+										placeholder="§Aªº¦W¦r" title="enter your  name ."
 										value="${memberVO.mem_name}">
 								</div>
 								<div class="form-group col-sm-6">
-									<label for="last_name"><h4>æœƒå“¡æ€§åˆ¥</h4></label> <input type="text"
+									<label for="last_name"><h4>·|­û©Ê§O</h4></label> <input type="text"
 										class="form-control" name="mem_sex" id="last_name"
-										placeholder="å¦‚:ç”·æ€§ã€å¥³æ€§" title="sex" value="${memberVO.mem_sex}">
+										placeholder="¦p:¨k©Ê¡B¤k©Ê" title="sex" value="${memberVO.mem_sex}">
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="form-group col-sm-6">
-									<label for="phone"><h4>å‡ºç”Ÿ å¹´/æœˆ/æ—¥</h4></label> <input type="date"
+									<label for="phone"><h4>¥X¥Í ¦~/¤ë/¤é</h4></label> <input type="date"
 										class="form-control" name="mem_bd" id="phone"
-										placeholder="å¹´/æœˆ/æ—¥" title="Birthday"
+										placeholder="¦~/¤ë/¤é" title="Birthday"
 										value="${memberVO.mem_bd}">
 								</div>
 								<div class="form-group col-sm-6">
-									<label for="mobile"><h4>é€£çµ¡é›»è©±</h4></label> <input type="number"
+									<label for="mobile"><h4>³sµ¸¹q¸Ü</h4></label> <input type="number"
 										class="form-control" name="mem_ph" id="mobile"
-										placeholder="ä½ çš„é›»è©±è™Ÿç¢¼" title="PhoneNumber"
+										placeholder="§Aªº¹q¸Ü¸¹½X" title="PhoneNumber"
 										value="${memberVO.mem_ph}">
 								</div>
 							</div>
@@ -300,31 +248,31 @@ body {
 								</div>
 								
 								<div class="form-group col-sm-6">
-									<label for="location"><h4>åœ°å€</h4></label> <br>
+									<label for="location"><h4>¦a§}</h4></label> <br>
 <!-- 									<input type="text" -->
-<!-- 										class="form-control" name="mem_adrs" id="location" placeholder="æŸåœ°" -->
+<!-- 										class="form-control" name="mem_adrs" id="location" placeholder="¬Y¦a" -->
 <%-- 										title="enter a location" value="${memberVO.mem_adrs}"> --%>
 										
 									<select id="zone1"  name="zone1" style="width: 110px;"></select>
 									<select id="zone2"  name="zone2" style="width: 110px;"></select>
 							        <input	type="text" id="zipcode" name="zipcode" style="width: 40px;"  readonly='true'/>
-							        <input	type="text" name="address" value="ä¸­æ­£è·¯ä¸€æ®µä¸€è™Ÿ1æ¨“" style="width: 268px;"><p>
+							        <input	type="text" name="address" value="¤¤¥¿¸ô¤@¬q¤@¸¹1¼Ó" style="width: 268px;"><p>
 
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="form-group col-sm-6">
-									<label for="ac"><h4>å¸³è™Ÿ</h4></label> <input type="text"
-										class="form-control" name="mem_ac" id="ac" placeholder="ä½ çš„å¸³è™Ÿ"
+									<label for="ac"><h4>±b¸¹</h4></label> <input type="text"
+										class="form-control" name="mem_ac" id="ac" placeholder="§Aªº±b¸¹"
 										title="enter your password." value="${memberVO.mem_ac}">
 								</div>
 
 								<div class="form-group col-sm-6">
 
-									<label for="password2"><h4>å¯†ç¢¼</h4></label> <input
+									<label for="password2"><h4>±K½X</h4></label> <input
 										type="password" class="form-control" name="mem_pass"
-										id="password2" placeholder="ä½ çš„å¯†ç¢¼"
+										id="password2" placeholder="§Aªº±K½X"
 										title="enter your password2." value="${memberVO.mem_pass}">
 								</div>
 							</div>
@@ -332,7 +280,7 @@ body {
 							<div class="form-group">
 								<div class="col-xs-12">
 
-									<label for="AboutMe"><h4>è‡ªæˆ‘ä»‹ç´¹</h4></label>
+									<label for="AboutMe"><h4>¦Û§Ú¤¶²Ğ</h4></label>
 									<textarea name="mem_intro" class="form-control"
 										placeholder="Say~Something" id="AboutMe"
 										style="height: 150px;">
@@ -342,7 +290,7 @@ body {
 								<div class="col-xs-3">
 									<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
 										class="avatar img-circle-top" alt="avatar">
-									<h6>æœƒå“¡å¤§é ­ç…§</h6>
+									<h6>·|­û¤jÀY·Ó</h6>
 									<input name="mem_img" type="file"
 										class="text-center center-block file-upload">
 
@@ -352,10 +300,10 @@ body {
 								<div class="col-xs-3">
 									<br>
 									<button class="btn btn-lg btn-outline-success" type="submit">
-										<i class="glyphicon glyphicon-ok-sign"></i> ä¿®æ”¹ç¢ºèª
-									</button>
+										<i class="glyphicon glyphicon-ok-sign">§¹¦¨</a></i> 
+									</button>>
 									<button class="btn btn-lg btn-outline-secondary" type="reset">
-										<i class="glyphicon glyphicon-repeat"></i> è¿”å›ç·¨è¼¯
+										<i class="glyphicon glyphicon-repeat"></i> ¦^¤W­¶
 									</button>
 								</div>
 							</div>
@@ -385,15 +333,15 @@ body {
 	<script type="text/javascript">
 		$(function() {
 			init_address();
-			$("#zone1").val('æ¡ƒåœ’ç¸£'); //ç¸£å¸‚
-			for ( var i in zip['æ¡ƒåœ’ç¸£']) {
+			$("#zone1").val('®ç¶é¿¤'); //¿¤¥«
+			for ( var i in zip['®ç¶é¿¤']) {
 				o = document.createElement('option');
 				o.text = i;
 				o.value = i;
 				zone2.options.add(o);
 			}
-			$("#zone2").val('æ–°å±‹é„‰'); //é„‰é®å¸‚å€
-			$("input[name='zipcode']").val('327'); //éƒµéå€è™Ÿ
+			$("#zone2").val('·s«Î¶m'); //¶mÂí¥«°Ï
+			$("input[name='zipcode']").val('327'); //¶l»¼°Ï¸¹
 		})
 	</script>
 	
@@ -408,5 +356,7 @@ body {
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+		
+		<input type="hidden" name="action" value="insert">
 </body>
 </html>

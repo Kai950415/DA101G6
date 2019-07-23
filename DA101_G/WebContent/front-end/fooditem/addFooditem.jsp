@@ -46,10 +46,10 @@
 
 </head>
 <body bgcolor='white'>
-
+<%@ include file="/header.jsp"%>
 <table id="table-1">
 	<tr><td>
-		 <h3>員工資料新增 - addFooditem.jsp</h3></td><td>
+		 <h3>資料新增 - addFooditem.jsp</h3></td><td>
 		 <h4><a href="fooditem_select_page.jsp"><img src="images/tomcat.png" width="100" height="100" border="0">回首頁</a></h4>
 	</td></tr>
 </table>

@@ -1,6 +1,7 @@
 package com.fooditem.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -45,7 +46,12 @@ public class FooditemService {
 
 		return fooditemVO;
 	}
-	
+	public List<FooditemVO> getAllfooditemVOByFooditem(String fo_resno)
+	{
+		return fo.getAll().stream()
+				.filter(fooditem -> fooditem.getFo_resno().equals(fo_resno))
+				.collect(Collectors.toList());
+	}
 	
 
 	public void deleteFooditem(String fo_no) {

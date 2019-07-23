@@ -5,7 +5,7 @@ import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class DBGifReader2 extends HttpServlet {
+public class DBGifReader3 extends HttpServlet {
 
 	Connection con;
 
@@ -17,12 +17,12 @@ req.setCharacterEncoding("UTF-8");
 
 		try {
 			Statement stmt = con.createStatement();
-			String fo_no = req.getParameter("fo_no").trim();
+			String fo_no = req.getParameter("mem_no").trim();
 			ResultSet rs = stmt.executeQuery(
-				"SELECT fo_img FROM fooditem WHERE fo_no = '" + fo_no + "'");
+				"SELECT mem_img FROM mem WHERE mem_no = '" + fo_no + "'");
 
 			if (rs.next()) {
-				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("fo_img"));
+				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("mem_img"));
 				byte[] buf = new byte[4 * 1024]; // 4K buffer
 				int len;
 				while ((len = in.read(buf)) != -1) {

@@ -2,12 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.fooditem.model.*"%>
+
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
     FooditemService fooditemSvc = new FooditemService();
-    List<FooditemVO> list = fooditemSvc.getAll();
+    List<FooditemVO> list = fooditemSvc.getAll();    
     pageContext.setAttribute("list",list);
+//      FooditemVO fooditemVO = (FooditemVO) session.getAttribute("fooditemVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
+//   FooditemService mysvc = new FooditemService();
+//   List<FooditemVO> list = new ArrayList<FooditemVO>(); 
+//   list = mysvc.getAllfooditemVOByFooditem(fooditemVO.getFo_resno());
+//   pageContext.setAttribute("list",list);
 %>
 
 
@@ -50,9 +56,10 @@
 
 </head>
 <body bgcolor='white'>
-
+<%@ include file="/header.jsp"%>
 <h4>此頁練習採用 EL 的寫法取值:</h4>
 <table id="table-1">
+
 	<tr><td>
 		 <h3>所有餐點資料 - listAllFooditem.jsp</h3>
 		 <h4><a href="fooditem_select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
@@ -69,10 +76,11 @@
 	</ul>
 </c:if>
 
-<table>
+<table style="background-color:rgba(0,0,0,0);">
 	<tr>
-		<th>餐點編號</th>
+	
 		<th>餐廳編號</th>
+		<th>餐點編號</th>
 		<th>名稱</th>
 		<th>價格</th>
 		<th>圖片</th>
@@ -84,21 +92,22 @@
 	<c:forEach var="fooditemVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		
 		<tr>
-			<td>${fooditemVO.fo_no}</td>
 			<td>${fooditemVO.fo_resno}</td>
+			<td>${fooditemVO.fo_no}</td>
 			<td>${fooditemVO.fo_name}</td>
 			<td>${fooditemVO.fo_price}</td>
-			<td><img src="<%=request.getContextPath()%>/fooditem/foimg.do?fo_no=${fooditemVO.fo_no}" width="200"></td>
+			<td><img src="<%=request.getContextPath()%>/back-end/ord/resOrdPhoto.do?fo_no=${fooditemVO.fo_no}" width="200"></td>
 			<td>${fooditemVO.fo_intro}</td> 
+			<td>${fooditemVO.fo_status}</td> 
 			
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/fooditem/fooditem.do" style="margin-bottom: 0px;">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/fooditem/fooditem.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
 			     <input type="hidden" name="fo_no"  value="${fooditemVO.fo_no}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/fooditem/fooditem.do" style="margin-bottom: 0px;">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/fooditem/fooditem.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="刪除">
 			     <input type="hidden" name="fo_no"  value="${fooditemVO.fo_no}">
 			     <input type="hidden" name="action" value="delete"></FORM>

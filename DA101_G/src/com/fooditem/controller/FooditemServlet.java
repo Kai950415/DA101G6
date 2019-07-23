@@ -15,10 +15,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.fooditem.model.FooditemService;
 import com.fooditem.model.FooditemVO;
+import com.res.model.ResService;
+import com.res.model.ResVO;
 
 /**
  * Servlet implementation class FooditemServlet
@@ -36,35 +39,37 @@ public class FooditemServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
+		HttpSession session = req.getSession();
 
 		if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
-
+												//action 是對應到jsp的name 然後比對value 是 getOne_For_Display
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
+			req.setAttribute("errorMsgs", errorMsgs);  //select_page 的 44行
 
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				String str = req.getParameter("fo_no");
-				if (str == null || (str.trim()).length() == 0) {
+					String str = req.getParameter("fo_no");   //宣告fo_no
+					if (str == null || (str.trim()).length() == 0) {
 					errorMsgs.add("請輸入餐點編號");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
+					}
+				//   如果有錯誤，請將用途發回表單       isEmpty = 如果此列表不包含任何元素，則返回true。
+				if (!errorMsgs.isEmpty()) {    //如果這個錯誤不是空的話(代表有打字、但是是錯的) 就會跳轉到55行設定的那個位置  /front-end/fooditem/fooditem_select_page.jsp
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/fooditem_select_page.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
+					failureView.forward(req, res);           //56行 則 跳轉到55行的 位置
+					return;// 程式中斷                                             
 				}
 
 				String fo_no = null;
-				try {
+			try {
 					fo_no = new String(str);
 				} catch (Exception e) {
-					errorMsgs.add("餐廳編號格式不正確");
+					errorMsgs.add("餐點編號格式不正確");
 				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
+				// Send the use back to the form, if there were errors   如果有錯誤，請將用途發回表單
+				if (!errorMsgs.isEmpty()) {   //如果錯誤訊息不是空的話，就會跳轉到 67的位址
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/fooditem_select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
@@ -72,11 +77,11 @@ public class FooditemServlet extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				FooditemService fooditemSvc = new FooditemService();
-				FooditemVO fooditemVO = fooditemSvc.getOneFooditem(fo_no);
+				FooditemVO fooditemVO = fooditemSvc.getOneFooditem(fo_no); //取值fo_no
 				if (fooditemVO == null) {
 					errorMsgs.add("查無資料");
 				}
-				// Send the use back to the form, if there were errors
+				// Send the use back to the form, if there were errors  如果有錯誤，請將用途發回表單
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/fooditem_select_page.jsp");
 					failureView.forward(req, res);
@@ -84,15 +89,15 @@ public class FooditemServlet extends HttpServlet {
 				}
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("fooditemVO", fooditemVO); // 資料庫取出的empVO物件,存入req
-				String url = "/fooditem/listOneFooditem.jsp";
+				session.setAttribute("fooditemVO", fooditemVO); // 資料庫取出的empVO物件,存入req
+				String url = "/front-end/fooditem/listOneFooditem.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/listOneFooditem.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/listOneFooditem.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -114,14 +119,14 @@ public class FooditemServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("fooditemVO", fooditemVO); // 資料庫取出的fooditemVO物件,存入req
-				String url = "/fooditem/update_fooditem_input.jsp";
+				String url = "/front-end/fooditem/update_fooditem_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_fooditem_input.jsp
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/listAllFooditem.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/listAllFooditem.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -138,7 +143,7 @@ public class FooditemServlet extends HttpServlet {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				String fo_no = req.getParameter("fo_no").trim();
 				String fo_resno = req.getParameter("fo_resno").trim();
-			
+		
 				String fo_name = req.getParameter("fo_name");
 				String fo_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,100}$";
 				if (fo_name == null || fo_name.trim().length() == 0) {
@@ -200,7 +205,7 @@ public class FooditemServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("fooditemVO", fooditemVO); //含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/update_fooditem_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/update_fooditem_input.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -212,134 +217,139 @@ public class FooditemServlet extends HttpServlet {
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("fooditemVO", fooditemVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/fooditem/listOneFooditem.jsp";
+				String url = "/front-end/fooditem/listOneFooditem.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); //修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
-				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/update_fooditem_input.jsp");
-				failureView.forward(req, res);
-			}
+			errorMsgs.add("修改資料失敗:" + e.getMessage());
+			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/update_fooditem_input.jsp");
+			failureView.forward(req, res);
+		}
 		}
 
-		if ("insert".equals(action)) { //來自addFooditem.jsp的請求
+	if("insert".equals(action))
 
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
+	{ // 來自addFooditem.jsp的請求
 
-			try {
-				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-				
-				String fo_resno = req.getParameter("fo_resno").trim();
-				String fo_name  = req.getParameter("fo_name");
-				
-				String fo_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
-				if (fo_name == null || fo_name.trim().length() == 0) {
-					errorMsgs.add("餐點名稱: 請勿空白");
-				} else if (!fo_name.trim().matches(fo_nameReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("餐點名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
-				}
+		List<String> errorMsgs = new LinkedList<String>();
+		// Store this set in the request scope, in case we need to
+		// send the ErrorPage view.
+		req.setAttribute("errorMsgs", errorMsgs);
 
-				Part part = req.getPart("fo_img");
-				InputStream is = part.getInputStream();
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				byte[] buffer = new byte[is.available()];
-				int len;
-				// read bytes from the input stream and store them in buffer
-				while ((len = is.read(buffer)) != -1) {
-					// write bytes from the buffer into output stream
-					os.write(buffer, 0, len);
-				}
-				byte[] fo_img = null;
-				fo_img = os.toByteArray();
+		try {
+			/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 
-				
-				Integer fo_price = null;
-				try {
-					fo_price = new Integer(req.getParameter("fo_price").trim());
-				} catch (NumberFormatException e) {
-					fo_price = 0;
-					errorMsgs.add("請填數字:");
-				}
-			
-				String fo_intro = (req.getParameter("fo_intro").trim());
-				String fo_introReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
-				if (fo_intro == null || fo_intro.trim().length() == 0) {
-					errorMsgs.add("餐點狀態: 請勿空白");
-				} else if (!fo_name.trim().matches(fo_introReg)) { // 以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("餐點狀態: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
-				}
+			String fo_resno = req.getParameter("fo_resno").trim();
+			String fo_name = req.getParameter("fo_name");
 
-				String fo_status = new String(req.getParameter("fo_status").trim());
-				String fo_statusReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
-				if (fo_status == null || fo_status.trim().length() == 0) {
-					errorMsgs.add("餐點介紹: 請勿空白");
-				} else if (!fo_name.trim().matches(fo_introReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
-					errorMsgs.add("餐點介紹: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
-				}
-				
-				FooditemVO fooditemVO = new FooditemVO();
-				fooditemVO.setFo_name(fo_name);
-				fooditemVO.setFo_price(fo_price);
-				fooditemVO.setFo_img(fo_img);
-				fooditemVO.setFo_intro(fo_intro);
-				fooditemVO.setFo_status(fo_status);
-
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("fooditemVO", fooditemVO); // �t����J�榡���~��empVO����,�]�s�Jreq
-					RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/addFooditem.jsp");
-					failureView.forward(req, res);
-					return;
-				}
-
-				/*************************** 2.�}�l�s�W��� ***************************************/
-				FooditemService fooditemSvc = new FooditemService();
-				fooditemVO = fooditemSvc.addFooditem(fo_resno, fo_name, fo_price, fo_img, fo_intro, fo_status);
-
-				/*************************** 3.�s�W����,�ǳ����(Send the Success view) ***********/
-				String url = "/fooditem/listAllFooditem.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // �s�W���\�����listAllFooditem.jsp
-				successView.forward(req, res);
-
-				/*************************** ��L�i�઺���~�B�z **********************************/
-			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/addFooditem.jsp");
-				failureView.forward(req, res);
+			String fo_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+			if (fo_name == null || fo_name.trim().length() == 0) {
+				errorMsgs.add("餐點名稱: 請勿空白");
+			} else if (!fo_name.trim().matches(fo_nameReg)) { // 以下練習正則(規)表示式(regular-expression)
+				errorMsgs.add("餐點名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 			}
-		}
 
-		if ("delete".equals(action)) { // listAllFooditem.jsp
-
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-
-			try {
-				/*************************** 1.接收請求參數 ***************************************/
-				String fo_no = new String(req.getParameter("fo_no"));
-
-				/*************************** 2.開始刪除資料 ***************************************/
-				FooditemService fooditemSvc = new FooditemService();
-				fooditemSvc.deleteFooditem(fo_no);
-
-				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-				String url = "/fooditem/listAllFooditem.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// �R�����\��,���^�e�X�R�����ӷ�����
-				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 **********************************/
-			} catch (Exception e) {
-				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/fooditem/listAllFooditem.jsp");
-				failureView.forward(req, res);
+			Part part = req.getPart("fo_img");
+			InputStream is = part.getInputStream();
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			byte[] buffer = new byte[is.available()];
+			int len;
+			// read bytes from the input stream and store them in buffer
+			while ((len = is.read(buffer)) != -1) {
+				// write bytes from the buffer into output stream
+				os.write(buffer, 0, len);
 			}
+			byte[] fo_img = null;
+			fo_img = os.toByteArray();
+
+			Integer fo_price = null;
+			try {
+				fo_price = new Integer(req.getParameter("fo_price").trim());
+			} catch (NumberFormatException e) {
+				fo_price = 0;
+				errorMsgs.add("請填數字:");
+			}
+
+			String fo_intro = (req.getParameter("fo_intro").trim());
+			String fo_introReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+			if (fo_intro == null || fo_intro.trim().length() == 0) {
+				errorMsgs.add("餐點狀態: 請勿空白");
+			} else if (!fo_name.trim().matches(fo_introReg)) { // 以下練習正則(規)表示式(regular-expression)
+				errorMsgs.add("餐點狀態: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
+			}
+
+			String fo_status = new String(req.getParameter("fo_status").trim());
+			String fo_statusReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+			if (fo_status == null || fo_status.trim().length() == 0) {
+				errorMsgs.add("餐點介紹: 請勿空白");
+			} else if (!fo_name.trim().matches(fo_introReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
+				errorMsgs.add("餐點介紹: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
+			}
+
+			FooditemVO fooditemVO = new FooditemVO();
+			fooditemVO.setFo_name(fo_name);
+			fooditemVO.setFo_price(fo_price);
+			fooditemVO.setFo_img(fo_img);
+			fooditemVO.setFo_intro(fo_intro);
+			fooditemVO.setFo_status(fo_status);
+
+			// Send the use back to the form, if there were errors
+			if (!errorMsgs.isEmpty()) {
+				req.setAttribute("fooditemVO", fooditemVO); // �t����J�榡���~��empVO����,�]�s�Jreq
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/addFooditem.jsp");
+				failureView.forward(req, res);
+				return;
+			}
+
+			/*************************** 2.開始新增資料 ***************************************/
+			FooditemService fooditemSvc = new FooditemService();
+			fooditemVO = fooditemSvc.addFooditem(fo_resno, fo_name, fo_price, fo_img, fo_intro, fo_status);
+
+			ResService resService = new ResService();
+			ResVO resVO = resService.getOneRes(fo_resno);
+			resVO.setRes_status("res2");
+			resService.updateRes(resVO.getRes_no(), resVO.getRes_adrs(), resVO.getRes_name(), resVO.getRes_ph(), resVO.getRes_point(), resVO.getRes_ac(), resVO.getRes_pass(), resVO.getRes_img(), resVO.getRes_intro(), resVO.getRes_start(), resVO.getRes_end(), resVO.getRes_lat(), resVO.getRes_lot(), resVO.getRes_score(), resVO.getRes_score(), resVO.getRes_comcount(), resVO.getRes_type(), resVO.getRes_status());	
+			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+			String url = "/front-end/fooditem/listAllFooditem.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // �s�W���\�����listAllFooditem.jsp
+			successView.forward(req, res);
+
+			/*************************** ��L�i�઺���~�B�z **********************************/
+		} catch (Exception e) {
+			errorMsgs.add(e.getMessage());
+			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/addFooditem.jsp");
+			failureView.forward(req, res);
 		}
 	}
-}
+
+	if("delete".equals(action))
+	{ // listAllFooditem.jsp
+
+		List<String> errorMsgs = new LinkedList<String>();
+		// Store this set in the request scope, in case we need to
+		// send the ErrorPage view.
+		req.setAttribute("errorMsgs", errorMsgs);
+
+		try {
+			/*************************** 1.接收請求參數 ***************************************/
+			String fo_no = new String(req.getParameter("fo_no"));
+
+			/*************************** 2.開始刪除資料 ***************************************/
+			FooditemService fooditemSvc = new FooditemService();
+			fooditemSvc.deleteFooditem(fo_no);
+
+			/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
+			String url = "/front-end/fooditem/listAllFooditem.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);// �R�����\��,���^�e�X�R�����ӷ�����
+			successView.forward(req, res);
+
+			/*************************** 其他可能的錯誤處理 **********************************/
+		} catch (Exception e) {
+			errorMsgs.add("刪除資料失敗:" + e.getMessage());
+			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/listAllFooditem.jsp");
+			failureView.forward(req, res);
+		}
+	}
+}}

@@ -12,10 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.fooditem.model.FooditemService;
 import com.fooditem.model.FooditemVO;
+import com.mem.model.MemService;
+import com.mem.model.MemVO;
 import com.pointtransaction.model.PointtransactionService;
 import com.pointtransaction.model.PointtransactionVO;
 
@@ -34,6 +37,7 @@ public class PointtransactionServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 
+		HttpSession session = req.getSession();
 		if ("getOne_For_Display".equals(action)) { // �Ӧ�select_page.jsp���ШD
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -259,6 +263,35 @@ public class PointtransactionServlet extends HttpServlet {
 				errorMsgs.add("�R����ƥ���:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/pointtransaction/listAllPointtransaction.jsp");
 				failureView.forward(req, res);
+			}
+		}
+if ("addpoint".equals(action)) { // 老子在jsp的223行，寫了value="addpoint" name="action"
+			
+			try {
+				String mem_no = req.getParameter("mem_no"); // 老子從jsp的222行 取到mem_no
+				
+				Double point = Double.parseDouble(req.getParameter("point"));
+				
+				PointtransactionService pointtransactionService = new PointtransactionService();
+				pointtransactionService.addPointtransaction(mem_no, null, point);
+				
+				MemService memsvc = new MemService();
+				MemVO memVO = memsvc.memFindByPrimaryKey(mem_no);
+				
+				memVO = memsvc.memUpdate(mem_no, memVO.getMem_name(), memVO.getMem_adrs(), memVO.getMem_sex(),
+							memVO.getMem_bd(), memVO.getMem_ph(), memVO.getMem_email(), (memVO.getMem_point() + point.intValue()), memVO.getMem_img(),
+							memVO.getMem_pass(), memVO.getMem_ac(), memVO.getMem_intro(), memVO.getMem_status());
+				/*************************** 3.準備轉交(Send the Success view) ***********/
+				
+				session.setAttribute("memberVO", memVO);
+				
+				String url = req.getContextPath() + "/front-end/mem/mem.jsp";
+				res.sendRedirect(url);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				String url = req.getContextPath() + "/front-end/mem/mem.jsp";
+				res.sendRedirect(url);
 			}
 		}
 	}

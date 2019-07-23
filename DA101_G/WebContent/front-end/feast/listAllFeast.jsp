@@ -7,10 +7,13 @@
 
 <%
     FeastInfoService feaSvc = new FeastInfoService();
-    List<FeastInfoVO> list = feaSvc.getAllFeastInfoVOs();
-    pageContext.setAttribute("list", list);
+    List<FeastInfoVO> historyList = feaSvc.getAllHistoryFeastInfo();
+    pageContext.setAttribute("historyList", historyList);
+    
+    List<FeastInfoVO> currentList = feaSvc.getAllCurrentFeastInfo();
+    pageContext.setAttribute("currentList", currentList);
 %>
-
+<jsp:useBean id="myeSvc" scope="page" class="com.myfeast.model.MyFeastService" />
 <!doctype html>
 <html lang="en">
 <head>
@@ -32,18 +35,9 @@
 
 <body>
 
+	<%@ include file="/header.jsp"%>
+	
 	<h4>此頁練習採用 EL 的寫法取值:</h4>
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>所有員工資料 - listAllEmp.jsp</h3>
-				<h4>
-					<a href="<%=request.getContextPath()%>/front-end/feast/select_page_feast.jsp"><img src="images/back1.gif"
-						width="100" height="32" border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
 
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
@@ -54,90 +48,164 @@
 		</ul>
 	</c:if>
 
-	<div class="container">
+
+<div>
+				<ul class="nav nav-tabs justify-content-center" role="tablist">
+					<li class="nav-item"><a class="nav-link active"
+						data-toggle="tab" href="#historyFeast" role="tab">歷史飯局</a></li>
+
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#feasting" role="tab">參加中</a></li>
+				</ul>
+</div>
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="historyFeast">
+		<!-- Content Row -->
 		<div class="row">
-			<div class="col-sm">
-				<table class="table">
-					<tr>
+			<!-- Page Content -->
+			<div class="container">
 
-						<td>飯局編號</td>
-						<td>餐廳編號</td>
-						<td>會員編號</td>
-						<td>標題</td>
-						<td>介紹</td>
-						<td>目前人數</td>
-						<td>人數上限</td>
-						<td>人數下限</td>
-						<td>飯局日期</td>
-						<td>報名截止時間</td>
-						<td>訂餐截止時間</td>
-						<td>飯局類型</td>
-						<td>飯局地點</td>
-						<td>飯局狀態</td>
-						<td>修改</td>
-						<td>刪除</td>
-					</tr>
-					<jsp:useBean id="FindCodeName" scope="page" class="com.tools.FindCodeName" />
-					<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
-					<%@ include file="/front-end/page1.file"%>
+				<!-- 我是飯局-->
+				<h1 class="my-4">
+					歷史飯局瀏覽: <small>創造一起吃飯的樂趣吧!</small>
+				</h1>
 
-					<c:forEach var="feastInfoVO" items="${list}" begin="<%=pageIndex%>"
-						end="<%=pageIndex+rowsPerPage-1%>">
 
-						<tr>
-							<td>${feastInfoVO.fea_no}</td>
-							<td>${feastInfoVO.fea_resNo}</td>
-							<td>${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</td>
-							<td>${feastInfoVO.fea_title}</td>
-							<td>${feastInfoVO.fea_text}</td>
-							<td>${feastInfoVO.fea_number}</td>
-							<td>${feastInfoVO.fea_upLim}</td>
-							<td>${feastInfoVO.fea_lowLim}</td>
-							<td><fmt:formatDate value="${feastInfoVO.fea_date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-							<td><fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-							<td><fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-							<td>${feastInfoVO.fea_type}</td>
-							<td>${feastInfoVO.fea_loc}</td>
-							<td>${FindCodeName.meaning(feastInfoVO.fea_status)}</td>
-							<td>
+
+
+
+				<c:forEach var="feastInfoVO" items="${historyList}">
+					
+					<c:if test="${myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no()).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
+						<!-- Project One -->
+						<div class="row">
+							<div class="col-md-7">
+
 								<FORM METHOD="post"
-									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do"
-									style="margin-bottom: 0px;">
-									<input type="submit" value="修改"> <input type="hidden"
-										name="fea_no" value="${feastInfoVO.fea_no}"> <input
-										type="hidden" name="action" value="getOne_For_Update">
-								</FORM>
-							</td>
-							<td>
+									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
+
+									<input type="hidden" class="form-check-input" name="action"
+										value="getOne_For_Display"> <input type="hidden"
+										class="form-check-input" name="fea_no"
+										value="${feastInfoVO.fea_no}">
+									<button type="submit" style="background-color: #D9C5A8;width: 80%;background: transparent;border-color: #D9C5A8;border-style: solid;">
+										<img class="img-fluid rounded mb-3 mb-md-0"
+											src="https://picsum.photos/700/550?random=1" alt="">
+									</button>
+								</form>
+
+							</div>
+							<div class="col-md-5">
+								<h3>標題:${feastInfoVO.fea_title}</h3>
+
+								<p>${feastInfoVO.fea_text}</p>
+								<p>發起人:${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</p>
+								<p>現在人數:${feastInfoVO.fea_number}</p>
+								<p>
+									開團時間:
+									<fmt:formatDate value="${feastInfoVO.fea_date}"
+										pattern="yyyy-MM-dd HH:mm:ss" />
+								</p>
+								<p>類型:${feastInfoVO.fea_type}</p>
+								<p>地址:${feastInfoVO.fea_loc}</p>
+
 								<FORM METHOD="post"
-									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do"
-									style="margin-bottom: 0px;">
-									<input type="submit" value="刪除"> <input type="hidden"
-										name="fea_no" value="${feastInfoVO.fea_no}"> <input
-										type="hidden" name="action" value="delete">
-								</FORM>
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
+									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
+
+									<input type="hidden" class="form-check-input" name="action"
+										value="getOne_For_Display"> <input type="hidden"
+										class="form-check-input" name="fea_no"
+										value="${feastInfoVO.fea_no}">
+									<button type="submit" class="btn btn-primary">JOIN!</button>
+								</form>
+							</div>
+						</div>
+						<!-- /.row -->
+					</c:if>
+				</c:forEach>
+
+				<hr>
+
+
 			</div>
+			<!-- /.container -->
+
+			<!-- /.col-md-4 -->
+
+</div>
 		</div>
-	</div>
-<%@ include file="/front-end/page2.file"%>
+
+<div role="tabpanel" class="tab-pane" id="feasting">
+		<!-- Content Row -->
+		<div class="row">
+			<!-- Page Content -->
+			<div class="container">
+
+				<!-- 我是飯局-->
+				<h1 class="my-4">
+					參加中飯局瀏覽: <small>創造一起吃飯的樂趣吧!</small>
+				</h1>
 
 
-	<!--   	<div class="row"> -->
-	<!-- 		<div class="card"> -->
-	<!-- 		  <h5 class="card-header">Featured</h5> -->
-	<!-- 		  <div class="card-body"> -->
-	<!-- 			  <h5 class="card-title">Special title treatment</h5> -->
-	<!-- 			  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
-	<!-- 			  <a href="#" class="btn btn-primary">Go somewhere</a> -->
-	<!-- 		  </div> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+
+				<c:forEach var="feastInfoVO" items="${currentList}">
+					
+					<c:if test="${myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no()).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
+						<!-- Project One -->
+						<div class="row">
+							<div class="col-md-7">
+
+								<FORM METHOD="post"
+									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
+
+									<input type="hidden" class="form-check-input" name="action"
+										value="getOne_For_Display"> <input type="hidden"
+										class="form-check-input" name="fea_no"
+										value="${feastInfoVO.fea_no}">
+									<button type="submit" style="background-color: #D9C5A8;width: 80%;background: transparent;border-color: #D9C5A8;border-style: solid;">
+										<img class="img-fluid rounded mb-3 mb-md-0"
+											src="https://picsum.photos/700/550?random=1" alt="">
+									</button>
+								</form>
+
+							</div>
+							<div class="col-md-5">
+								<h3>標題:${feastInfoVO.fea_title}</h3>
+
+								<p>${feastInfoVO.fea_text}</p>
+								<p>發起人:${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</p>
+								<p>現在人數:${feastInfoVO.fea_number}</p>
+								<p>
+									開團時間:
+									<fmt:formatDate value="${feastInfoVO.fea_date}"
+										pattern="yyyy-MM-dd HH:mm:ss" />
+								</p>
+								<p>類型:${feastInfoVO.fea_type}</p>
+								<p>地址:${feastInfoVO.fea_loc}</p>
+
+								<FORM METHOD="post"
+									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
+
+									<input type="hidden" class="form-check-input" name="action"
+										value="getOne_For_Display"> <input type="hidden"
+										class="form-check-input" name="fea_no"
+										value="${feastInfoVO.fea_no}">
+									<button type="submit" class="btn btn-primary">JOIN!</button>
+								</form>
+							</div>
+						</div>
+						<!-- /.row -->
+					</c:if>
+				</c:forEach>
+
+				<hr>
+
+			</div>
+</div>
+		</div>
+</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>

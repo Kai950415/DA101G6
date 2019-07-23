@@ -50,7 +50,7 @@ background-color: #ED8532;
 <body>
 
 	<!-- Navigation 上方NAVBAR -->
-	<%@ include file="header.jsp"%>
+	<%@ include file="/header.jsp"%>
 
 
 	<!--廣告牆-->
@@ -224,7 +224,6 @@ background-color: #ED8532;
 
 		</div>
 
-	</div>
 	</div>
 	<br>
 	<br>

@@ -61,27 +61,29 @@ b,h4{
 
 
 	</div>
-	</div>
+
 	<div class="container" id="myfeast">
 		<div class="row">
 				<div class="col-9">
 				<div class="card text-center">
 						<div class="card-header" style="display:inline-flex;flex-direction: row;justify-content: space-between;">
-						<c:if test="${!list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))&&(resVO==null)}">
+						<c:if test="${!list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && (resVO==null) && feastInfoVO.fea_number < feastInfoVO.fea_upLim}">
 							<button class="btn btn-outline-success" id="joinfeast" name="mye_feano"value="${feastInfoVO.fea_no}"
 							 style="align-content:flex-start;">加入飯局</button>		 
 						</c:if>
-							<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
+						<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
 								<FORM METHOD="post"
 									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do"
-									style="margin-bottom: 0px;">
+									style="margin-bottom: 0px; ">
 									<input type="hidden" name="fea_no" value="${feastInfoVO.fea_no}">
 									<input type="hidden" name="action" value="getOne_For_Update">
 									<input type="submit" value="修改" class="btn btn-outline-info">
 								</FORM>
 						</c:if>
+
+						
 							<h3 style=" align-items:center;">飯局</h3>
-							<h3 style=" align-content:flex-end;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+							<h3 style=" align-items:flex-end;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -147,10 +149,9 @@ b,h4{
 						</div>
 						<div class="card-footer text-muted">
 
+							<c:if test="${list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && !memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
 							<button type="button" class="btn btn-primary"
 								onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'">訂餐</button>
-							<c:if
-								test="${list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && !memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
 								<button class="btn btn-outline-secondary" id="leftfeast"
 									name="mye_feano" value="${feastInfoVO.fea_no}">退出</button>
 							</c:if>
