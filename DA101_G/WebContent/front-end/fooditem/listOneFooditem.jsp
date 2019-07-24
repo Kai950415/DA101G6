@@ -68,7 +68,18 @@
 		<td>${fooditemVO.getFo_intro()}</td>
 		<td>${fooditemVO.getFo_status()}</td>
 		
-		
+		<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/fooditem/fooditem.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="­×§ï">
+			     <input type="hidden" name="fo_no"  value="${fooditemVO.fo_no}">
+			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+			</td>
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/fooditem/fooditem.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="§R°£">
+			     <input type="hidden" name="fo_no"  value="${fooditemVO.fo_no}">
+			     <input type="hidden" name="action" value="delete"></FORM>
+			</td>
 	</tr>
 </table>
 </c:forEach>
