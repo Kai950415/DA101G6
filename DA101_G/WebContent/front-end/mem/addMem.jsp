@@ -9,7 +9,7 @@
 <%
   MemVO memVO = (MemVO)request.getAttribute("memVO");
 %>
-<%=memVO==null %>-- ${memVO==null}
+
 
 <!doctype html>
 
@@ -97,115 +97,13 @@ body {
 	<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 	<jsp:useBean id="MemVO" scope="page" class="com.mem.model.MemVO" />
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-10">
-				<h1>關於我</h1>
-			</div>
-			<div class="col-sm-2">
-				<a href="#" class="pull-right"><img title="profile image"
-					class="img-circle" src="https://picsum.photos/100/100"></a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-3">
-				<!--left col-->
 
-				<div class="text-center">
-
-					<c:if test="${memberVO.getMem_img()!=null }">
-						<%
-							MemVO memVOfromSession = (MemVO) session.getAttribute("memberVO");
-								String pic = new String(Base64.getEncoder().encode(memVOfromSession.getMem_img()), "UTF-8");
-						%>
-						<img name="mem_img" class="card-img-top img-circle" id="mem_img"
-							src="data:image/jpg;base64,<%=pic%>" />
-					</c:if>
-					<c:if test="${memberVO.getMem_img()==null }">
-						<img name="mem_img" class="card-img-top img-circle"
-							src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
-							alt="你沒有放圖片喔">
-					</c:if>
-
-				</div>
-				<br>
-
-
-
-
-
-				<ul class="list-group">
-					<li class="list-group-item text-muted">會員 <i
-						class="fa fa-dashboard fa-1x"></i></li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>會員編號:</strong></span>
-						${memberVO.mem_no}</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>會員狀態:</strong></span>
-						${memberVO.mem_status}</li>
-
-				</ul>
-
-
-
-
-			</div>
 			<!--/col-3-->
 			<div class="col-sm-9">
-				<ul class="nav nav-tabs" role="tablist">
+
+
 					
 
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#MemInfoUpdate" role="tab">會員註冊</a></li>
-				</ul>
-
-<!-- 				<br> -->
-<!-- 				<div class="tab-content"> -->
-<!-- 					<div role="tabpanel" class="tab-pane active" id="MemInfo"> -->
-
-<!-- 						<div class="row"> -->
-<!-- 							<div class="form-group col-sm-6"> -->
-<!-- 								<label for="first_name"><h4>會員姓名</h4></label> -->
-<%-- 								<p>${memberVO.mem_name}</p> --%>
-<!-- 							</div> -->
-<!-- 							<div class="form-group col-sm-6"> -->
-<!-- 								<label for="last_name"><h4>會員性別</h4></label> -->
-<%-- 								<p>${memberVO.mem_sex}</p> --%>
-<!-- 							</div> -->
-<!-- 						</div> -->
-
-<!-- 						<div class="row"> -->
-<!-- 							<div class="form-group col-sm-6"> -->
-<!-- 								<label for="phone"><h4>出生 年/月/日</h4></label> -->
-<%-- 								<p>${memberVO.mem_bd}</p> --%>
-<!-- 							</div> -->
-<!-- 							<div class="form-group col-sm-6"> -->
-<!-- 								<label for="mobile"><h4>連絡電話</h4></label> -->
-<%-- 								<p>${memberVO.mem_ph}</p> --%>
-<!-- 							</div> -->
-<!-- 						</div> -->
-
-<!-- 						<div class="row"> -->
-<!-- 							<div class="form-group col-sm-6"> -->
-<!-- 								<label for="email"><h4>Email</h4></label> -->
-<%-- 								<p>${memberVO.mem_email}</p> --%>
-<!-- 							</div> -->
-<!-- 							<div class="form-group col-sm-6"> -->
-<!-- 								<label for="location"><h4>地址</h4></label> -->
-<%-- 								<p>${memberVO.mem_adrs}</p> --%>
-<!-- 							</div> -->
-<!-- 						</div> -->
-
-<!-- 						<div class="form-group"> -->
-<!-- 							<div class="col-xs-12"> -->
-<!-- 								<label for="AboutMe"><h4>自我介紹</h4></label> -->
-<%-- 								<p>${memberVO.mem_intro}</p> --%>
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 					/tab-pane -->
-					<!--------------------------------------------------------------------------------------------------->
-					
-					
-<!----資料修改---------------------------------------------------------------------------------->
-					<div role="tabpanel" class="tab-pane fade" id="MemInfoUpdate">
 
 						<form class="form" action="<%=request.getContextPath()%>/front-end/mem/mem.do" method="post"
 							id="registrationForm" enctype="multipart/form-data">
@@ -283,9 +181,7 @@ body {
 									<label for="AboutMe"><h4>自我介紹</h4></label>
 									<textarea name="mem_intro" class="form-control"
 										placeholder="Say~Something" id="AboutMe"
-										style="height: 150px;">
-								${memberVO.mem_intro}
-								</textarea>
+										style="height: 150px;"></textarea>
 								</div>
 								<div class="col-xs-3">
 									<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
