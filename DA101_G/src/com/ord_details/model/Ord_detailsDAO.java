@@ -1,32 +1,35 @@
 package com.ord_details.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 	
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	// jndi不能使用main測試 要用jsp servlet 待v c完成後解鎖********
-//	private static DataSource ds = null;
-//	static {
-//		try {
-//			Context ctx = new InitialContext();
-//			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
-//		} catch (NamingException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	// vc完成後使用datasource
 	
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "DA101G6";
-	String passwd = "123456";
+//	String driver = "oracle.jdbc.driver.OracleDriver";
+//	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+//	String userid = "DA101G6";
+//	String passwd = "123456";
 
 	private static final String INSERT_STMT = 
 			"INSERT INTO ORD_DETAILS (DET_ORDNO,DET_FONO,DET_PRICE,DET_QUANTITY)\r\n" + 
@@ -50,12 +53,12 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
-
-//			con = ds.getConnection();
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
 //			pstmt = con.prepareStatement(INSERT_STMT);
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT_STMT);
 			
 			pstmt.setString(1,ord_detailsVO.getDet_ordno());
 			pstmt.setString(2,ord_detailsVO.getDet_fono());
@@ -65,11 +68,7 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources
@@ -99,9 +98,7 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(UPDATE);
+
 			
 //			con = ds.getConnection();
 //			pstmt = con.prepareStatement(UPDATE);
@@ -116,10 +113,6 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -153,12 +146,12 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(GET_ONE_STMT);
-			
-//			con = ds.getConnection();
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
 //			pstmt = con.prepareStatement(GET_ONE_STMT);
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT);
 			
 			pstmt.setString(1, det_ordno);
 			pstmt.setString(2, det_fono);
@@ -177,10 +170,6 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -223,14 +212,14 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(GET_ALL_STMT);
-			rs = pstmt.executeQuery();
-			
-//			con = ds.getConnection();
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
 //			pstmt = con.prepareStatement(GET_ALL_STMT);
 //			rs = pstmt.executeQuery();
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				// empVO �]�٬� Domain objects
@@ -245,10 +234,6 @@ public class Ord_detailsDAO implements Ord_detailsDAO_interface{
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());

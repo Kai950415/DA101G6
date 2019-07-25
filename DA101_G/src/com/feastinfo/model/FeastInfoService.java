@@ -97,14 +97,21 @@ public class FeastInfoService
     {
         return dao.getAll().stream()
                 .filter(feastInfo -> feastInfo.getFea_date().before(new java.sql.Timestamp(System.currentTimeMillis())))
+                .filter(feastInfo -> feastInfo.getFea_status().equals("fea3"))
                 .collect(Collectors.toList());
     }
     
     public List<FeastInfoVO> getAllCurrentFeastInfo()
     {
         return dao.getAll().stream()
-                .filter(feastInfo -> feastInfo.getFea_date().after(new java.sql.Timestamp(System.currentTimeMillis())))
+                .filter(feastInfo -> feastInfo.getFea_date().after(new java.sql.Timestamp(System.currentTimeMillis())) && feastInfo.getFea_startDate().before(new java.sql.Timestamp(System.currentTimeMillis())))
                 .collect(Collectors.toList());
+    }
+    
+    public List<FeastInfoVO> getAllFeastByRes(String res_no){
+        return dao.getAll().stream()
+        		.filter(f -> f.getFea_resNo().equals(res_no))
+        		.collect(Collectors.toList());
     }
     
 }

@@ -161,6 +161,7 @@ public class AdServlet extends HttpServlet{
 				AdVO adVO = adSvc.getOneAd(ad_no);
 
 				req.setAttribute("adVO", adVO);
+				System.out.println(adVO);
 				String url = "/front-end/ad/showAdInfo.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);

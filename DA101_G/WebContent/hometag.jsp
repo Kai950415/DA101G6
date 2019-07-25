@@ -101,8 +101,8 @@ background-color: #ED8532;
 					role="button" data-slide="prev"> <span
 					class="carousel-control-prev-icon" aria-hidden="true"></span> <span
 					class="sr-only">Previous</span>
-				</a> <a class="carousel-control-next" href="#carouselExampleCaptions"
-					role="button" data-slide="next"> <span
+				</a> <a class="carousel-control-next" href="#carouselExampleCaptions" 
+						role="button" data-slide="next"> <span
 					class="carousel-control-next-icon" aria-hidden="true"></span> <span
 					class="sr-only">Next</span>
 				</a>
@@ -165,7 +165,7 @@ background-color: #ED8532;
 				<c:forEach var="feastInfoVO" items="${list}" begin="<%=pageIndex%>"
 					end="<%=pageIndex+rowsPerPage-1%>">
 					
-<%-- 					<c:if test="${!myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no()).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}"> --%>
+					<c:if test="${!myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no()).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
 						<!-- Project One -->
 						<div class="row">
 							<div class="col-md-7">
@@ -210,7 +210,7 @@ background-color: #ED8532;
 							</div>
 						</div>
 						<!-- /.row -->
-<%-- 					</c:if> --%>
+					</c:if>
 				</c:forEach>
 
 				<hr>

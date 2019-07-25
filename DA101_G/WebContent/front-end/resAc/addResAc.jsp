@@ -48,20 +48,7 @@
 </head>
 <body bgcolor='white'>
 
-	<table id="table-1" width="800px">
-		<tr>
-			<td>
-				<h3>員工資料新增 - addResAc.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="/DA101G6/front-end/resAc/resAc.jsp">
-					<img src="/DA101G6/images/tomcat.png" width="100" height="100"
-						border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+<%@ include file="/header.jsp"%>
 
 	<h3>資料新增:</h3>
 

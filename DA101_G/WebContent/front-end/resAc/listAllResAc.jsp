@@ -53,13 +53,7 @@
 </head>
 <body bgcolor='white'>
 
-<h4>此頁練習採用 EL 的寫法取值:</h4>
-<table id="table-1" width="1600px">
-	<tr><td>
-		 <h3>所有員工資料 - listAllResAc.jsp</h3>
-		 <h4><a href="/DA101G6/front-end/resAc/resAc.jsp"><img src="/DA101G6/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
+<%@ include file="/header.jsp"%>
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -70,6 +64,12 @@
 		</c:forEach>
 	</ul>
 </c:if>
+
+<h3>員工管理</h3>
+
+
+ <a class="btn btn-info" href='<%=request.getContextPath()%>/front-end/resAc/addResAc.jsp'>新增員工</a>
+
 
 <table>
 	<tr>

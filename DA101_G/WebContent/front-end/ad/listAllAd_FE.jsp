@@ -91,9 +91,10 @@
 			<td>${adVO.ad_no}</td>
 			<td>${adVO.ad_resno}</td>
 			<td>${adVO.ad_title}</td>
-			<td><textarea class="form-control" id="exampleFormControlTextarea3" cols="150" rows="50"
-					style="resize:none;border: 0px;outline:none;" 
-					readonly="readonly">${adVO.ad_text}</textarea></td>
+			<td><pre class="lead" style="word-break:break-all;width:auto; height:auto;" >${adVO.ad_text}</pre></td>
+<!-- 			<td><textarea class="form-control" id="exampleFormControlTextarea3" cols="150" rows="50" -->
+<!-- 					style="resize:none;border: 0px;outline:none;"  -->
+<%-- 					readonly="readonly">${adVO.ad_text}</textarea></td> --%>
 			<td><img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}" width="300" height="200"> </td>
 			<td>${adVO.ad_start}</td> 
 			<td>${adVO.ad_end}</td> 

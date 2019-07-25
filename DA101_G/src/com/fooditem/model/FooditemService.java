@@ -1,7 +1,10 @@
 package com.fooditem.model;
 
-import java.util.List;
+
+import java.util.*;
 import java.util.stream.Collectors;
+
+import com.ord_details.model.*;
 
 
 
@@ -46,12 +49,7 @@ public class FooditemService {
 
 		return fooditemVO;
 	}
-	public List<FooditemVO> getAllfooditemVOByFooditem(String fo_resno)
-	{
-		return fo.getAll().stream()
-				.filter(fooditem -> fooditem.getFo_resno().equals(fo_resno))
-				.collect(Collectors.toList());
-	}
+	
 	
 
 	public void deleteFooditem(String fo_no) {
@@ -65,8 +63,33 @@ public class FooditemService {
 	public List<FooditemVO> getAll() {
 		return fo.getAll();
 	}
+	
+	public List<FooditemVO> getAllFoodByOrd(String ord_no) {
+		Ord_detailsService ordDSvc =new Ord_detailsService();
+		List<FooditemVO> list = new ArrayList<FooditemVO>();
+		List<Ord_detailsVO> ord_detailsVOs = ordDSvc.getAlldetByOrdno(ord_no);
+		for (Ord_detailsVO ord_detailsVO : ord_detailsVOs) {
+			String fo_no = ord_detailsVO.getDet_fono();
+			FooditemVO fooditemVO = fo.findByPrimaryKey(fo_no);
+			list.add(fooditemVO);
+		}
+		return list;
+	}
 	public List<FooditemVO> getByResNOFooditem(String fo_resno) {
 		return fo.getByResNO(fo_resno);
 	}
+	
+	public List<FooditemVO> getAllfooditemVOByRes(String fo_resno) {
+	    return fo.getAll().stream()
+                .filter(fo -> fo.getFo_resno().equals(fo_resno))
+                .collect(Collectors.toList());
+    }
+	
+	public List<FooditemVO> getAllReviewFooditemByRes(String fo_resno) {
+	    return fo.getAll().stream()
+                .filter(fo -> fo.getFo_resno().equals(fo_resno))
+                .filter(fo -> fo.getFo_status().equals("fo3"))
+                .collect(Collectors.toList());
+    }
 }
 

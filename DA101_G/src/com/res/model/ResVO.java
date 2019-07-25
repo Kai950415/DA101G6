@@ -28,7 +28,7 @@ public class ResVO implements Serializable {
     public String toString()
     {
         return "ResVO [res_adrs=" + res_adrs + ", res_name=" + res_name + ", res_intro=" + res_intro + ", res_type="
-                + res_type + ", res_status=" + res_status + "]";
+                + res_type;
     }
 
 

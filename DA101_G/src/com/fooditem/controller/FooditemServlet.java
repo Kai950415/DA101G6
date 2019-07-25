@@ -3,10 +3,8 @@ package com.fooditem.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,7 +26,7 @@ import com.res.model.ResVO;
  */
 
 @WebServlet("/FooditemServlet")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
+@MultipartConfig()
 public class FooditemServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -141,9 +139,15 @@ public class FooditemServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				String fo_no = req.getParameter("fo_no").trim();
-				String fo_resno = req.getParameter("fo_resno").trim();
-		
+				FooditemService fooditemService = new FooditemService();
+				
+				
+			    String fo_no = req.getParameter("fo_no").trim();
+			    
+			    FooditemVO fooditemVO = fooditemService.getOneFooditem(fo_no);
+				ResVO resVO = (ResVO) session.getAttribute("resVO");
+				String fo_resno = resVO.getRes_no();
+				
 				String fo_name = req.getParameter("fo_name");
 				String fo_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,100}$";
 				if (fo_name == null || fo_name.trim().length() == 0) {
@@ -151,21 +155,16 @@ public class FooditemServlet extends HttpServlet {
 				} else if (!fo_name.trim().matches(fo_nameReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
 					errorMsgs.add("餐點名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 				}
-				
+				byte[] fo_img = fooditemVO.getFo_img();
 				Part part = req.getPart("fo_img");
-				InputStream is = part.getInputStream();
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				
-				byte[] buffer = new byte[is.available()];
-				int len;
-
-				// read bytes from the input stream and store them in buffer
-				while ((len = is.read(buffer)) != -1) {
-					// write bytes from the buffer into output stream
-					os.write(buffer, 0, len);
-				}
-				byte[] fo_img = null;
-				fo_img = os.toByteArray();
+				InputStream in = part.getInputStream();
+                if(in.available() == 0) {
+                    fo_img = fooditemVO.getFo_img();
+                }else{
+                    in = part.getInputStream();
+                    fo_img = new byte[in.available()];
+                    in.read(fo_img);
+                } in.close();       
 
 				Integer fo_price = null;
 				try {
@@ -192,7 +191,7 @@ public class FooditemServlet extends HttpServlet {
 				}
 
 
-				FooditemVO fooditemVO = new FooditemVO();
+				fooditemVO = new FooditemVO();
 			
 				fooditemVO.setFo_no(fo_no);
 				fooditemVO.setFo_resno(fo_resno);
@@ -280,15 +279,10 @@ public class FooditemServlet extends HttpServlet {
 				errorMsgs.add("餐點狀態: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 			}
 
-			String fo_status = new String(req.getParameter("fo_status").trim());
-			String fo_statusReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
-			if (fo_status == null || fo_status.trim().length() == 0) {
-				errorMsgs.add("餐點介紹: 請勿空白");
-			} else if (!fo_name.trim().matches(fo_introReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
-				errorMsgs.add("餐點介紹: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
-			}
+			String fo_status = "fo3";
 
 			FooditemVO fooditemVO = new FooditemVO();
+			fooditemVO.setFo_resno(fo_resno);
 			fooditemVO.setFo_name(fo_name);
 			fooditemVO.setFo_price(fo_price);
 			fooditemVO.setFo_img(fo_img);
@@ -306,13 +300,10 @@ public class FooditemServlet extends HttpServlet {
 			/*************************** 2.開始新增資料 ***************************************/
 			FooditemService fooditemSvc = new FooditemService();
 			fooditemVO = fooditemSvc.addFooditem(fo_resno, fo_name, fo_price, fo_img, fo_intro, fo_status);
-
-			ResService resService = new ResService();
-			ResVO resVO = resService.getOneRes(fo_resno);
-			resVO.setRes_status("res2");
-			resService.updateRes(resVO.getRes_no(), resVO.getRes_adrs(), resVO.getRes_name(), resVO.getRes_ph(), resVO.getRes_point(), resVO.getRes_ac(), resVO.getRes_pass(), resVO.getRes_img(), resVO.getRes_intro(), resVO.getRes_start(), resVO.getRes_end(), resVO.getRes_lat(), resVO.getRes_lot(), resVO.getRes_score(), resVO.getRes_score(), resVO.getRes_comcount(), resVO.getRes_type(), resVO.getRes_status());	
+System.out.println(304);
+		
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-			String url = "/front-end/fooditem/listAllFooditem.jsp";
+			String url = "/front-end/fooditem/listOneFooditem.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // �s�W���\�����listAllFooditem.jsp
 			successView.forward(req, res);
 
@@ -322,6 +313,53 @@ public class FooditemServlet extends HttpServlet {
 			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/fooditem/addFooditem.jsp");
 			failureView.forward(req, res);
 		}
+	}
+	
+	if("reviewFooditem".equals(action)) {
+		
+		String fo_no = req.getParameter("fo_no");
+		FooditemService foSvc = new FooditemService();
+		FooditemVO foVO = foSvc.getOneFooditem(fo_no);
+		
+		String fo_status = "fo1";
+		
+		String fo_resno = foVO.getFo_resno();
+		String fo_name = foVO.getFo_name();
+		Integer fo_price = foVO.getFo_price();
+		byte[] fo_img = foVO.getFo_img();
+		String fo_intro = foVO.getFo_intro();
+		
+		foVO.setFo_no(fo_no);
+		foVO.setFo_resno(fo_resno);
+		foVO.setFo_name(fo_name);
+		foVO.setFo_price(fo_price);
+		foVO.setFo_intro(fo_intro);
+		foVO.setFo_img(fo_img);
+		foVO.setFo_status(fo_status);
+		
+		foVO = foSvc.updateFooditem(fo_no, fo_resno, fo_name, fo_price, fo_img, fo_intro, fo_status);
+		
+		if(foSvc.getAllReviewFooditemByRes(fo_resno).size()==0) {
+
+			session.setAttribute("noNeedRe", "true");
+			String url = "/back-end/res/reviewRes.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+			return;
+		}else {
+
+			session.setAttribute("needRe", "true");
+			
+			
+			ResService resSvc = new ResService();
+			ResVO resVO = resSvc.getOneRes(fo_resno);
+			req.setAttribute("resVO", resVO);
+			String url = "/back-end/fooditem/reviewFooditem.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+			return;
+		}
+
 	}
 
 	if("delete".equals(action))

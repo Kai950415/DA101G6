@@ -3,7 +3,12 @@
 <%@ page import="java.util.*"%>
 
 <!-- Navigation 上方NAVBAR -->
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" ></script>
+<script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/all.css">
@@ -179,8 +184,8 @@ footer {
 				<li class="nav-item active">
 					<%
 						if (session.getAttribute("memberVO") != null) {
-					%>
 				
+					%>
 				<li class="nav-item active">
 					<form class="form-inline my-2 my-lg-0" method="GET"
 						action="<%=request.getContextPath()%>/logouthandler">
@@ -195,12 +200,12 @@ footer {
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown1">
 								<a class="dropdown-item"
 									href="<%=request.getContextPath()%>/front-end/mem/mem.jsp">個人檔案設定</a>
-								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/feast/listAllFeast.jsp">飯局管理</a> <a
-									class="dropdown-item" href="#">...要甚麼自己加</a> <a
-									class="dropdown-item" href="#">...要甚麼自己加</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/feast/listAllFeast.jsp">飯局管理</a>
+								<a class="dropdown-item" href="#">訂單管理</a> 
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/restaurant.jsp">美食地圖</a>
+								<a class="dropdown-item" href="#">飯局瀏覽</a>
 
-								<li class="nav-item"><input id="logout" type="submit"
-									class="btn" name="登出" value="登出"></li>
+								<li class="nav-item"><input id="logout" type="submit" class="btn" name="登出" value="登出"></li>
 							</div>
 					</form>
 				</li>
@@ -210,24 +215,25 @@ footer {
 					} else if (session.getAttribute("resVO") != null) {
 				%>
 				<li class="nav-item active">
-					<form class="form-inline my-2 my-lg-0" method="GET"
-						action="<%=request.getContextPath()%>/logouthandler">
+					<form class="form-inline my-2 my-lg-0" method="GET" action="<%=request.getContextPath()%>/logouthandler">
 						<span><span style="color: blue;">${resVO.res_name}</span>，歡迎回來!&nbsp&nbsp</span>
 						<span><span>目前點數尚餘:&nbsp</span><span style="color: green;">${resVO.res_point}</span>點&nbsp</span>
 						&nbsp &nbsp
 
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> 餐廳檔案設定 </a>
+						<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 餐廳檔案設定 </a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="#">...</a> <a
-									class="dropdown-item" href="#">餐點管理</a>
+							<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/fooditem/listOneFooditem.jsp">餐點管理</a>
+								<a class="dropdown-item" href="#">訂單管理</a> 
+								<a class="dropdown-item" href="#">餐廳頁面</a>
+								<a class="dropdown-item" href="#">廣告管理</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/resAc/listAllResAc.jsp">員工管理</a>
+								
+								
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#">...</a>
-							</div></li>
-						<li class="nav-item"><input id="logout" type="submit"
-							class=" btn" name="登出" value="登出"></li>
+						</div></li>
+						<li class="nav-item"><input id="logout" type="submit" class=" btn" name="登出" value="登出"></li>
 					</form> <%
  	} else {
  %> <a data-toggle="modal" class="btn" href="#"
@@ -254,11 +260,11 @@ footer {
 
 
 				<ul class="nav nav-pills" role="tablist">
-					<li class="nav-item"><a class="nav-link active btn-light"
+					<li class="nav-item"><a class="nav-link active btn-outline-secondary"
 						data-toggle="tab" href="#MemLogin" role="tab">會員登入</a></li>
 
-					<li class="nav-item"><a class="nav-link  btn-light"
-						data-toggle="tab" href="#ShopLogin" role="tab">商家登入</a></li>
+					<li class="nav-item"><a class="nav-link  btn-outline-secondary"
+						data-toggle="tab" href="#ShopLogin" id="resLogin" role="tab">商家登入</a></li>
 				</ul>
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="MemLogin">
@@ -284,7 +290,7 @@ footer {
 										style="color: red">&nbsp;&nbsp;${errorMsgsForLogin.member}</font>
 								</div>
 								<div class="form-group">
-									<a href="<%=request.getContextPath()%>/front-end/mem/addMem.jsp" class="ForgetPwd">註冊成為會員</a>
+									<a href="<%=request.getContextPath()%>/front-end/mem/addMem.jsp">註冊成為會員</a>
 								</div>
 							</form>
 							<div class="modal-footer">
@@ -313,7 +319,7 @@ footer {
 										style="color: red">&nbsp;&nbsp;${errorMsgsForLogin.resMember}</font>
 								</div>
 								<div class="form-group">
-									<a href="#" class="ForgetPwd">註冊成為商家會員</a>
+									<a href="<%=request.getContextPath()%>/front-end/res/addRes.jsp" class="ForgetPwd">註冊成為商家會員</a>
 								</div>
 
 							</form>
@@ -335,21 +341,34 @@ footer {
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" ></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
 
 <c:if test="${login.equals(\"false\")}" var="flag">
 	<%
 		session.removeAttribute("login");
 	%>
-	<script>
-		$(function() {
-			$('#loginBtn').trigger('click');
-		});
-	</script>
+	<c:if test="${resLogin ne (\"true\")}" var="flag">
+	<%
+		session.removeAttribute("resLogin");
+	%>
+		<script>
+			$(function() {
+				$('#loginBtn').trigger('click');
+			});
+		</script>
+	</c:if>
+	
+	<c:if test="${resLogin.equals(\"true\")}" var="flag">
+	<%
+		session.removeAttribute("resLogin");
+	%>
+		<script>
+			$(function() {
+				$('#loginBtn').trigger('click');
+				$('#resLogin').trigger('click');
+				
+			});
+		</script>
+	</c:if>
 </c:if>
 

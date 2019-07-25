@@ -6,6 +6,7 @@
 	ResService resSvc = new ResService();
 	ResVO resVO = resSvc.getOneRes(adVO.getAd_resno());
 	
+	pageContext.setAttribute("resVO", resVO);
 	String res_city = null;
 	
 	try{
@@ -87,9 +88,10 @@
 				${adVO.ad_title}
 			</h3>
 			<br>
-			<p class="lead">
-				<textarea class="lead" style="resize:none;border: 0px;outline : 0;background-color: #D9C5A8; width:1080px;">${adVO.ad_text}</textarea>
-			</p> 
+<!-- 			<p class="lead"> -->
+			<pre class="lead" style="word-break:break-all">${adVO.ad_text}</pre>
+<%-- 				<textarea class="lead" style="resize:none;border: 0px;outline : 0;background-color: #D9C5A8; width:1080px;">${adVO.ad_text}</textarea> --%>
+<!-- 			</p>  -->
 			<br>
 			<address>
 				 <strong>餐廳聯絡資訊</strong>
@@ -100,7 +102,10 @@
 				 <br /><abbr>連絡電話 :</abbr><%=resVO.getRes_ph()%>
 			</address> 
 			<br>
-			<button href="#" type="button" class="btn btn-block btn-md btn-outline-primary">
+			<a>
+			<button 
+			onclick="location.href='<%=request.getContextPath()%>/front-end/res/res.do?res_no=${resVO.res_no}&action=showResInfo'"
+			type="button" class="btn btn-block btn-md btn-outline-primary">
 				餐廳頁面
 			</button>
 		</div>

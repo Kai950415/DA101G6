@@ -295,7 +295,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 							</div>
 								<div class="col-sm-6">
 					  			<input type="hidden" name="action" value="update" >
-							<input type="submit" value="送出新增" class="form-control btn btn-primary">
+							<input type="submit" value="送出修改" class="form-control btn btn-primary">
 							</div>
 								
 						</div>

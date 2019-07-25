@@ -431,7 +431,7 @@ var resJson = [
 				//是否可以用滾輪縮放
 				scrollwheel: false,
 				//初始縮放範圍
-				zoom : 12,
+				zoom : 14,
 				//地圖樣式
 				styles : [
 					  {
@@ -478,15 +478,6 @@ var resJson = [
 						  },
 						  {
 						    "featureType": "administrative.land_parcel",
-						    "elementType": "labels",
-						    "stylers": [
-						      {
-						        "visibility": "off"
-						      }
-						    ]
-						  },
-						  {
-						    "featureType": "administrative.land_parcel",
 						    "elementType": "labels.text.fill",
 						    "stylers": [
 						      {
@@ -514,27 +505,10 @@ var resJson = [
 						  },
 						  {
 						    "featureType": "poi",
-						    "elementType": "labels.text",
-						    "stylers": [
-						      {
-						        "visibility": "off"
-						      }
-						    ]
-						  },
-						  {
-						    "featureType": "poi",
 						    "elementType": "labels.text.fill",
 						    "stylers": [
 						      {
 						        "color": "#93817c"
-						      }
-						    ]
-						  },
-						  {
-						    "featureType": "poi.business",
-						    "stylers": [
-						      {
-						        "visibility": "off"
 						      }
 						    ]
 						  },
@@ -544,15 +518,6 @@ var resJson = [
 						    "stylers": [
 						      {
 						        "color": "#a5b076"
-						      }
-						    ]
-						  },
-						  {
-						    "featureType": "poi.park",
-						    "elementType": "labels.text",
-						    "stylers": [
-						      {
-						        "visibility": "off"
 						      }
 						    ]
 						  },
@@ -606,7 +571,7 @@ var resJson = [
 						    "elementType": "geometry",
 						    "stylers": [
 						      {
-						    	  "color": "#e98d58"
+						        "color": "#e98d58"
 						      }
 						    ]
 						  },
@@ -616,15 +581,6 @@ var resJson = [
 						    "stylers": [
 						      {
 						        "color": "#db8555"
-						      }
-						    ]
-						  },
-						  {
-						    "featureType": "road.local",
-						    "elementType": "labels",
-						    "stylers": [
-						      {
-						        "visibility": "off"
 						      }
 						    ]
 						  },
@@ -695,6 +651,34 @@ var resJson = [
 				
 			});
 			infowindow = new google.maps.InfoWindow;
+			
+			 // Try HTML5 geolocation.
+	        if (navigator.geolocation) {
+	          navigator.geolocation.getCurrentPosition(function(position) {
+	            var pos = {
+	              lat: position.coords.latitude,
+	              lng: position.coords.longitude
+	            };
+	            
+	            map.setCenter(pos);
+	          }, function() {
+	            handleLocationError(true, infoWindow, map.getCenter());
+	          });
+	        } else {
+	          // Browser doesn't support Geolocation
+	          handleLocationError(false, infoWindow, map.getCenter());
+	        }
+	      
+
+	      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	        infoWindow.setPosition(pos);
+	        infoWindow.setContent(browserHasGeolocation ?
+	                              'Error: The Geolocation service failed.' :
+	                              'Error: Your browser doesn\'t support geolocation.');
+	        infoWindow.open(map);
+	      }
+			
+			
 			
 <%-- // 			座標 = new google.maps.LatLng(<%=list.get(i + (whichPage - 1) * 20).getRes_lat()%> --%>
 // 					之後一長串都是小視窗內容
@@ -809,6 +793,7 @@ function setAllListener(locations){
 		listing[i].addEventListener('mouseover', function() {
 			infowindow.setContent(item[1]);
 			infowindow.open( map, marker[i] );
+			map.setCenter(item[0]);
 		});
 
 	//以下方法皆為改變marker大小的行為     

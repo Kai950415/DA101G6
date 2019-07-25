@@ -8,8 +8,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-
-
 import com.res.model.*;
 import com.tools.*;
 
@@ -30,8 +28,9 @@ public class ResServlet extends HttpServlet {
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		HttpSession session = req.getSession();
 		
-		
+		System.out.println("action" + action);
 		if("getOneRes_For_Display".equals(action)) {
 			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -139,7 +138,7 @@ public class ResServlet extends HttpServlet {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				String res_no = req.getParameter("res_no").trim();
 				ResService resSvc = new ResService();
-				HttpSession session = req.getSession();
+				session = req.getSession();
 				ResVO resVO =(ResVO)session.getAttribute("resVO");
 //				ResVO resVO = resSvc.getOneRes(res_no);
 				String res_name = req.getParameter("res_name");
@@ -442,7 +441,10 @@ public class ResServlet extends HttpServlet {
 				resVO = resSvc.addRes(res_adrs,res_name, res_ph, res_point, res_ac,res_pass,res_img, res_intro, res_start,res_end, res_lat, res_lot, res_score, res_cost, res_comcount, res_type, res_status);
 			
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back-end/res/listAllRes.jsp";
+				Map<String, String> errorMsgsForLogin = new LinkedHashMap<String, String>();
+				session.setAttribute("login", "false");
+				session.setAttribute("resLogin", "true");
+				String url = "/hometag.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
@@ -454,6 +456,100 @@ public class ResServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		if("showResInfo".equals(action)) {
+			String res_no = req.getParameter("res_no");
+
+			ResService resSvc = new ResService();
+			ResVO resVO = resSvc.getOneRes(res_no);
+
+			req.setAttribute("resVO", resVO);
+			String url = "/front-end/res/showResInfo.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); 
+			successView.forward(req, res);
+
+	}
+		if("review".equals(action)) {
+			
+			String res_no = req.getParameter("res_no");
+			String res_status = req.getParameter("res_status");
+			
+			if(res_status.equals("res2")) {
+				ResService resSvc = new ResService();
+				ResVO resVO = resSvc.getOneRes(res_no);
+				
+				String res_name = resVO.getRes_name();
+				String res_adrs = resVO.getRes_adrs();
+				String res_ph = resVO.getRes_ph();
+				Integer res_point =  resVO.getRes_point();
+				String res_ac = resVO.getRes_ac();
+				String res_pass = resVO.getRes_ac();
+				byte[] res_img = resVO.getRes_img();
+				String res_intro = resVO.getRes_intro();
+				String res_start = resVO.getRes_start();
+				String res_end = resVO.getRes_end();
+				Double res_lot = resVO.getRes_lot();
+				Double res_lat = resVO.getRes_lat();
+				Integer res_score = resVO.getRes_score();
+				Integer res_comcount = resVO.getRes_comcount();
+				Integer res_cost = resVO.getRes_cost();
+				String res_type = resVO.getRes_type();
+				
+				resVO.setRes_no(res_no);
+				resVO.setRes_adrs(res_adrs);
+				resVO.setRes_name(res_name);
+				resVO.setRes_ph(res_ph);
+				resVO.setRes_point(res_point);
+				resVO.setRes_ac(res_ac);
+				resVO.setRes_pass(res_pass);
+				resVO.setRes_img(res_img);
+				resVO.setRes_intro(res_intro);
+				resVO.setRes_start(res_start);
+				resVO.setRes_end(res_end);
+				resVO.setRes_lat(res_lat);
+				resVO.setRes_lot(res_lot);
+				resVO.setRes_score(res_score);
+				resVO.setRes_cost(res_cost);
+				resVO.setRes_comcount(res_comcount);
+				resVO.setRes_type(res_type);
+				resVO.setRes_status(res_status);
+				
+				resVO = resSvc.updateRes(res_no,res_adrs,res_name, res_ph, res_point, res_ac,res_pass, res_img, res_intro, res_start,res_end, res_lat, res_lot, res_score, res_cost, res_comcount, res_type, res_status);
+				
+				Send send = new Send();
+		 	    String[] tel ={res_ph};
+		 	    String message = "親愛的"+res_name+"您好！\r\n"+
+		 	    		"您的餐廳資料已審核完畢，請您盡早新增菜單以便後續餐廳上架作業。\r\n"+
+		 	    		"謝謝您！";
+		 	    send.sendMessage(tel , message);
+		 	    
+				req.setAttribute("resVO", resVO);
+				session.setAttribute("successReviewRes", "true");
+				String url = "/back-end/res/reviewRes.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+			}else {
+				String url = "/back-end/res/reviewRes.jsp";
+				session.setAttribute("noChoice", "true");
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				return;
+			}
+			
+		}
+		
+		if("reviewFooditem".equals(action)) {			
+			String res_no = req.getParameter("res_no").trim();
+			
+			ResService resSvc = new ResService();
+			ResVO resVO = resSvc.getOneRes(res_no);
+			
+			req.setAttribute("resVO", resVO); 
+			String url = "/back-end/fooditem/reviewFooditem.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); 
+			successView.forward(req, res);
+			
+		
+	}
 		
 		if("delete".equals(action)){ // 來自listAllEmp.jsp
 			

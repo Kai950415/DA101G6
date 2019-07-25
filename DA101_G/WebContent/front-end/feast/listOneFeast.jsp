@@ -14,6 +14,8 @@
 
 	List<MyFeastVO> list = myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no());
 
+	FeastInfoVO feaVO = (FeastInfoVO)request.getAttribute("feastInfoVO");
+	session.setAttribute("feastInfoVO", feaVO);
 	pageContext.setAttribute("myeSvc", myeSvc);
 	pageContext.setAttribute("list", list);
 %>

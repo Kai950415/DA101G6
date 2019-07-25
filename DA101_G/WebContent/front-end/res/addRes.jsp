@@ -46,7 +46,6 @@
 		res_town = null;
 	}
 %>
-${resVO==null}--<%=resVO == null%>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -113,22 +112,9 @@ th, td {
 </head>
 <body bgcolor='white'>
 
-	<table id="table-1" width="800px">
-		<tr>
-			<td>
-				<h3>餐廳資料新增 - addRes.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="/DA101G6/back-end/res/select_page.jsp">
-					<img src="/DA101G6/images/tomcat.png" width="100" height="100"
-						border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+	<%@ include file="/header.jsp"%>
 
-	<h3>資料新增:</h3>
+	<h3>餐廳註冊:</h3>
 
 	<%-- 錯誤表列 --%>
 	<c:if test="${not empty errorMsgs}" >
@@ -192,8 +178,7 @@ th, td {
 
 			<tr>
 				<td>餐廳介紹:</td>
-				<td><input type="TEXT" name="res_intro" size="20"
-					value="<%=(resVO == null) ? "" : resVO.getRes_intro()%>" /></td>
+				<td><textarea style="resize: none;" name="res_intro" rows="5"  cols="45"><%=(resVO == null) ? "" : resVO.getRes_intro()%></textarea></td>
 			</tr>
 
 			<tr>

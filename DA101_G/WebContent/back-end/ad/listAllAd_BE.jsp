@@ -51,14 +51,7 @@
 
 </head>
 <body bgcolor='white'>
-
-<h4>此頁練習採用 EL 的寫法取值:</h4>
-<table id="table-1" width="1600px">
-	<tr><td>
-		 <h3>所有待審核廣告 - listAllAd_BE.jsp</h3>
-		 <h4><a href="/DA101G6/back-end/ad/ad_BE.jsp"><img src="/DA101G6/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
+<%@ include file="/back-end/BackHeader.jsp" %> 
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -69,7 +62,7 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
+<div class="row justify-content-center">
 <table>
 	<tr>
 		<th>廣告編號</th>
@@ -83,15 +76,14 @@
 		<th>修改</th>
 	</tr>
 	 
-	<%@ include file="/page1.file" %>
+	 	<%@ include file="page1.file"%>
 	<c:forEach var="adVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr>
 			<td>${adVO.ad_no}</td>
 			<td>${adVO.ad_resno}</td>
 			<td>${adVO.ad_title}</td>
-			<td><textarea class="form-control" id="exampleFormControlTextarea3" cols="150" rows="50"
-					style="resize:none;border: 0px;outline:none;Comparator.reverseOrder()" 
-					readonly="readonly">${adVO.ad_text}</textarea></td>
+			<td><pre class="form-control" id="exampleFormControlTextarea3" cols="75" rows="10"style="resize:none;border: 0px;outline:none;Comparator.reverseOrder()" 
+					style="word-break:break-all">${adVO.ad_text}</pre></td>
 			<td><img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}" width="300" height="200"> </td>
 			<td>${adVO.ad_start}</td> 
 			<td>${adVO.ad_end}</td> 
@@ -107,7 +99,8 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="/page2.file" %>
+</div>
+<%@ include file="page2.file" %>
 
 </body>
 </html>

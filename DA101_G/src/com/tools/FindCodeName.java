@@ -28,13 +28,14 @@ public class FindCodeName
 
         Map.put("fo1", "上架");
         Map.put("fo2", "下架");
-
+        Map.put("fo3", "餐點待審核");
+        
         Map.put("f1", "未接受邀請");
         Map.put("f2", "已接受邀請");
 
         Map.put("lm1", "上架");
         Map.put("lm2", "下架");
-
+        
         Map.put("post1", "上架");
         Map.put("post2", "下架");
 
@@ -71,10 +72,10 @@ public class FindCodeName
         return Map.get(StatusNum);
     }
 
-    public static void main(String[] args)
-    {
-        String test = FindCodeName.meaning("f1");
-        System.out.println(test);
-        System.out.println(FindCodeName.meaning(null));
-    }
+//    public static void main(String[] args)
+//    {
+//        String test = FindCodeName.meaning("f1");
+//        System.out.println(test);
+//        System.out.println(FindCodeName.meaning(null));
+//    }
 }

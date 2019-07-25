@@ -97,7 +97,7 @@
 <h3>員工管理</h3>
 
 <ul>
-  <li><a href='/DA101G6/front-end/resAc/addResAc.jsp'>Add</a> a new ResAc.</li>
+  <li><a href='<%=request.getContextPath()%>/front-end/resAc/addResAc.jsp'>Add</a> a new ResAc.</li>
 </ul>
 
 </body>

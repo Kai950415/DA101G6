@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.fooditem.model.*,com.res.model.*"%>
+<%@ page import="com.fooditem.model.*,com.res.model.*,com.feastinfo.model.*"%>
 
 <%
 	ResVO resVO = (ResVO) session.getAttribute("ResVO"); // "ResVO" 與 餐廳登入的"resVO" 區別
 		
-
+	
 	FooditemService fooditemSvc = new FooditemService();
 	List<FooditemVO> list = fooditemSvc.getByResNOFooditem(resVO.getRes_no());
 	pageContext.setAttribute("list",list);

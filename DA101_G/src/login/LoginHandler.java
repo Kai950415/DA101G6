@@ -1,11 +1,15 @@
 package login;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.administrator.model.AdministratorService;
 import com.administrator.model.AdministratorVO;
@@ -13,8 +17,6 @@ import com.mem.model.MemService;
 import com.mem.model.MemVO;
 import com.res.model.ResService;
 import com.res.model.ResVO;
-
-import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/loginhandler")
 public class LoginHandler extends HttpServlet
@@ -133,6 +135,7 @@ public class LoginHandler extends HttpServlet
             if ((resVO) == null)
             { // 【帳號 , 密碼無效時】
                 errorMsgsForLogin.put("resMember", "帳號或密碼輸入錯誤");
+                session.setAttribute("resLogin", "true");
                 req.setAttribute("login", "false");
                 req.getRequestDispatcher("hometag.jsp").forward(req, res);
             }
@@ -179,7 +182,7 @@ public class LoginHandler extends HttpServlet
             { // 【帳號 , 密碼有效時, 才做以下工作】
                 
                 session.setAttribute("adminVO", adminVO); // *工作1: 才在session內做已經登入過的標識
-
+              System.out.println(123);
                 res.sendRedirect(req.getContextPath() + "/back-end/BackTag.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
             }
         }

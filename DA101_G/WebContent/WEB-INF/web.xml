@@ -224,6 +224,14 @@
 		<url-pattern>/back-end/reportlm/reportLM.do</url-pattern>
 	</servlet-mapping>
   
+    <servlet>
+    <servlet-name>PostServlet</servlet-name>
+    <servlet-class>com.post.controller.PostServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PostServlet</servlet-name>
+    <url-pattern>/front-end/post/post.do</url-pattern>
+  </servlet-mapping>
   
   <servlet>
     <servlet-name>FooditemServlet</servlet-name>
@@ -234,6 +242,14 @@
     <url-pattern>/front-end/fooditem/fooditem.do</url-pattern>
   </servlet-mapping>
   
+   <servlet>
+    <servlet-name>PointtransactionServlet</servlet-name>
+    <servlet-class>com.pointtransaction.controller.PointtransactionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PointtransactionServlet</servlet-name>
+    <url-pattern>/back-end/pointtransaction/pointtransaction.do</url-pattern>
+  </servlet-mapping>
 
   
 </web-app>

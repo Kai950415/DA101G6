@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.fooditem.model.*"%>
 
@@ -10,55 +10,42 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>À\ÂI¸ê®Æ·s¼W - addFooditem.jsp</title>
+<title>é¤é»è³‡æ–™æ–°å¢ - addFooditem.jsp</title>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/address.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
+<script>
+	$(document).ready(function() {
 
-<style>
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-</style>
+		var readURL = function(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
 
+				reader.onload = function(e) {
+					$('.avatar').attr('src', e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$(".file-upload").on('change', function() {
+			readURL(this);
+		});
+	});
+</script>
 </head>
 <body bgcolor='white'>
 <%@ include file="/header.jsp"%>
-<table id="table-1">
-	<tr><td>
-		 <h3>¸ê®Æ·s¼W - addFooditem.jsp</h3></td><td>
-		 <h4><a href="fooditem_select_page.jsp"><img src="images/tomcat.png" width="100" height="100" border="0">¦^­º­¶</a></h4>
-	</td></tr>
-</table>
 
-<h3>¸ê®Æ·s¼W:</h3>
 
-<%-- ¿ù»~ªí¦C --%>
+
+
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+	<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 	<ul>
 		<c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
@@ -67,45 +54,61 @@
 </c:if>
 
 <FORM METHOD="post" ACTION="fooditem.do" name="form1" enctype="multipart/form-data">
-<table>
+	<input type="hidden" name="fo_resno" size="45"  value="${resVO.res_no}" />
+	<div class="container">
+	<br>
 	
-	<tr>
-		<td>À\ÆU½s¸¹:</td>
-		<td><input type="TEXT" name="fo_resno" size="45" 
-			 value="<%= (fooditemVO == null)? "RS00000" : fooditemVO.getFo_resno()%>" /></td>
-	</tr>
 	
-	<tr>
-		<td>À\ÂI¦WºÙ:</td>
-		<td><input type="TEXT" name="fo_name" size="45" 
-			 value="<%= (fooditemVO==null)? "¦WºÙ" : fooditemVO.getFo_name()%>" /></td>
-	</tr>
-	<tr>
-		<td>»ù®æ:</td>
-		<td><input type="TEXT" name="fo_price" size="45"
-			 value="<%= (fooditemVO==null)? "0" : fooditemVO.getFo_price()%>" /></td>
-	</tr>
-	<tr>
-		<td>¹Ï¤ù::</td>
-		<td><input type="file" name="fo_img" size="45"
-			 value="<%= (fooditemVO==null)? "¹Ï¤ù" : fooditemVO.getFo_img()%>" /></td>
-	</tr>
-	<tr>
-		<td>¤¶²Ğ:</td>
-		<td><input type="TEXT" name="fo_intro" size="45"
-			 value="<%= (fooditemVO==null)? "10000" : fooditemVO.getFo_intro()%>" /></td>
-	</tr>
-	<tr>	
-		<td>ª¬ºA:</td>
-		<td><input type="TEXT" name="fo_status" size="45"
-			 value="<%= (fooditemVO==null)? "100" : fooditemVO.getFo_status()%>" /></td>
-	</tr>
 
-</table>
-<br>
+	<div class="row justify-content-center">
+	<div class="col-sm-7">
+	<div class="row">
+		<div class="form-group col-sm-6">
+		<h4>é¤é»åç¨± :</h4><input type="TEXT" name="fo_name" class="form-control"
+			 value="<%= (fooditemVO==null)? "åç¨±" : fooditemVO.getFo_name()%>"/>
+		
+	</div>
+		<div class="form-group col-sm-6">
+		<h4>åƒ¹æ ¼:</h4>
+		<input class="form-control" type="TEXT" name="fo_price"
+			 value="<%= (fooditemVO==null)? "0" : fooditemVO.getFo_price()%>" />
+	</div></div>
+	<div class="row">
+		<div class="form-group col-12">
+		<h4>ä»‹ç´¹:</h4>
+		<textarea name="fo_intro" class="form-control" rows="5"><%= (fooditemVO==null)? "10000" : fooditemVO.getFo_intro()%></textarea>
+	</div></div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+		<h4>åœ–ç‰‡ :</h4>
+		<input type="file" name="fo_img" class="text-center center-block file-upload"
+			 value="<%=(fooditemVO==null)? "åœ–ç‰‡" : fooditemVO.getFo_img()%>" />
+		</div>
+		<div class="form-group col-sm-6">
+		<img src="<%=request.getContextPath()%>/images/no.gif" width="100%" class="avatar" alt="avatar" >
+		</div>
+	</div>
+		<div class="row justify-content-center">
+		<div class="form-group col-sm-3">
+			 <input type="hidden" name="action" value="insert">
+			<input type="submit" value="é€å‡ºæ–°å¢" class="btn btn-info">
+		</div>
+			</FORM>
+		<div class="form-group col-sm-3">
+			<a class="btn btn-outline-secondary"  href="<%=request.getContextPath()%>/front-end/fooditem/listOneFooditem.jsp">å›ä¸Šé </a>
+		</div>
+		</div>
+			
+			
+	
+		
 
-<input type="hidden" name="action" value="insert">
-<input type="submit" value="°e¥X·s¼W"></FORM>
+
+</div>
+</div>
+</div>
+
+
 </body>
 
 

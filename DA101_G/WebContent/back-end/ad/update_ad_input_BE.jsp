@@ -31,6 +31,9 @@
     color: blue;
     display: inline;
   }
+  h3{
+  	text-align: center;
+  }
 </style>
 
 <style>
@@ -50,23 +53,23 @@
 </style>
 </head>
 <body bgcolor='white'>
+<%@ include file="/back-end/BackHeader.jsp" %> 
+<!-- 	<table id="table-1" width="800px"> -->
+<!-- 		<tr> -->
+<!-- 			<td> -->
+<!-- 				<h3>廣告審核 - update_res_input_BE.jsp</h3> -->
+<!-- 			</td> -->
+<!-- 			<td> -->
+<!-- 				<h4> -->
+<!-- 					<a href="/DA101G6/back-end/ad/ad_BE.jsp"><img -->
+<!-- 						src="/DA101G6/images/tomcat.png" width="100" height="100" -->
+<!-- 						border="0">回首頁</a> -->
+<!-- 				</h4> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
+<!-- 	</table> -->
 
-	<table id="table-1" width="800px">
-		<tr>
-			<td>
-				<h3>廣告審核 - update_res_input_BE.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="/DA101G6/back-end/ad/ad_BE.jsp"><img
-						src="/DA101G6/images/tomcat.png" width="100" height="100"
-						border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
-
-	<h3>資料修改:</h3>
+	<h3 class="h1" >資料審核</h3>
 
 	<%-- 錯誤表列 --%>
 	<c:if test="${not empty errorMsgs}">
@@ -77,9 +80,10 @@
 			</c:forEach>
 		</ul>
 	</c:if>
-
+<div class="row justify-content-center">
 	<FORM METHOD="post" ACTION="ad.do" name="form1"
 		enctype="multipart/form-data">
+		
 		<table width="800px">
 			<tr>
 				<td>廣告編號:<font color=red><b>*</b></font></td>
@@ -94,9 +98,9 @@
 				<td>
 					<div class="form-group">
  				 	<label for="exampleFormControlTextarea3"></label>
-  					<textarea class="form-control" id="exampleFormControlTextarea3" name="ad_text" cols="150" rows="50"
-					style="resize:none;border: 0px;outline:none;" 
-					readonly="readonly"><%=(adVO == null) ? "" : adVO.getAd_text()%></textarea>
+  					<pre class="form-control" id="exampleFormControlTextarea3" name="ad_text" cols="60" rows="10"
+					style="resize:none;border: 0px;outline:none; word-break:break-all;" 
+					><%=(adVO == null) ? "" : adVO.getAd_text()%></pre>
   					</div>
   				</td>
 			</tr>
@@ -125,13 +129,15 @@
 			</tr>		
 			
 		</table>
+		
 		<br>
 			<input type="hidden" name="action" value="update">
 			<input type="hidden" name="ad_no" value="<%=adVO.getAd_no()%>">
 			<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
 			<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:listAllAd_BE.jsp-->
-			<input type="submit" value="送出審核">
+			<input type="submit" value="送出">
 	</FORM>
+	</div>
 </body>
 
 <script>

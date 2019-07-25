@@ -6,13 +6,15 @@
 <%@ page import="com.feastinfo.model.*, com.tools.FindCodeName"%>
 
 <%
-    FeastInfoService feaSvc = new FeastInfoService();
-    List<FeastInfoVO> historyList = feaSvc.getAllHistoryFeastInfo();
-    pageContext.setAttribute("historyList", historyList);
-    
-    List<FeastInfoVO> currentList = feaSvc.getAllCurrentFeastInfo();
-    pageContext.setAttribute("currentList", currentList);
+	FeastInfoService feaSvc = new FeastInfoService();
+	List<FeastInfoVO> historyList = feaSvc.getAllHistoryFeastInfo();
+	pageContext.setAttribute("historyList", historyList);
+	
+	List<FeastInfoVO> currentList = feaSvc.getAllCurrentFeastInfo();
+	pageContext.setAttribute("currentList", currentList);
 %>
+<jsp:useBean id="FindCodeName" scope="page" class="com.tools.FindCodeName" />
+<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />	
 <jsp:useBean id="myeSvc" scope="page" class="com.myfeast.model.MyFeastService" />
 <!doctype html>
 <html lang="en">
@@ -34,10 +36,9 @@
 
 
 <body>
+<%@ include file="/header.jsp"%>
 
-	<%@ include file="/header.jsp"%>
-	
-	<h4>此頁練習採用 EL 的寫法取值:</h4>
+
 
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
@@ -48,7 +49,6 @@
 		</ul>
 	</c:if>
 
-
 <div>
 				<ul class="nav nav-tabs justify-content-center" role="tablist">
 					<li class="nav-item"><a class="nav-link active"
@@ -58,164 +58,241 @@
 						href="#feasting" role="tab">參加中</a></li>
 				</ul>
 </div>
-<div class="tab-content">
-<div role="tabpanel" class="tab-pane active" id="historyFeast">
-		<!-- Content Row -->
-		<div class="row">
-			<!-- Page Content -->
-			<div class="container">
 
-				<!-- 我是飯局-->
+<div class="tab-content">
+	<div role="tabpanel" class="tab-pane active" id="historyFeast">
+	
+	
+		<div class="container">
+		<div class="row ">
+		<br>
+		
+	<!-- 我是飯局-->
 				<h1 class="my-4">
 					歷史飯局瀏覽: <small>創造一起吃飯的樂趣吧!</small>
 				</h1>
 
-
-
-
-
 				<c:forEach var="feastInfoVO" items="${historyList}">
 					
 					<c:if test="${myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no()).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
-						<!-- Project One -->
+		
+		<!-- 	mx-0 justify-content-center align-items-center w-100 -->
+			<div class="col-6">
+			<br>
+				<div class="card">
+				  <div class="card-header">
+				  <br>
+				  <h3><b>主揪者 :</b>${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</h3>
+				  </div>
+				  <div class="card-body">
+				    <h5 class="card-title"><b>主題 :</b>${feastInfoVO.fea_title}</h5>
+				    <p class="card-text">${feastInfoVO.fea_text}</p>
+				    <p class="card-text"></p>
+				    
+				    
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    	<li class="list-group-item">
 						<div class="row">
-							<div class="col-md-7">
-
-								<FORM METHOD="post"
-									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
-
-									<input type="hidden" class="form-check-input" name="action"
-										value="getOne_For_Display"> <input type="hidden"
-										class="form-check-input" name="fea_no"
-										value="${feastInfoVO.fea_no}">
-									<button type="submit" style="background-color: #D9C5A8;width: 80%;background: transparent;border-color: #D9C5A8;border-style: solid;">
-										<img class="img-fluid rounded mb-3 mb-md-0"
-											src="https://picsum.photos/700/550?random=1" alt="">
-									</button>
-								</form>
-
-							</div>
-							<div class="col-md-5">
-								<h3>標題:${feastInfoVO.fea_title}</h3>
-
-								<p>${feastInfoVO.fea_text}</p>
-								<p>發起人:${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</p>
-								<p>現在人數:${feastInfoVO.fea_number}</p>
+							<div class="form-group col-sm-4">
 								<p>
-									開團時間:
-									<fmt:formatDate value="${feastInfoVO.fea_date}"
-										pattern="yyyy-MM-dd HH:mm:ss" />
-								</p>
-								<p>類型:${feastInfoVO.fea_type}</p>
-								<p>地址:${feastInfoVO.fea_loc}</p>
-
-								<FORM METHOD="post"
-									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
-
-									<input type="hidden" class="form-check-input" name="action"
-										value="getOne_For_Display"> <input type="hidden"
-										class="form-check-input" name="fea_no"
-										value="${feastInfoVO.fea_no}">
-									<button type="submit" class="btn btn-primary">JOIN!</button>
-								</form>
+									<b>目前人數 :</b>${feastInfoVO.fea_number}</p>
 							</div>
-						</div>
-						<!-- /.row -->
-					</c:if>
-				</c:forEach>
+							<div class="form-group col-sm-4">
+								<p>
+									<b>人數上限 :</b>${feastInfoVO.fea_upLim}</p>
+							</div>
+							<div class="form-group col-sm-4">
+								<p>
+									<b>人數下限:</b>${feastInfoVO.fea_lowLim}</p>
+							</div>
+							</div>
+						</li>
+				    <li class="list-group-item">
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label><b>飯局日期 :</b></label>
+								<p>
+									<fmt:formatDate value="${feastInfoVO.fea_date}" pattern="yyyy-MM-dd"/></p>
+							</div>
+							<div class="form-group col-sm-4">
+								<label><b>報名截止時間 :</b></label>
+								<p>
+									<fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+							</div>
+							<div class="form-group col-sm-4">
+								<label><b>訂餐截止時間 :</b></label>
+								<p>
+								<fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+								</div>
+								</div>
+				
+				    </li>
+				    
+				    <li class="list-group-item ">
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<p>
+									<b>飯局類型 :</b>${feastInfoVO.fea_type}</p>
+							</div>
+							<div class="form-group col-sm-4">
+								<label><b>飯局地點 :</b></label>
+								<p>${feastInfoVO.fea_loc}</p>
+							</div>
+							<div class="form-group col-sm-4">
+								<p>
+									<b>飯局狀態 :</b>${FindCodeName.meaning(feastInfoVO.fea_status)}</p>
+							</div>
+							</div>
+					</li>
+				  </ul>
+				  <div class="card-footer">
+				  <div class="row  justify-content-center">
+				  
+				  
+				  
+				  <div class="form-group col-sm-3">
+					<button type="button" class="btn btn-info" onclick="location.href='<%=request.getContextPath()%>/front-end/post/addPost.jsp?res_no=${feastInfoVO.fea_resNo}'">新增貼文</button>
+				  
+				  </div>
+	
+	
+	
+								
+					</div>
+					</div>
+					
+					</div>
+		  		</div>
+		  		</c:if>
+		</c:forEach>
+	  </div>
+	</div>
+	
+	</div>
+	
+		<div role="tabpanel" class="tab-pane" id="feasting">
+	
+	
+		<div class="container">
+		<div class="row ">
+		<br>
 
-				<hr>
-
-
-			</div>
-			<!-- /.container -->
-
-			<!-- /.col-md-4 -->
-
-</div>
-		</div>
-
-<div role="tabpanel" class="tab-pane" id="feasting">
-		<!-- Content Row -->
-		<div class="row">
-			<!-- Page Content -->
-			<div class="container">
-
-				<!-- 我是飯局-->
+	<!-- 我是飯局-->
 				<h1 class="my-4">
 					參加中飯局瀏覽: <small>創造一起吃飯的樂趣吧!</small>
 				</h1>
 
-
-
-
-
 				<c:forEach var="feastInfoVO" items="${currentList}">
 					
 					<c:if test="${myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no()).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
-						<!-- Project One -->
+		
+		<!-- 	mx-0 justify-content-center align-items-center w-100 -->
+			<div class="col-6">
+			<br>
+				<div class="card">
+				  <div class="card-header">
+				  <br>
+				  <h3><b>主揪者 :</b>${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</h3>
+				  </div>
+				  <div class="card-body">
+				    <h5 class="card-title"><b>主題 :</b>${feastInfoVO.fea_title}</h5>
+				    <p class="card-text">${feastInfoVO.fea_text}</p>
+				    <p class="card-text"></p>
+				    
+				    
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    	<li class="list-group-item">
 						<div class="row">
-							<div class="col-md-7">
-
-								<FORM METHOD="post"
-									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
-
-									<input type="hidden" class="form-check-input" name="action"
-										value="getOne_For_Display"> <input type="hidden"
-										class="form-check-input" name="fea_no"
-										value="${feastInfoVO.fea_no}">
-									<button type="submit" style="background-color: #D9C5A8;width: 80%;background: transparent;border-color: #D9C5A8;border-style: solid;">
-										<img class="img-fluid rounded mb-3 mb-md-0"
-											src="https://picsum.photos/700/550?random=1" alt="">
-									</button>
-								</form>
-
-							</div>
-							<div class="col-md-5">
-								<h3>標題:${feastInfoVO.fea_title}</h3>
-
-								<p>${feastInfoVO.fea_text}</p>
-								<p>發起人:${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</p>
-								<p>現在人數:${feastInfoVO.fea_number}</p>
+							<div class="form-group col-sm-4">
 								<p>
-									開團時間:
-									<fmt:formatDate value="${feastInfoVO.fea_date}"
-										pattern="yyyy-MM-dd HH:mm:ss" />
-								</p>
-								<p>類型:${feastInfoVO.fea_type}</p>
-								<p>地址:${feastInfoVO.fea_loc}</p>
-
-								<FORM METHOD="post"
+									<b>目前人數 :</b>${feastInfoVO.fea_number}</p>
+							</div>
+							<div class="form-group col-sm-4">
+								<p>
+									<b>人數上限 :</b>${feastInfoVO.fea_upLim}</p>
+							</div>
+							<div class="form-group col-sm-4">
+								<p>
+									<b>人數下限:</b>${feastInfoVO.fea_lowLim}</p>
+							</div>
+							</div>
+						</li>
+				    <li class="list-group-item">
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label><b>飯局日期 :</b></label>
+								<p>
+									<fmt:formatDate value="${feastInfoVO.fea_date}" pattern="yyyy-MM-dd"/></p>
+							</div>
+							<div class="form-group col-sm-4">
+								<label><b>報名截止時間 :</b></label>
+								<p>
+									<fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+							</div>
+							<div class="form-group col-sm-4">
+								<label><b>訂餐截止時間 :</b></label>
+								<p>
+								<fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+								</div>
+								</div>
+				
+				    </li>
+				    
+				    <li class="list-group-item ">
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<p>
+									<b>飯局類型 :</b>${feastInfoVO.fea_type}</p>
+							</div>
+							<div class="form-group col-sm-4">
+								<label><b>飯局地點 :</b></label>
+								<p>${feastInfoVO.fea_loc}</p>
+							</div>
+							<div class="form-group col-sm-4">
+								<p>
+									<b>飯局狀態 :</b>${FindCodeName.meaning(feastInfoVO.fea_status)}</p>
+							</div>
+							</div>
+					</li>
+				  </ul>
+				  <div class="card-footer">
+				  <div class="row  justify-content-center">
+				  
+				  
+				  
+				  <div class="form-group col-sm-3">
+					<FORM METHOD="post"
 									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
 
 									<input type="hidden" class="form-check-input" name="action"
 										value="getOne_For_Display"> <input type="hidden"
 										class="form-check-input" name="fea_no"
 										value="${feastInfoVO.fea_no}">
-									<button type="submit" class="btn btn-primary">JOIN!</button>
-								</form>
-							</div>
-						</div>
-						<!-- /.row -->
-					</c:if>
-				</c:forEach>
-
-				<hr>
-
-			</div>
+									<button type="submit" class="btn btn-primary">進入飯局</button>
+					</form>
+				  </div>
+	
+	
+	
+								
+					</div>
+					</div>
+					
+					</div>
+		  		</div>
+		  		</c:if>
+		</c:forEach>
+	  </div>
+	</div>
+	
+	</div>	
+	
 </div>
-		</div>
-</div>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
+
+
+
+
 </body>
 </html>

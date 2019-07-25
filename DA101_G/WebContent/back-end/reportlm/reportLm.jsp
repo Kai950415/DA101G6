@@ -72,11 +72,15 @@ th, td {
 <body bgcolor='white'>
 	<jsp:useBean id="lmSvc" scope="page"
 		class="com.leavemessage.model.LeaveMessageService" />
-	<div class="col-sm-9">
+		
+		
+		<%@ include file="/back-end/BackHeader.jsp"%>
+		<div class="row justify-content-center" >
+	<div class="col-sm-5 ">
 
+<br>
 
-
-		<table id="table-1">
+		<table id="table-1" >
 			<tr>
 				<td>
 					<h3>所有被檢舉資料</h3>
@@ -94,16 +98,14 @@ th, td {
 			</ul>
 		</c:if>
 
-		<table width="100% auto">
+		<table>
 			<tr>
 				<th width="10%">留言檢舉編號</th>
 				<th width="10%">被檢舉的留言編號</th>
 				<th>會員編號</th>
-				<th width="15%">檢舉內容</th>
+				<th width="20%">檢舉內容</th>
 				<th>留言內容</th>
 				<th width="80%">審查狀態</th>
-
-
 			</tr>
 
 
@@ -138,6 +140,7 @@ th, td {
 				</tr>
 			</c:forEach>
 		</table>
+	</div>
 	</div>
 
 

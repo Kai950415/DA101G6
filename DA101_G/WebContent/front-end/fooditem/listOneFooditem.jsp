@@ -1,87 +1,62 @@
 <%@page import="java.util.*"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
-<%@ page import="com.fooditem.model.*, com.res.model.*"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.fooditem.model.*, com.res.model.*, com.tools.FindCodeName"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- ¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È --%>
+<%-- æ­¤é æš«ç·´ç¿’æ¡ç”¨ Script çš„å¯«æ³•å–å€¼ --%>
 
 
 <jsp:useBean id="foodItemSvc" scope="page" class="com.fooditem.model.FooditemService" />
 <html>
 <head>
-<title>À\ÂI¸ê®Æ - listOneFooditem.jsp</title>
+<title>é¤é»è³‡æ–™</title>
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
 
-<style>
-  table {
-	width: 600px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-</style>
 
 </head>
 <body bgcolor='white'>
-<%@ include file="/header.jsp"%>
-<h4>¦¹­¶¼È½m²ß±Ä¥Î Script ªº¼gªk¨ú­È:</h4>
 
-	<c:forEach var="fooditemVO" items="${foodItemSvc.getAllfooditemVOByFooditem(resVO.res_no)}">
-<table>
-	<tr>
-		<th>À\ÂI½s¸¹</th>
-		<th>À\ÆU½s¸¹</th>
-		<th>¦WºÙ</th>
-		<th>»ù®æ</th>
-		<th>¹Ï¤ù</th>
-		<th>¤¶²Ğ</th>
-		<th>ª¬ºA</th>
-	</tr>
-	<tr>
-		<td>${fooditemVO.fo_no}</td>
-		<td>${fooditemVO.fo_resno}</td>
-		<td>${fooditemVO.getFo_name()}</td>
-		<td>${fooditemVO.getFo_price()}</td>
-		<td><img src="<%=request.getContextPath()%>/back-end/ord/resOrdPhoto.do?fo_no=${fooditemVO.fo_no}" width="200"></td>
-		<td>${fooditemVO.getFo_intro()}</td>
-		<td>${fooditemVO.getFo_status()}</td>
-		
-		<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/fooditem/fooditem.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="­×§ï">
+<%@ include file="/header.jsp"%>
+
+<div class="container">
+<br>
+<c:if test="${resVO.res_status ne \"res1\"}">
+<a class="btn btn-info btn-lg"  href="addFooditem.jsp">æ–°å¢é¤é»</a>
+</c:if>
+	<div class="row">
+
+	<c:forEach var="fooditemVO" items="${foodItemSvc.getAllfooditemVOByRes(resVO.res_no)}">
+	<div class="col-4">
+	<br>
+<div class="card" >
+  <img class="card-img-top"  style="max-height:300px;" src="<%=request.getContextPath()%>/back-end/ord/resOrdPhoto.do?fo_no=${fooditemVO.fo_no}" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">${fooditemVO.getFo_name()}</h4>
+    <p class="card-text">${fooditemVO.getFo_intro()}</p>
+    <div class="row">
+		<div class="form-group col-sm-6">
+    <p class="card-text"><b>åƒ¹æ ¼</b>${fooditemVO.getFo_price()}</p>
+    	</div>
+    	<div class="form-group col-sm-6">
+    <p class="card-text"><b>ç‹€æ…‹</b>&nbsp; ${FindCodeName.meaning(fooditemVO.getFo_status())}</p>
+    </div>
+    </div>
+
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/fooditem/fooditem.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="ä¿®æ”¹" class="btn btn-secondary">
 			     <input type="hidden" name="fo_no"  value="${fooditemVO.fo_no}">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/fooditem/fooditem.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="§R°£">
-			     <input type="hidden" name="fo_no"  value="${fooditemVO.fo_no}">
-			     <input type="hidden" name="action" value="delete"></FORM>
-			</td>
-	</tr>
-</table>
+			     <input type="hidden" name="action"	value="getOne_For_Update">
+	</FORM>
+	
+	
+
+  </div>
+</div>
+</div>
+
+	
 </c:forEach>
+
+</div>
+</div>
 </body>
 </html>

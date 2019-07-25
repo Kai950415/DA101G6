@@ -1,6 +1,18 @@
 package com.ord_details.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.feastinfo.model.FeastInfoService;
+import com.feastinfo.model.FeastInfoVO;
+import com.fooditem.model.FooditemService;
+import com.fooditem.model.FooditemVO;
+import com.ord.model.OrdService;
+import com.ord.model.OrdVO;
+import com.res.model.ResVO;
 
 public class Ord_detailsService {
 		private Ord_detailsDAO_interface dao;
@@ -38,7 +50,14 @@ public class Ord_detailsService {
 	    	return dao.getAll();
 	    }
 	    
+	    public List<Ord_detailsVO> getAlldetByOrdno(String ord_no){
+	    	return dao.getAll().stream()
+	    			.filter(d -> d.getDet_ordno().equals(ord_no))
+	    			.collect(Collectors.toList());
+	    }
 	    public void insert2(Ord_detailsVO ord_detailsVO,java.sql.Connection con) {
 	    	dao.insert2(ord_detailsVO, con);
 	    }
+	    
+	    
 }

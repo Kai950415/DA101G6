@@ -55,25 +55,10 @@
 </style>
 
 </head>
-<body bgcolor='white'>
+<body >
+<%@ include file="/back-end/BackHeader.jsp"%>
+<br>
 
-<h4>此頁練習採用 EL 的寫法取值:</h4>
-<table id="table-1" width="1600px">
-	<tr><td>
-		 <h3>所有餐廳資料 - listAllRes.jsp</h3>
-		 <h4><a href="/DA101G6/back-end/res/select_page.jsp"><img src="/DA101G6/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
-
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
 
 <table>
 	<tr>
@@ -98,8 +83,8 @@
 		<th>刪除</th>
 	</tr>
 	
-	<%@ include file="page1.file" %> 
-	<c:forEach var="resVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+
+	<c:forEach var="resVO" items="${list}" >
 		<tr>
 			<td>${resVO.res_no}</td>
 			<td>${resVO.res_adrs}</td>
@@ -138,7 +123,7 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="page2.file" %>
+
 
 </body>
 </html>

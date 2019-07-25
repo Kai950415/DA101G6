@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import com.res.model.*;
 import com.mem.model.*;
 import com.ord.model.*;
-import com.feastinfo.model.*;
 import com.fooditem.model.*;
 import com.ord_details.model.*;
 import com.pointtransaction.model.*;
@@ -80,14 +79,14 @@ public class OrdServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
-			try {
+//			try {
+				
+				
 				MemVO memVO = (MemVO)session.getAttribute("memberVO"); // 會員登入時會員實體有存session
 				System.out.println(memVO);
 				String ord_memno = memVO.getMem_no();
-//				FeastInfoVO feastInfoVO = (FeastInfoVO)session.getAttribute("feastInfoVO"); //根據飯局至餐廳頁面點餐時 是否有存session? 
-//				String ord_fea_no = feastInfoVO.getFea_no();
 				System.out.println(ord_memno);
-				String ord_fea_no = req.getParameter("ord_fea_no"); //如果飯局實體沒有存session
+				String ord_fea_no = req.getParameter("ord_fea_no");
 				System.out.println(ord_fea_no);
 				ResVO resVO = (ResVO)session.getAttribute("ResVO"); 
 				String ord_resno = resVO.getRes_no();
@@ -96,14 +95,28 @@ public class OrdServlet extends HttpServlet {
 				System.out.println(ord_date);
 				String ord_status = "ords1"; //預設新增訂單時狀態為 ords1 = 未處理
 				
-//				String ord_type = feastInfoVO.getFea_type(); //訂單類型即為飯局類型 
-				String ord_type = req.getParameter("ord_type"); //如果飯局實體沒有存session
+				String ord_type = ""; 
+				if(req.getParameter("ord_type").equals("內用")) {
+					ord_type ="ordt3";
+				}else if (req.getParameter("ord_type").equals("外帶")) {
+					ord_type = "ordt1";
+				}else {
+					ord_type = "ordt2";
+				}
+				
 				
 				
 				@SuppressWarnings("unchecked")
 				Vector<FooditemVO> foodList = (Vector<FooditemVO>)session.getAttribute("shoppingCart");
 				List<Ord_detailsVO> detailList = new ArrayList<Ord_detailsVO>();
 				Integer ord_price = new Integer((int)session.getAttribute("total"));
+				if(memVO.getMem_point()<ord_price) {
+					session.setAttribute("noMoney", "true");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/ord/ordConfirm.jsp");
+					failureView.forward(req, res);
+					return;
+				}
 				for(FooditemVO fooditemVO : foodList) {
 					Ord_detailsVO ord_detailsVO = new Ord_detailsVO();
 					ord_detailsVO.setDet_fono(fooditemVO.getFo_no());
@@ -123,13 +136,13 @@ public class OrdServlet extends HttpServlet {
 				ordVO.setOrd_price(ord_price);
 				
 				
-				if(!errorMsgs.isEmpty()) {
-					req.setAttribute("ordVO", ordVO);
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/ord/ordConfirm.jsp");
-					failureView.forward(req, res);
-					return;
-				}
+//				if(!errorMsgs.isEmpty()) {
+//					req.setAttribute("ordVO", ordVO);
+//					RequestDispatcher failureView = req
+//							.getRequestDispatcher("/front-end/ord/ordConfirm.jsp");
+//					failureView.forward(req, res);
+//					return;
+//				}
 				
 				//新增訂單與訂單明細
 				OrdService ordSvc = new OrdService();
@@ -181,15 +194,15 @@ public class OrdServlet extends HttpServlet {
 				pointSvc.addPointtransaction(pt_memno, pt_resno, pt_nt);
 				System.out.println("184");
 				req.setAttribute("ordVO", ordVO);
-				
+				System.out.println(ordVO);
 				String url = "/front-end/ord/ordFinal.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-			} catch (Exception e) {
-				errorMsgs.add("結帳失敗"+e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/ord/listAllFooditem.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add("結帳失敗"+e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/ord/listAllFooditem.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 		
 		if("showFoodsInfo".equals(action)) {
@@ -198,12 +211,67 @@ public class OrdServlet extends HttpServlet {
 			ResService resSvc = new ResService();
 			ResVO resVO = resSvc.getOneRes(res_no);
 
+
 			session.setAttribute("ResVO", resVO);
 			String url = "/front-end/ord/listAllFooditem.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); 
 			successView.forward(req, res);
 
 	}
+		
+		if("accept".equals(action)) {
+			String fea_no = req.getParameter("fea_no");
+			
+			OrdService ordSvc = new OrdService();
+			List<OrdVO> list = ordSvc.getAllUnOrdByFea(fea_no);
+			
+			for (OrdVO ordVO : list) {
+				String ord_status = "ords4"; //將該飯局的所有未處理訂單改成已接單
+				//其他的部分都取原值存回
+				String ord_no = ordVO.getOrd_no();
+				String ord_fea_no = ordVO.getOrd_fea_no();
+				String ord_memno = ordVO.getOrd_memno();
+				String ord_resno = ordVO.getOrd_resno();
+				Integer ord_price = ordVO.getOrd_price();
+				java.sql.Timestamp ord_date = ordVO.getOrd_date();
+				String ord_type = ordVO.getOrd_type();
+				
+				
+				ordSvc.updateOrd(ord_no, ord_fea_no, ord_memno, ord_resno, ord_price, ord_date, ord_status, ord_type);
+			}
+			
+			session.setAttribute("AcceptSuccess", "true");
+			String url = "/front-end/ord/ordMgByResUn.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		}
+		
+		if("reject".equals(action)) {
+			String fea_no = req.getParameter("fea_no");
+			
+			OrdService ordSvc = new OrdService();
+			List<OrdVO> list = ordSvc.getAllUnOrdByFea(fea_no);
+			
+			for (OrdVO ordVO : list) {
+				String ord_status = "ords5"; //將該飯局的所有未處理訂單改成拒絕接單
+				//其他的部分都取原值存回
+				String ord_no = ordVO.getOrd_no();
+				String ord_fea_no = ordVO.getOrd_fea_no();
+				String ord_memno = ordVO.getOrd_memno();
+				String ord_resno = ordVO.getOrd_resno();
+				Integer ord_price = ordVO.getOrd_price();
+				java.sql.Timestamp ord_date = ordVO.getOrd_date();
+				String ord_type = ordVO.getOrd_type();
+				
+				
+				ordSvc.updateOrd(ord_no, ord_fea_no, ord_memno, ord_resno, ord_price, ord_date, ord_status, ord_type);
+			}
+			
+			session.setAttribute("RejectSuccess", "true");
+			String url = "/front-end/ord/ordMgByResUn.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		}
 		
 		@SuppressWarnings("unchecked")
 		Vector<FooditemVO> buylist = (Vector<FooditemVO>)session.getAttribute("shoppingCart");
@@ -292,6 +360,7 @@ public class OrdServlet extends HttpServlet {
 			String url = "/front-end/ord/ordConfirm.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
+
 		}
 	}
 

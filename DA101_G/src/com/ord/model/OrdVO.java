@@ -15,6 +15,13 @@ public class OrdVO implements Serializable{
 	private String ord_status;
 	private String ord_type;
 	
+	@Override
+	public String toString() {
+		return "OrdVO [ord_no=" + ord_no + ", ord_fea_no=" + ord_fea_no + ", ord_memno=" + ord_memno + ", ord_resno="
+				+ ord_resno + ", ord_price=" + ord_price + ", ord_date=" + ord_date + ", ord_status=" + ord_status
+				+ ", ord_type=" + ord_type + "]";
+	}
+
 	public OrdVO() {
 		super();
 	}

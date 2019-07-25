@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.fooditem.model.*"%>
-<%@ page import="com.mem.model.*,com.res.model.*"%>
+<%@ page import="com.mem.model.*,com.res.model.*,com.feastinfo.model.*"%>
 <%! @SuppressWarnings("unchecked") %>
 
 <html>
@@ -95,6 +95,7 @@
 		return queryString;
 	}
 </script>
+
 <style>
 table{
 	width:720px;
@@ -147,7 +148,7 @@ table img{
 
 	
 	<%
-		
+		FeastInfoVO feaVO = (FeastInfoVO)session.getAttribute("feastInfoVO");
 		Vector<FooditemVO> buylist = (Vector<FooditemVO>) session.getAttribute("shoppingCart");
 		String amount =  String.valueOf(session.getAttribute("total"));
 		MemVO memVO = (MemVO)session.getAttribute("memberVO");
@@ -232,11 +233,20 @@ table img{
 <form method="GET" action="<%=request.getContextPath()%>/front-end/ord/ord.do">
 		<input type="hidden" name="action" value="insert">
 		<input type="hidden" name="mem_no" value="<%=memVO.getMem_no()%>">
-		<input type="hidden" name="ord_fea_no" value="FE000001">
-		<input type="hidden" name="ord_type" value="內用">
+		<input type="hidden" name="ord_fea_no" value="<%=feaVO.getFea_no()%>">
+		<input type="hidden" name="ord_type" value="<%=feaVO.getFea_type()%>">
 		<input type="submit" id="subm" value="結帳" class="btn-primary">
 </form>
 </div>	
+
+<c:if test="${noMoney.equals(\"true\")}" var="flag" scope="session">
+<%session.removeAttribute("noMoney");%>
+	<script>
+		$(function() {
+			alert("尚餘點數不足，請儲值");
+		});
+	</script>
+</c:if>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" 
 	integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
