@@ -59,7 +59,7 @@
 <%@ include file="/back-end/BackHeader.jsp"%>
 <br>
 
-
+<div class="row justify-content-center">
 <table>
 	<tr>
 		<th>餐廳編號</th>
@@ -80,7 +80,7 @@
 		<th>餐廳類型</th>
 		<th>餐廳狀態</th>
 		<th>修改</th>
-		<th>刪除</th>
+		
 	</tr>
 	
 
@@ -109,21 +109,16 @@
 			<td>${resVO.res_type}</td> 
 			<td>${FindCodeName.meaning(resVO.res_status)}</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/res/res.do" style="margin-bottom: 0px;">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/res/reviewRes.jsp" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
 			     <input type="hidden" name="res_no"  value="${resVO.res_no}">
 			     <input type="hidden" name="action"	value="getOneRes_For_Update"></FORM>
 			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/res/res.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="刪除">
-			     <input type="hidden" name="res_no"  value="${resVO.res_no}">
-			     <input type="hidden" name="action" value="delete"></FORM>
-			</td>
+			
 		</tr>
 	</c:forEach>
 </table>
-
+</div>
 
 </body>
 </html>

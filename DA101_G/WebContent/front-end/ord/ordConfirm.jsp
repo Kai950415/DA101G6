@@ -143,7 +143,7 @@ table img{
 <body>
 <%@ include file="/header.jsp"%>
 
-<img src="<%=request.getContextPath()%>/images/addtocart.png"/ id="imgflow">
+
 <hr><p>
 
 	
@@ -203,7 +203,7 @@ table img{
 	<tr>
 		<td></td>
 		<td></td>
-		<td></td>
+		
 		<td><div align="center"><font color="red"><b>消費總金額：</b></font></div></td>
 		<td id="tdtotal"> $<%=amount%></td>
 		<td></td>
@@ -211,7 +211,7 @@ table img{
 	<tr>
 		<td></td>
 		<td></td>
-		<td></td>
+		
 		<td><div align="center"><font color="red"><b>目前點數尚餘：</b></font></div></td>
 		<td id="tdtotal">$${memberVO.mem_point}</td>
 		<td></td>
@@ -219,7 +219,7 @@ table img{
 	<tr>
 		<td></td>
 		<td></td>
-		<td></td>
+		
 		<td><div align="center"><font color="red"><b>消費後剩下：</b></font></div></td>
 		<td id="tdtotal">$<%=memVO.getMem_point()-total%> </td>
 		<td></td>
@@ -229,7 +229,9 @@ table img{
 	<div id="emptycart">目前購物車空空如也喔</div>	
 	<%}%>
 <div>
+<div align="center">
 <button onclick="location.href='ord.do?res_no=RS000001&action=showFoodsInfo'">繼續購物</button>
+<br>
 <form method="GET" action="<%=request.getContextPath()%>/front-end/ord/ord.do">
 		<input type="hidden" name="action" value="insert">
 		<input type="hidden" name="mem_no" value="<%=memVO.getMem_no()%>">
@@ -237,6 +239,7 @@ table img{
 		<input type="hidden" name="ord_type" value="<%=feaVO.getFea_type()%>">
 		<input type="submit" id="subm" value="結帳" class="btn-primary">
 </form>
+</div>
 </div>	
 
 <c:if test="${noMoney.equals(\"true\")}" var="flag" scope="session">

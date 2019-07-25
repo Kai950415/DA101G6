@@ -30,6 +30,7 @@
     color: blue;
     display: inline;
   }
+
 </style>
 
 <style>
@@ -51,9 +52,17 @@
 </head>
 <body bgcolor='white'>
 
+<%@ include file="/back-end/BackHeader.jsp"%>
 
-<a href="<%=request.getContextPath()%>/back-end/res/reviewRes.jsp">返回審核餐廳頁面</a>
 <div class="container">
+<div class="container">
+  
+</div>
+	<div class="row">
+ 			<div class="col text-center">
+				<button type="button" class="btn btn-warning"><a href="<%=request.getContextPath()%>/back-end/res/reviewRes.jsp" class="justify-content-center">返回審核餐廳頁面</a></button>
+			</div>
+		</div>
 	<div class="row">
 
 	<c:forEach var="fooditemVO" items="${foodItemSvc.getAllReviewFooditemByRes(resVO.res_no)}">
@@ -78,7 +87,6 @@
 			     <input type="hidden" name="fo_no"  value="${fooditemVO.fo_no}">
 			     <input type="hidden" name="action"	value="reviewFooditem">
 	</FORM>
-	${needRe}
 	
 
   </div>

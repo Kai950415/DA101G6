@@ -49,20 +49,7 @@
 </head>
 <body bgcolor='white'>
 
-	<table id="table-1" width="800px">
-		<tr>
-			<td>
-				<h3>廣告申請 - addAd.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="/DA101G6/front-end/ad/ad_FE.jsp">
-					<img src="/DA101G6/images/tomcat.png" width="100" height="100"
-						border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+<%@ include file="/header.jsp"%>
 
 	<h3>資料新增:</h3>
 
@@ -89,7 +76,7 @@
 				<td>
 					<div class="form-group">
  				 	<label for="exampleFormControlTextarea3"></label>
-  					<textarea class="form-control" id="exampleFormControlTextarea3" name="ad_text" cols="150" rows="50" style="resize:none;"><%=(adVO == null) ? "" : adVO.getAd_text()%></textarea>
+  					<textarea class="form-control" id="exampleFormControlTextarea3" name="ad_text" cols="50" rows="30" style="resize:none;"><%=(adVO == null) ? "" : adVO.getAd_text()%></textarea>
   					</div>
   				</td>
 			</tr>

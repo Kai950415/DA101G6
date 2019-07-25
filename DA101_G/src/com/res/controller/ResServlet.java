@@ -441,7 +441,6 @@ public class ResServlet extends HttpServlet {
 				resVO = resSvc.addRes(res_adrs,res_name, res_ph, res_point, res_ac,res_pass,res_img, res_intro, res_start,res_end, res_lat, res_lot, res_score, res_cost, res_comcount, res_type, res_status);
 			
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				Map<String, String> errorMsgsForLogin = new LinkedHashMap<String, String>();
 				session.setAttribute("login", "false");
 				session.setAttribute("resLogin", "true");
 				String url = "/hometag.jsp";

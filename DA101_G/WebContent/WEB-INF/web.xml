@@ -96,6 +96,10 @@
 		<servlet-name>MemServlet</servlet-name>
 		<url-pattern>/front-end/mem/mem.do</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MemServlet</servlet-name>
+		<url-pattern>/mem.do</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>ResServlet</servlet-name>
@@ -243,13 +247,20 @@
   </servlet-mapping>
   
    <servlet>
-    <servlet-name>PointtransactionServlet</servlet-name>
-    <servlet-class>com.pointtransaction.controller.PointtransactionServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>PointtransactionServlet</servlet-name>
-    <url-pattern>/back-end/pointtransaction/pointtransaction.do</url-pattern>
-  </servlet-mapping>
+		<servlet-name>PointtransactionServlet</servlet-name>
+		<servlet-class>com.pointtransaction.controller.PointtransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PointtransactionServlet</servlet-name>
+		<url-pattern>/back-end/pointtransaction/pointtransaction.do</url-pattern>
+	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>PointtransactionServlet</servlet-name>
+		<url-pattern>/front-end/mem/pointtransaction.do</url-pattern>
+	</servlet-mapping>
+
+
+	
   
 </web-app>

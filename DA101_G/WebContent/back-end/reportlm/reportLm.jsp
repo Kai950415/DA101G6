@@ -1,8 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.reportlm.model.*"%>
-<%-- ¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È --%>
+<%-- æ­¤é ç·´ç¿’æŽ¡ç”¨ EL çš„å¯«æ³•å–å€¼ --%>
 
 <%
 	ReportLmService reportlmSvc = new ReportLmService();
@@ -29,7 +29,7 @@
 
 <!-- Custom styles for this template -->
 <link href="css/simple-sidebar.css" rel="stylesheet">
-<title>ÀËÁ|³B²z</title>
+<title>æª¢èˆ‰è™•ç†</title>
 
 <style>
 table#table-1 {
@@ -83,14 +83,14 @@ th, td {
 		<table id="table-1" >
 			<tr>
 				<td>
-					<h3>©Ò¦³³QÀËÁ|¸ê®Æ</h3>
+					<h3>æ‰€æœ‰è¢«æª¢èˆ‰è³‡æ–™</h3>
 				</td>
 			</tr>
 		</table>
 
-		<%-- ¿ù»~ªí¦C --%>
+		<%-- éŒ¯èª¤è¡¨åˆ— --%>
 		<c:if test="${not empty errorMsgs}">
-			<font style="color: red">½Ð­×¥¿¥H¤U¿ù»~:</font>
+			<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
 					<li style="color: red">${message}</li>
@@ -100,12 +100,12 @@ th, td {
 
 		<table>
 			<tr>
-				<th width="10%">¯d¨¥ÀËÁ|½s¸¹</th>
-				<th width="10%">³QÀËÁ|ªº¯d¨¥½s¸¹</th>
-				<th>·|­û½s¸¹</th>
-				<th width="20%">ÀËÁ|¤º®e</th>
-				<th>¯d¨¥¤º®e</th>
-				<th width="80%">¼f¬dª¬ºA</th>
+				<th width="10%">ç•™è¨€æª¢èˆ‰ç·¨è™Ÿ</th>
+				<th width="10%">è¢«æª¢èˆ‰çš„ç•™è¨€ç·¨è™Ÿ</th>
+				<th>æœƒå“¡ç·¨è™Ÿ</th>
+				<th width="20%">æª¢èˆ‰å…§å®¹</th>
+				<th>ç•™è¨€å…§å®¹</th>
+				<th width="80%">å¯©æŸ¥ç‹€æ…‹</th>
 			</tr>
 
 
@@ -125,12 +125,12 @@ th, td {
 							<select class="brower-default custom-select"
 								class="form-control btn-danger" name="repolm_status">
 
-								<option selected value="repolm3">¥¼³B²z</option>
-								<option value="repolm1">³q¹L</option>
-								<option value="repolm2">¥¼³q¹L</option>
+								<option selected value="repolm3">æœªè™•ç†</option>
+								<option value="repolm1">é€šéŽ</option>
+								<option value="repolm2">æœªé€šéŽ</option>
 							</select>
 
-							<th><input type="submit" value="½T»{­×§ï"> <input
+							<th><input type="submit" value="ç¢ºèªä¿®æ”¹"> <input
 								type="hidden" name="repolm_no" value="${ReportLmVO.repolm_no}">
 								<input type="hidden" name="repolm_lmano"
 								value="${ReportLmVO.repolm_lmano}"> <input type="hidden"

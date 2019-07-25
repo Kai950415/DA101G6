@@ -53,20 +53,7 @@
 </head>
 <body bgcolor='white'>
 
-	<table id="table-1" width="800px">
-		<tr>
-			<td>
-				<h3>餐廳資料修改 - update_res_input.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="/DA101G6/back-end/res/select_page.jsp"><img
-						src="/DA101G6/images/tomcat.png" width="100" height="100"
-						border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+	<%@ include file="/header.jsp"%>
 
 	<h3>資料修改:</h3>
 
@@ -164,20 +151,14 @@
 	<tr>
 	<%int i = 0;%>
 	<td>餐廳狀態:<font color=red><b>*</b></font></td>
-		<td><select size="1" name="res_status">
-			<c:forEach var="i" begin="1" end="4" step="1">
-				<%String status="res" + ++i; %>
-				<option value="<%=status%>"
-				<%=(resVO != null && (resVO.getRes_status()).equals(status))? "selected" : "" %>
-				><%=FindCodeName.meaning(status) %>
-			</c:forEach>
-		</select></td>
+		<td><%=FindCodeName.meaning(resVO.getRes_status()) %></td>
 	</tr>
 	
 		
 						</table>
 		<br><input type="hidden" name="res_point"
 			value="<%=resVO.getRes_point()%>"> 
+			<input type="hidden" name="res_status" value="<%=resVO.getRes_status()%>">
 			<input type="hidden" name="res_lat" value="<%=resVO.getRes_lat()%>">
 			<input type="hidden" name="res_lot" value="<%=resVO.getRes_lot()%>">
 			<input type="hidden" name="res_score"

@@ -1,18 +1,27 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.res.model.*"%>
-<%@ page import="com.tools.*"%>
+<%@ page import="com.tools.*, com.pointtransaction.model.*"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-  ResVO resVO = (ResVO) request.getAttribute("resVO"); //ResServlet.java(Concroller), 存入req的resVO物件
+  ResVO resVO = (ResVO) session.getAttribute("resVO"); //ResServlet.java(Concroller), 存入req的resVO物件
 
   String level[] = {"Free","Inexpensive","Moderate","Expensive","Very Expensive"};
   pageContext.setAttribute("level",level);
 %>
 
+<%
+	PointtransactionService pointtransactionSvc = new PointtransactionService();
+    List<PointtransactionVO> list = pointtransactionSvc.getAllPointByRes(resVO.getRes_no());
+    pageContext.setAttribute("list",list);
+%>
+
 <html>
 <head>
 <title>餐廳資料 - listOneRes.jsp</title>
+
+<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
+<jsp:useBean id="resService" scope="page" class="com.res.model.ResService" />
 
 <style>
   table#table-1 {
@@ -50,22 +59,10 @@
 </head>
 <body bgcolor='white'>
 
-<h4>此頁暫練習採用 Script 的寫法取值:</h4>
-<table id="table-1" width="1600px">
-	<tr><td>
-		 	<h3>餐廳資料 - ListOneRes.jsp</h3>
-		 </td>
-		 <td>
-		 	<h4><a href="/DA101G6/back-end/res/select_page.jsp">
-		 		<img src="/DA101G6/images/tomcat.png" width="100" height="100" border="0">回首頁</a>
-		 	</h4>
-		</td>
-	</tr>
-</table>
+<%@ include file="/header.jsp"%>
 
 <table>
 	<tr>
-		<th>餐廳編號</th>
 		<th>餐廳地址</th>
 		<th>餐廳名稱</th>
 		<th>餐廳電話</th>
@@ -75,8 +72,6 @@
 		<th>餐廳照片</th>
 		<th>餐廳介紹</th>
 		<th>餐廳營業時間</th>
-		<th>餐廳緯度</th>
-		<th>餐廳經度</th>
 		<th>餐廳評分</th>
 		<th>評分人次</th>
 		<th>餐廳消費水準</th>
@@ -84,7 +79,6 @@
 		<th>餐廳狀態</th>
 	</tr>
 	<tr>
-			<td>${resVO.res_no}</td>
 			<td>${resVO.res_adrs}</td>
 			<td>${resVO.res_name}</td>
 			<td>${resVO.res_ph}</td>
@@ -94,8 +88,6 @@
 			<td><img width="300" height="200" src="<%=request.getContextPath()%>/back-end/res/resPhoto.do?res_no=${resVO.res_no}"> </td>
 			<td>${resVO.res_intro}</td>
 			<td>${resVO.res_start}~${resVO.res_end}</td>
-			<td>${resVO.res_lat}</td>
-			<td>${resVO.res_lot}</td>
 			<td>${resVO.res_score}</td> 
 			<td>${resVO.res_comcount}</td>
 			<td>${(resVO.res_cost == 0)? level[0]:''}
@@ -109,6 +101,34 @@
 	</tr>
 </table>
 
+<table>
+		<tr>
+			<td>會員</td>
+			<td>餐廳</td>
+			<td>點數</td>
+		</tr>
+		<c:forEach var="pointtransactionVO" items="${list}">
+
+
+		<tr>
+			<td>${memSvc.memFindByPrimaryKey(pointtransactionVO.pt_memno).getMem_name()}</td>
+			<td>${resService.getOneRes(pointtransactionVO.pt_resno).getRes_name()}</td>
+			<td>${pointtransactionVO.pt_nt}點</td>
+		
+			
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pointtransaction/pointtransaction.do" style="margin-bottom: 0px;">
+
+			     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
+			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+			</td>
+			
+		</tr>
+	</c:forEach>
+</table>
+
+
+<a href="<%=request.getContextPath()%>/front-end/res/update_res_input.jsp"><button class="btn btn-lg btn-success" type="submit">修改資料</button></a>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

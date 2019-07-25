@@ -15,10 +15,7 @@ import com.res.model.*;
 import com.ad.model.*;
 
 @WebServlet("/ad.do")
-@MultipartConfig(
-fileSizeThreshold = 1024 * 1024,
-  maxFileSize = 1024 * 1024 * 5, 
-  maxRequestSize = 1024 * 1024 * 5 * 5)
+@MultipartConfig()
 public class AdServlet extends HttpServlet{
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -308,6 +305,8 @@ public class AdServlet extends HttpServlet{
 				byte[] ad_img = adVO.getAd_img();
 				if(requestURL.equals("/front-end/ad/listAllAd_FE.jsp")) {
 					String ad_textReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9)(\\s)(\\S)]{30,500}$";
+					ad_text = req.getParameter("ad_text");
+					
 					if(ad_text == null || ad_text.trim().length() == 0) {
 						errorMsgs.add("請輸入廣告內文");
 					}else if(!ad_text.trim().matches(ad_textReg)) { 

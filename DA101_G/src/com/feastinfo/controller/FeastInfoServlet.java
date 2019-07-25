@@ -280,16 +280,7 @@ System.out.println(feastInfoVO);
                     }
                 }
                 
-                String fea_locReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9)(-_)]{10,30}$";
-                String fea_loc = request.getParameter("fea_loc").trim();
-                if (fea_loc == null || fea_loc.trim().length() == 0)
-                {
-                    errorMsgs.add("聚會地址請勿空白");
-                }
-                else if (!fea_loc.trim().matches(fea_locReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("聚會地址: 只能是中、英文字母、數字和_ , 且長度必需在10到30之間");
-                }
+                String fea_loc = feastInfoVO.getFea_loc();
 
                 String fea_status = feastInfoVO.getFea_status();
 
@@ -342,7 +333,7 @@ System.out.println(feastInfoVO);
                 failureView.forward(request, response);
             }
         }
-
+        
         if ("insert".equals(action))
         { // 來自addEmp.jsp的請求
 
@@ -350,7 +341,7 @@ System.out.println(feastInfoVO);
             // Store this set in the request scope, in case we need to
             // send the ErrorPage view.
             request.setAttribute("errorMsgs", errorMsgs);
-
+            String fea_resNo = request.getParameter("fea_resNo").trim();
             try
             {
                 /*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
@@ -359,7 +350,7 @@ System.out.println(feastInfoVO);
                 String fea_memNo = memVO.getMem_no();
 
                 String fea_resNoReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,60}$";
-                String fea_resNo = request.getParameter("fea_resNo").trim();
+                
                 if (fea_resNo == null || fea_resNo.trim().length() == 0)
                 {
                     errorMsgs.add("餐廳名稱請勿空白");
@@ -465,15 +456,21 @@ System.out.println(feastInfoVO);
                 }
 
 
-                String fea_locReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{10,30}$";
-                String fea_loc = request.getParameter("fea_loc").trim();
-                if (fea_loc == null || fea_loc.trim().length() == 0)
-                {
-                    errorMsgs.add("聚會地址請勿空白");
+                String res_city = request.getParameter("res_city");
+                if(res_city == null || res_city.trim().length() == 0) {
+                    errorMsgs.add("請選擇縣市");
                 }
-                else if (!fea_loc.trim().matches(fea_locReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("聚會地址: 只能是中、英文字母、數字和_ , 且長度必需在10到30之間");
+                String res_town = request.getParameter("res_town");
+                if(res_town == null || res_town.trim().length() == 0) {
+                    errorMsgs.add("請選擇鄉鎮市區");
+                }
+                String address = request.getParameter("address");
+                String fea_loc = res_city+res_town+address;
+                String res_adrsReg = "^[(\u4e00-\u9fa5)(0-9)(\\-)]{2,100}$";
+                if(address == null || address.trim().length() == 0) {
+                    errorMsgs.add("飯局地點:請勿空白");
+                }else if(!fea_loc.trim().matches(res_adrsReg)) {
+                    errorMsgs.add("飯局地點:請輸入中文地址");
                 }
 
                 String fea_status = "fea1";
@@ -524,7 +521,7 @@ System.out.println(feastInfoVO);
                 {
                     request.setAttribute("feastInfoVO", feastInfoVO); // 含有輸入格式錯誤的feastInfoVO物件,也存入req
                     RequestDispatcher failureView = request
-                            .getRequestDispatcher("/front-end/feast/addFeast.jsp");
+                            .getRequestDispatcher("/front-end/feast/addFeast.jsp?res_no=" + fea_resNo);
                     failureView.forward(request, response);
                     return;
                 }
@@ -550,7 +547,7 @@ System.out.println(feastInfoVO);
             {
                 errorMsgs.add(e.getMessage());
                 RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/feast/addFeast.jsp");
+                        .getRequestDispatcher("/front-end/feast/addFeast.jsp?res_no=" + fea_resNo);
                 failureView.forward(request, response);
             }
         }

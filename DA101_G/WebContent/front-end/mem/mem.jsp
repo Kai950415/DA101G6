@@ -29,7 +29,21 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-
+<style>
+  table {
+	width: 800px;
+	background-color: white;
+	margin-top: 5px;
+	margin-bottom: 5px;
+  }
+  table, th, td {
+    border: 1px solid #CCCCFF;
+  }
+  th, td {
+    padding: 5px;
+    text-align: center;
+  }
+</style>
 
 
 
@@ -98,6 +112,7 @@ body {
 	<%@ include file="/header.jsp"%>
 	<br>
 	<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
+	<jsp:useBean id="resService" scope="page" class="com.res.model.ResService" />
 	<jsp:useBean id="MemVO" scope="page" class="com.mem.model.MemVO" />
 	<div class="container">
 		<div class="row">
@@ -220,14 +235,27 @@ body {
 									<label for="mem_point"><h4>目前點數</h4></label>
 									<p>${memberVO.mem_point}</p>
 
+
 								</div>
+							  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pointtransaction/pointtransaction.do" style="margin-bottom: 0px;">
+				
+							     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
+							     <input type="hidden" name="action" value="delete">
+							  </FORM>
+							  
+								<table>
+										<tr>
+											<td>會員</td>
+											<td>餐廳</td>
+											<td>點數</td>
+										</tr>
 										<c:forEach var="pointtransactionVO" items="${list}">
 				
+				
 										<tr>
-											<td>${pointtransactionVO.pt_no}</td>
-											<td>${pointtransactionVO.pt_memno}</td>
-											<td>${pointtransactionVO.pt_resno}</td>
-											<td>${pointtransactionVO.pt_nt}</td>
+											<td>${memSvc.memFindByPrimaryKey(pointtransactionVO.pt_memno).getMem_name()}</td>
+											<td>${resService.getOneRes(pointtransactionVO.pt_resno).getRes_name()}</td>
+											<td>${pointtransactionVO.pt_nt}點</td>
 										
 											
 											<td>
@@ -236,14 +264,10 @@ body {
 											     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
 											     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 											</td>
-											<td>
-											  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pointtransaction/pointtransaction.do" style="margin-bottom: 0px;">
-								
-											     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
-											     <input type="hidden" name="action" value="delete"></FORM>
-											</td>
+											
 										</tr>
 									</c:forEach>
+								</table>
 							</div>
 							<div class="form-group"></div>
 							<div class="form-group">

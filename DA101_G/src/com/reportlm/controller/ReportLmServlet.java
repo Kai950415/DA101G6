@@ -159,7 +159,7 @@ if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("update", "true");
 
-				String url = "/BackTag2.jsp";
+				String url = "/back-end/reportlm/reportLm.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -168,7 +168,7 @@ if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				req.setAttribute("update", "true");
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/BackTag2.jsp");
+						.getRequestDispatcher("/back-end/reportlm/reportLm.jsp");
 				failureView.forward(req, res);
 			}
 		}

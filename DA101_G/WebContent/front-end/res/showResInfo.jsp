@@ -106,6 +106,7 @@
 							</td>
 						</tr>						
 					</table>
+					<a class="btn btn-primary" href="<%=request.getContextPath()%>/front-end/feast/addFeast.jsp?res_no=${resVO.res_no}">開新飯局</a>
 				</div>
 			</div>
 			<div class="row">
@@ -379,8 +380,9 @@ var resJson = [
 						    ]
 						  }
 						]
-				
 			});
+				
+			
 			infowindow = new google.maps.InfoWindow;
 			
 <%-- // 			座標 = new google.maps.LatLng(<%=list.get(i + (whichPage - 1) * 20).getRes_lat()%> --%>

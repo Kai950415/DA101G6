@@ -71,8 +71,12 @@ public class PointtransactionService {
 		return pt.getAll().stream()
 				.filter(Pointtransaction -> mem_no.equals(Pointtransaction.getPt_memno()))
 				.collect(Collectors.toList());
-				
-		
-		
 	}
+	
+public List<PointtransactionVO> getAllPointByRes(String res_no) {
+        
+        return pt.getAll().stream()
+                .filter(Pointtransaction -> res_no.equals(Pointtransaction.getPt_resno()))
+                .collect(Collectors.toList());
+    }
 }

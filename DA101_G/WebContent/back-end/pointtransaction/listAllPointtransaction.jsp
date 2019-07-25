@@ -1,8 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.pointtransaction.model.*"%>
-<%-- ¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È --%>
+<%-- æ­¤é ç·´ç¿’æ¡ç”¨ EL çš„å¯«æ³•å–å€¼ --%>
 
 <%
 PointtransactionService pointtransactionSvc = new PointtransactionService();
@@ -13,7 +13,7 @@ PointtransactionService pointtransactionSvc = new PointtransactionService();
 
 <html>
 <head>
-<title>©Ò¦³ÂI¼Æ¥æ©ö¸ê®Æ - listAllPointtransaction.jsp</title>
+<title>æ‰€æœ‰é»æ•¸äº¤æ˜“è³‡æ–™ - listAllPointtransaction.jsp</title>
 
 <style>
   table#table-1 {
@@ -50,18 +50,20 @@ PointtransactionService pointtransactionSvc = new PointtransactionService();
 
 </head>
 <body bgcolor='white'>
+<%@ include file="/back-end/BackHeader.jsp"%>
+	<br>
 
-<h4>¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È:</h4>
+<h4>æ­¤é ç·´ç¿’æ¡ç”¨ EL çš„å¯«æ³•å–å€¼:</h4>
 <table id="table-1">
 	<tr><td>
-		 <h3>©Ò¦³ÂI¼Æ¥æ©ö¸ê®Æ - listAllPointtransaction.jsp</h3>
-		 <h4><a href="pointtransaction_select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">¦^­º­¶</a></h4>
+		 <h3>æ‰€æœ‰é»æ•¸äº¤æ˜“è³‡æ–™ - listAllPointtransaction.jsp</h3>
+		 <h4><a href="pointtransaction_select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">å›é¦–é </a></h4>
 	</td></tr>
 </table>
 
-<%-- ¿ù»~ªí¦C --%>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+	<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 	<ul>
 		<c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
@@ -71,10 +73,10 @@ PointtransactionService pointtransactionSvc = new PointtransactionService();
 
 <table>
 	<tr>
-		<th>ÂI¼Æ¥æ©ö½s¸¹</th>
-		<th>·|­û½s¸¹</th>
-		<th>À\ÆU½s¸¹</th>
-		<th>¥æ©öª÷ÃB</th>
+		<th>é»æ•¸äº¤æ˜“ç·¨è™Ÿ</th>
+		<th>æœƒå“¡ç·¨è™Ÿ</th>
+		<th>é¤å»³ç·¨è™Ÿ</th>
+		<th>äº¤æ˜“é‡‘é¡</th>
 		
 	
 	</tr>
@@ -90,13 +92,13 @@ PointtransactionService pointtransactionSvc = new PointtransactionService();
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pointtransaction/pointtransaction.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="­×§ï">
+			     <input type="submit" value="ä¿®æ”¹">
 			     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pointtransaction/pointtransaction.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="§R°£">
+			     <input type="submit" value="åˆªé™¤">
 			     <input type="hidden" name="pt_no"  value="${pointtransactionVO.pt_no}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>

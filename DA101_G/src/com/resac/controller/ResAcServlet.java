@@ -170,7 +170,7 @@ public class ResAcServlet extends HttpServlet{
 				resAcVO = resAcSvc.addResAc(resac_no, resac_resno, resac_pass, resac_name, resac_phone, resac_pic, resac_intro, resac_status);
 				req.setAttribute("resAcVO", resAcVO);
 				session.setAttribute("addResAc", "true");
-				String url = "/front-end/res/listOneResAc.jsp";
+				String url = "/front-end/resAc/listAllResAc.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
@@ -293,7 +293,7 @@ public class ResAcServlet extends HttpServlet{
 				resAcVO = resAcSvc.updateResAc(resac_no, resac_resno, resac_pass, resac_name, resac_phone, resac_pic, resac_intro, resac_status);
 				
 				req.setAttribute("resAcVO", resAcVO);
-				String url = "/front-end/resAc/listOneResAc.jsp";
+				String url = "/front-end/resAc/listAllResAc.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {

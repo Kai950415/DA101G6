@@ -201,9 +201,9 @@ footer {
 								<a class="dropdown-item"
 									href="<%=request.getContextPath()%>/front-end/mem/mem.jsp">個人檔案設定</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/feast/listAllFeast.jsp">飯局管理</a>
-								<a class="dropdown-item" href="#">訂單管理</a> 
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/restaurant.jsp">美食地圖</a>
 								<a class="dropdown-item" href="#">飯局瀏覽</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/ord/ordMgByMem.jsp">訂單管理</a> 
 
 								<li class="nav-item"><input id="logout" type="submit" class="btn" name="登出" value="登出"></li>
 							</div>
@@ -225,8 +225,8 @@ footer {
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/fooditem/listOneFooditem.jsp">餐點管理</a>
 								<a class="dropdown-item" href="#">訂單管理</a> 
-								<a class="dropdown-item" href="#">餐廳頁面</a>
-								<a class="dropdown-item" href="#">廣告管理</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/res/listOneRes.jsp">餐廳頁面</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/ad/listAllAd_FE.jsp">廣告管理</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/resAc/listAllResAc.jsp">員工管理</a>
 								
 								
@@ -236,7 +236,7 @@ footer {
 						<li class="nav-item"><input id="logout" type="submit" class=" btn" name="登出" value="登出"></li>
 					</form> <%
  	} else {
- %> <a data-toggle="modal" class="btn" href="#"
+ %> <a data-toggle="modal" class="btn"
 					data-target="#exampleModal" id="loginBtn">登入</a>
 				</li>
 

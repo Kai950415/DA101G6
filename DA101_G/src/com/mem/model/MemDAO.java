@@ -14,6 +14,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
+import redis.clients.jedis.Jedis;
+
 
 
 public class MemDAO implements MemDAO_interface {
@@ -22,6 +26,12 @@ public class MemDAO implements MemDAO_interface {
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	String userid = "DA101G6";
 	String passwd = "123456";
+	
+	
+	String jedisName = "localhost";
+	int    jedisPort = 6379;
+	String password  = "123456";
+
 
 	private static final String INSERT = 
 			"Insert into mem (MEM_NO, MEM_NAME, MEM_ADRS, MEM_SEX, MEM_BD, MEM_PH, MEM_EMAIL,MEM_POINT, MEM_IMG, MEM_PASS, MEM_AC,MEM_INTRO,MEM_STATUS) values \r\n" + 
@@ -48,7 +58,7 @@ public class MemDAO implements MemDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT);
-
+System.out.println("DAO 51 = insert");	
 			pstmt.setString(1,memVO.getMem_name());
 			pstmt.setString(2,memVO.getMem_adrs());
 			pstmt.setString(3,memVO.getMem_sex());
@@ -61,7 +71,7 @@ public class MemDAO implements MemDAO_interface {
 			pstmt.setString(10,memVO.getMem_ac());
 			pstmt.setString(11,memVO.getMem_intro());
 			pstmt.setString(12, memVO.getMem_status());
-			
+System.out.println("DAO 64 = memVO : " + memVO);			
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
@@ -465,5 +475,60 @@ public class MemDAO implements MemDAO_interface {
 		}
 		return bytes;
 	}
+
+	@Override
+	public String setCode(MemVO memVO) {
+		String code = null;
+		
+		Gson gson = new Gson();
+
+		Jedis jedis = new Jedis(jedisName, jedisPort);
+		jedis.auth(passwd);
+		code = returnAuthCode();
+		
+		
+		jedis.set(code, gson.toJson(memVO));//Save data to Redis
+		jedis.expire(code, 1*60*60); //1HR
+
+		return code;
+	}
+
+	@Override
+	public MemVO confirmCode(String code) {
+		MemVO memVO = null;
+		
+		Gson gson = new Gson(); 
+				
+		
+		Jedis jedis = new Jedis(jedisName, jedisPort);
+		jedis.auth(passwd);
+		
+		if(jedis.ttl(code)>0) {
+			memVO = gson.fromJson(jedis.get(code), MemVO.class);
+		}
+		
+		return memVO;
+	}
+	
+	private static String returnAuthCode() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 1; i <= 8; i++) {
+			int condition = (int) (Math.random() * 3) + 1;
+			switch (condition) {
+			case 1:
+				char c1 = (char)((int)(Math.random() * 26) + 65);
+				sb.append(c1);
+				break;
+			case 2:
+				char c2 = (char)((int)(Math.random() * 26) + 97);
+				sb.append(c2);
+				break;
+			case 3:
+				sb.append((int)(Math.random() * 10));
+			}
+		}
+		return sb.toString();
+	}
+	
 	
 }

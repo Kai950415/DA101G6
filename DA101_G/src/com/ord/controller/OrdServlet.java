@@ -285,7 +285,7 @@ public class OrdServlet extends HttpServlet {
 				buylist.removeIf(condition);
 			} 
 			else if (("add").equals(action)) {
-			
+			System.out.println(288);
 				checkout = true;	
 				String fo_no = req.getParameter("fo_no");
 				String fo_name = req.getParameter("fo_name");
@@ -300,13 +300,16 @@ public class OrdServlet extends HttpServlet {
 				fooditemVO.setFo_price(fo_price);
 
 				if (buylist == null) {
+					System.out.println(303);
 					buylist = new Vector<FooditemVO>();
 					buylist.add(fooditemVO);
 				} else {
 					if(buylist.contains(fooditemVO)) {
+						System.out.println(308);
 						FooditemVO innerFood = buylist.get(buylist.indexOf(fooditemVO));
 						innerFood.setFo_quantity(innerFood.getFo_quantity()+fooditemVO.getFo_quantity());
 					}else {
+						System.out.println(312);
 						buylist.add(fooditemVO);
 					}
 				}

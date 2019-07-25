@@ -51,20 +51,7 @@
 </head>
 <body bgcolor='white'>
 
-	<table id="table-1" width="800px">
-		<tr>
-			<td>
-				<h3>修改 - update_res_input_FE.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="/DA101G6/front-end/ad/ad_FE.jsp"><img
-						src="/DA101G6/images/tomcat.png" width="100" height="100"
-						border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+<%@ include file="/header.jsp"%>
 
 	<h3>資料修改:</h3>
 
@@ -77,14 +64,11 @@
 			</c:forEach>
 		</ul>
 	</c:if>
-
+	 <a class="btn btn-info" href='<%=request.getContextPath()%>/front-end/ad/listAllAd_FE.jsp'>回上頁</a>
 	<FORM METHOD="post" ACTION="ad.do" name="form1"
 		enctype="multipart/form-data">
 		<table width="800px">
-			<tr>
-				<td>廣告編號:<font color=red><b>*</b></font></td>
-				<td><%=adVO.getAd_no()%></td>
-			</tr>
+
 			<tr>
 				<td>廣告標題:</td>
 				<td><input type="TEXT" name="ad_title" size="45"
@@ -96,7 +80,7 @@
 				<td>
 					<div class="form-group">
  				 	<label for="exampleFormControlTextarea3"></label>
-  					<textarea class="form-control" id="exampleFormControlTextarea3" name="ad_text" cols="150" rows="50"
+  					<textarea class="form-control" id="exampleFormControlTextarea3" name="ad_text" cols="50" rows="30"
 					style="resize:none;border: 0px;outline:none;" 
 					><%=(adVO == null) ? "" : adVO.getAd_text()%></textarea>
   					</div>

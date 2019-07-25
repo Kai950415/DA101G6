@@ -14,7 +14,7 @@
 		FooditemService foSvc = new FooditemService();
 		
 		//該會員所有訂單 > 該訂單所有商品
-		//餐廳所有飯局 > 飯局所有訂單 >訂單所有商品
+		//餐廳所有飯局'RS000003' > 飯局所有訂單 >訂單所有商品
 	    FeastInfoService feaSvc = new FeastInfoService();
 	    Map<String,List<FooditemVO>> groupMap = new LinkedHashMap<String,List<FooditemVO>>();
 	    

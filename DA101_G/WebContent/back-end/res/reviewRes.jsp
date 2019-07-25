@@ -75,7 +75,7 @@ th, td {
 
 </head>
 <body bgcolor='white'>
-<%@ include file="/header.jsp"%>
+<%@ include file="/back-end/BackHeader.jsp"%>
 <div class="container">
 <div>
 				<ul class="nav nav-tabs justify-content-center" role="tablist">
@@ -86,21 +86,21 @@ th, td {
 						href="#fooditem" role="tab">審核餐點</a></li>
 				</ul>
 </div>
-
-	<div class="col-sm-9 tab-content">
+<div class="row justify-content-center">
+	<div class="col-sm-9 tab-content ">
 		<div role="tabpanel" class="tab-pane active" id="res">	
-		<table width="100% auto">
+		<table class="table" width="100% auto">
 			<tr>
-				<th width="10%">餐廳編號</th>
-				<th width="10%">餐廳名稱</th>
-				<th>餐廳類型</th>
-				<th width="15%">餐廳地址</th>
-				<th>餐廳電話</th>
-				<th width="80%">審查狀態</th>
+				<th  scope="col" width="15%">餐廳編號</th>
+				<th  scope="col" width="15%">餐廳名稱</th>
+				<th  scope="col" width="15%">餐廳類型</th>
+				<th  scope="col" width="15%">餐廳地址</th>
+				<th  scope="col" width="15%">餐廳電話</th>
+				<th  scope="col" width="80%">審查狀態</th>
 			</tr>
 			<c:forEach var="resterauntVO" items="${reviewList}">
 				<tr>
-					<td>${resterauntVO.res_no}</td>
+					<td >${resterauntVO.res_no}</td>
 					<td>${resterauntVO.res_name}</td>
 					<td>${resterauntVO.res_type}</td>
 					<td>${resterauntVO.res_adrs}</td>
@@ -130,12 +130,12 @@ th, td {
 		<div role="tabpanel" class="tab-pane" id="fooditem">	
 		<table width="100% auto">
 			<tr>
-				<th width="10%">餐廳編號</th>
-				<th width="10%">餐廳名稱</th>
-				<th>餐廳類型</th>
-				<th width="15%">餐廳地址</th>
-				<th>餐廳電話</th>
-				<th width="80%">審查狀態</th>
+				<th  scope="col" width="15%">餐廳編號</th>
+				<th  scope="col" width="15%">餐廳名稱</th>
+				<th  scope="col" width="15%">餐廳類型</th>
+				<th  scope="col" width="15%">餐廳地址</th>
+				<th  scope="col" width="15%">餐廳電話</th>
+				<th  scope="col" width="80%">審查狀態</th>
 			</tr>
 			<c:forEach var="resterauntVO" items="${reviewAgainList}">
 			<c:if test="${foodItemSvc.getAllReviewFooditemByRes(resterauntVO.res_no).size()!=0}">
@@ -161,6 +161,7 @@ th, td {
 			</c:forEach>
 		</table>
 		</div>
+	</div>
 	</div>
 	</div>
 	<!-- Optional JavaScript -->

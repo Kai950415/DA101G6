@@ -1,13 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.feastinfo.model.*, java.util.*, java.text.*"%>
+<%@ page import="com.feastinfo.model.*, java.util.*, java.text.*, com.res.model.*"%>
 
 
 <%
     FeastInfoVO feastInfoVO = (FeastInfoVO) request.getAttribute("feastInfoVO");
+	String resNo = (String) request.getParameter("res_no");
+	ResService resService = new ResService();
+	ResVO resVO =  resService.getOneRes(resNo);
 %>
+<% 
+	String res_city = null;
+	
+	try{
+		res_city = feastInfoVO.getFea_loc().substring(0,3);
+	}catch(Exception e){
+		res_city = null;
+	}
 
+	String res_town = null;
+	
+	int x = 0;
+	if(feastInfoVO!=null && feastInfoVO.getFea_loc().length() !=0){
+		if(feastInfoVO.getFea_loc().indexOf("鄉", 3)==4 ||
+				   feastInfoVO.getFea_loc().indexOf("鎮", 3)==4 ||
+				   feastInfoVO.getFea_loc().indexOf("市", 3)==4 ||
+				   feastInfoVO.getFea_loc().indexOf("區", 3)==4){
+					x=5;
+				}else if(feastInfoVO.getFea_loc().indexOf("鄉", 3)==5 ||
+						 feastInfoVO.getFea_loc().indexOf("鎮", 3)==5 ||
+						 feastInfoVO.getFea_loc().indexOf("市", 3)==5 ||
+						 feastInfoVO.getFea_loc().indexOf("區", 3)==5){
+					x=6;
+				}else if(feastInfoVO.getFea_loc().indexOf("鄉", 3)==6 ||
+						 feastInfoVO.getFea_loc().indexOf("鎮", 3)==6 ||
+						 feastInfoVO.getFea_loc().indexOf("市", 3)==6 ||
+						 feastInfoVO.getFea_loc().indexOf("區", 3)==6 ||
+						 feastInfoVO.getFea_loc().indexOf("島", 3)==6){
+					x=7;
+				}else{
+					x=8;
+				}
+			}
+	
+	try{
+		res_town = feastInfoVO.getFea_loc().substring(3,x);
+	}catch(Exception e){
+		res_town = null;
+	}
+%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -55,7 +97,29 @@ window.onload = function() {
 	}
 }
 </script>
-
+<style>
+.city, .town{width: 100%;}
+.f1{float:left;margin-left:5px;margin-right:5px;width:calc(5% - 10px)}
+.f2{float:left;margin-left:5px;margin-right:5px;width:calc(10% - 10px)}
+.f3{float:left;margin-left:5px;margin-right:5px;width:calc(15% - 10px)}
+.f4{float:left;margin-left:5px;margin-right:5px;width:calc(20% - 10px)}
+.f5{float:left;margin-left:5px;margin-right:5px;width:calc(25% - 10px)}
+.f6{float:left;margin-left:5px;margin-right:5px;width:calc(30% - 10px)}
+.f7{float:left;margin-left:5px;margin-right:5px;width:calc(35% - 10px)}
+.f8{float:left;margin-left:5px;margin-right:5px;width:calc(40% - 10px)}
+.f9{float:left;margin-left:5px;margin-right:5px;width:calc(45% - 10px)}
+.f10{float:left;margin-left:5px;margin-right:5px;width:calc(50% - 10px)}
+.f11{float:left;margin-left:5px;margin-right:5px;width:calc(55% - 10px)}
+.f12{float:left;margin-left:5px;margin-right:5px;width:calc(60% - 10px)}
+.f13{float:left;margin-left:5px;margin-right:5px;width:calc(65% - 10px)}
+.f14{float:left;margin-left:5px;margin-right:5px;width:calc(70% - 10px)}
+.f15{float:left;margin-left:5px;margin-right:5px;width:calc(75% - 10px)}
+.f16{float:left;margin-left:5px;margin-right:5px;width:calc(80% - 10px)}
+.f17{float:left;margin-left:5px;margin-right:5px;width:calc(85% - 10px)}
+.f18{float:left;margin-left:5px;margin-right:5px;width:calc(90% - 10px)}
+.f19{float:left;margin-left:5px;margin-right:5px;width:calc(95% - 10px)}
+.f20{float:left;margin-left:5px;margin-right:5px;width:calc(100% - 10px)}
+</style>
 <style type="text/css">
 .xdsoft_datetimepicker .xdsoft_datepicker {
 	width: 300px; /* width:  300px; */
@@ -201,12 +265,11 @@ section.range-slider input[type=range]::-moz-focus-outer {
 				<FORM METHOD="post" ACTION="feastinfo.do" name="form1">
 
 					<form>
-
+						<input type="hidden" name="fea_resNo" class="form-control" value="<%=resNo%>" />
 						<div class="from-group row">
 							<div class="col-sm-6">
-								<label>餐廳名稱:</label> <input type="TEXT" name="fea_resNo"
-									class="form-control"
-									value="<%=(feastInfoVO == null) ? "RS000001" : feastInfoVO.getFea_resNo()%>" />
+								<label>餐廳名稱:</label><br>
+								 <%=resVO.getRes_name()%>
 							</div>
 							<div class="col-sm-6">
 								<label>標題:</label> <input type="TEXT" name="fea_title"
@@ -256,9 +319,16 @@ section.range-slider input[type=range]::-moz-focus-outer {
 						
 						<div class="form-group row">
 							<div class="col-sm-12">
-								<label>飯局地點:</label> <input type="TEXT" name="fea_loc" size="45"
-									class="form-control"
-									value="<%=(feastInfoVO == null) ? "我是餐廳地址我是餐廳地址" : feastInfoVO.getFea_loc()%>" />
+								<label>飯局地點:</label> <div id="zipcode">
+					<div class="f6" data-role="county"></div>
+					<div class="f8" data-role="district"></div>
+				</div><input name="address" type="text" class="f5 address form-control"
+				value="<%=(feastInfoVO == null) ? "" : feastInfoVO.getFea_loc().substring(x)%>">
+
+			
+			
+			
+			
 							</div>
 						</div>
 						<div class="form-group row">
@@ -366,6 +436,17 @@ $('#feastdate').datetimepicker({
 
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
 
+<script>
+$("#zipcode").twzipcode({
+	"countySel": '<%=res_city%>', // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+	"districtSel": '<%=res_town%>', // 地區預設值
+	"zipcodeIntoDistrict": true,
+	"css": ["city form-control", "town form-control"],
+	"countyName": "res_city", // 指定城市 select name
+	"districtName": "res_town" // 指定地區 select name
+	});
+</script>
 </body>
 </html>

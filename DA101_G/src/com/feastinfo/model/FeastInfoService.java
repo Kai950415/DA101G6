@@ -104,7 +104,7 @@ public class FeastInfoService
     public List<FeastInfoVO> getAllCurrentFeastInfo()
     {
         return dao.getAll().stream()
-                .filter(feastInfo -> feastInfo.getFea_date().after(new java.sql.Timestamp(System.currentTimeMillis())) && feastInfo.getFea_startDate().before(new java.sql.Timestamp(System.currentTimeMillis())))
+                .filter(feastInfo -> feastInfo.getFea_date().after(new java.sql.Timestamp(System.currentTimeMillis())))
                 .collect(Collectors.toList());
     }
     

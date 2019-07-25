@@ -57,25 +57,21 @@ img {
 		</c:forEach>
 	</ul>
 </c:if>
-
+<div class="container">
 <div class="card card-body">
 	<br>	
-	<div id="content">
+	<div class="col-8">
 	親愛的<b>${memVO.mem_name}</b> 您好!!!<br>
 	訂單編號:<b>${ordVO.ord_no}</b><br>
 	以下為您此次的訂單明細，屆時請準時參加飯局，謝謝！<br>
 	</div>
+	</div>
 	<br>
 	<%	if(buylist != null && buylist.size() != 0){ %>
-		<table class="table1">
-		<tr>
-			<th>餐點編號</th>
-			<th>餐點名稱</th>
-			<th>數量</th>
-			<th>餐點金額</th>
-			<th>小計</th>
-			
-		</tr>
+<div class="card" >
+ <div class="card-body">
+		
+
 	<% 	for (int i = 0; i < buylist.size(); i++) {
 			FooditemVO order = buylist.get(i);
 			String fo_no = order.getFo_no();
@@ -83,26 +79,46 @@ img {
 			int fo_price = order.getFo_price();
 			int fo_quantity = order.getFo_quantity();
 	%>
-	<tr>
-		<td><div align="center"><%=fo_no%></div></td>
-		<td><div align="center"><%=fo_name%></div></td>
-		<td><div align="center"><%=fo_quantity%></div></td>
-		<td><div align="center"><%=fo_price%></div></td>
-		<td><div align="center"><%=fo_price*fo_quantity%></div></td>
+
+ 	<div class="card-title">
+ 		<div class="row">
+			<div class="form-group col-sm-6">
+			餐點編號 : <%=fo_no%>
+			</div>
+			<div class="form-group col-sm-6">
+			餐點名稱 : <%=fo_name%>
+			</div></div></div>
+		<div class="card-text">
+			<div class="row">
+				<div class="form-group col-sm-4">
+				數量 : <%=fo_quantity%>
+				</div>
+				<div class="form-group col-sm-4">
+				餐點金額 : <%=fo_price%>
+				</div>
+				<div class="form-group col-sm-4">
+				小計 : <%=fo_price*fo_quantity%></div></div>
+			</div></div>
 
 			
-	</tr>
+
 	<%}
 	}%>
-	<tr>
-		<td>消費總金額：</td>
-		<td><%=amount%></td>
-		<td>剩餘金額：</td>
-		<td>$${memberVO.mem_point}</td>
-	</tr>	
-	</table>
+		<div class="card-footer">
+		
+		<div class="form-group col-sm-6">
+		消費總金額：<%=amount%></div>
+		<div class="form-group col-sm-6">
+		剩餘金額：$${memberVO.mem_point}</div>
+	
+		
+		</div>
+
+</div>
+</div>
 </div>
 <div>
+</div>
 <a href="/front-end/feast/listOneFeast.jsp">返回飯局</a>
 </div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" 

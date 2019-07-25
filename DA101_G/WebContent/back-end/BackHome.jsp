@@ -6,7 +6,7 @@
 <%@ page import="com.reportlm.model.*"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 
 <head>
 

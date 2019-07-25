@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.google.gson.Gson;
 import com.mem.model.MemService;
 import com.mem.model.MemVO;
 
 import Mail.MailService;
+import redis.clients.jedis.Jedis;
 
 @MultipartConfig(fileSizeThreshold=1024*1024,maxFileSize=5*1024*1024,maxRequestSize=5*5*1024*1024)
 public class MemServlet extends HttpServlet{
@@ -26,7 +28,7 @@ public class MemServlet extends HttpServlet{
 			throws ServletException, IOException {
 		doPost(req, res);
 	}
-
+	
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
@@ -194,10 +196,7 @@ public class MemServlet extends HttpServlet{
 				is.read(mem_img);
 				is.close();	
 				
-				
-				
-
-				
+		
 				
 				String mem_pass= req.getParameter("mem_pass").trim();
 				if (mem_pass == null || mem_pass.trim().length() == 0) {
@@ -367,7 +366,7 @@ System.out.println(mem_email);
 				memVO.setMem_status(mem_status);		
 				MemService memSrv=new MemService();
 				memSrv.memInsert(mem_name, mem_adrs, mem_sex, mem_bd, mem_ph, mem_email, mem_point, data, mem_pass, mem_ac, mem_intro, mem_status);
-
+				memSrv.sendMail(memVO);
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
@@ -380,15 +379,16 @@ System.out.println(mem_email);
 				/***************************2.開始新增資料***************************************/
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
+				
+				
+				session.setAttribute("login", "false");
+                String url = "/hometag.jsp";
+				
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllMem.jsp
+				successView.forward(req, res);				
+				
 
-				String subject="您已經完成註冊，請您進行會員驗證!";
-				String messageText = mem_name + "感謝您建立EGG的帳戶!已經驗證成功，祝您在EGG玩的愉快。";
-				MailService mailSve = new MailService();
-				mailSve.sendMail(mem_email, subject, messageText);
 				
-				
-				res.sendRedirect(req.getContextPath() + "/hometag.jsp");			
-			
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
@@ -397,9 +397,18 @@ System.out.println(mem_email);
 				failureView.forward(req, res);
 			}
 		}
-		
-		
-//		
+		if("confirm".equals(action)) {
+System.out.println("1234567");
+			String code = req.getParameter("code");
+			MemService memSrv=new MemService();
+			boolean result = memSrv.confirmCode(code);
+			
+			if(result) {
+				System.out.println("認證成功");
+				String url = "/front-end/mem/mem.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllMem.jsp
+				successView.forward(req, res);	
+			}								
+		}
 	}
-
 }

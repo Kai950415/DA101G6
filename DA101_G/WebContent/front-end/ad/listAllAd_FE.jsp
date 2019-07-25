@@ -54,13 +54,7 @@
 </head>
 <body bgcolor='white'>
 
-<h4>此頁練習採用 EL 的寫法取值:</h4>
-<table id="table-1" width="1600px">
-	<tr><td>
-		 <h3>所有廣告資料 - listAllAd.jsp</h3>
-		 <h4><a href="/DA101G6/front-end/ad/ad_FE.jsp"><img src="/DA101G6/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
+<%@ include file="/header.jsp"%>
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -71,11 +65,9 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
+<a class="btn btn-info" href='<%=request.getContextPath()%>/front-end/ad/addAd.jsp'>申請廣告</a>
 <table>
 	<tr>
-		<th>廣告編號</th>
-		<th>餐廳編號</th>
 		<th>廣告標題</th>
 		<th>廣告內容</th>
 		<th>廣告照片</th>
@@ -88,8 +80,6 @@
 	<%@ include file="/page1.file" %> 
 	<c:forEach var="adVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr>
-			<td>${adVO.ad_no}</td>
-			<td>${adVO.ad_resno}</td>
 			<td>${adVO.ad_title}</td>
 			<td><pre class="lead" style="word-break:break-all;width:auto; height:auto;" >${adVO.ad_text}</pre></td>
 <!-- 			<td><textarea class="form-control" id="exampleFormControlTextarea3" cols="150" rows="50" -->

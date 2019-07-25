@@ -55,7 +55,7 @@ background-color: #dedede;
       </li>
       
       <li class="nav-item">
-        <a class="nav-link btn btn-light" href="<%=request.getContextPath()%>/back-end/res/listAllRes.jsp">店家管理</a>
+        <a class="nav-link btn btn-light" href="<%=request.getContextPath()%>/back-end/res/reviewRes.jsp">店家管理</a>
       </li>
       
        <li class="nav-item">
@@ -63,7 +63,7 @@ background-color: #dedede;
       </li>
       
       <li class="nav-item">
-        <a class="nav-link btn btn-light" href="#">點數管理</a>
+        <a class="nav-link btn btn-light" href="<%=request.getContextPath()%>/back-end/pointtransaction/listAllpointtransaction.jsp">點數管理</a>
       </li>
             
        <li class="nav-item">

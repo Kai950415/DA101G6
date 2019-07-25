@@ -18,7 +18,7 @@
     pageContext.setAttribute("listAd", listAd);
     int CountAd = 1;
     
-    //***************************廣告要用的辣*******************************
+    //***************************廣告要用的辣*******************************//
 %>
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 <jsp:useBean id="myeSvc" scope="page" class="com.myfeast.model.MyFeastService" />
