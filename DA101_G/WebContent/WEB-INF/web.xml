@@ -184,7 +184,15 @@
 		<servlet-name>PicServlet4</servlet-name>
 		<url-pattern>/back-end/ord/resOrdPhoto.do</url-pattern>
 	</servlet-mapping>
-	
+	  <servlet>
+    <servlet-name>PicServlet5</servlet-name>
+    <servlet-class>com.pictools.memPhoto</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PicServlet5</servlet-name>
+    <url-pattern>/back-end/mem/memPhoto.do</url-pattern>
+  </servlet-mapping>
+  
 	<servlet>
 		<servlet-name>MemLogin</servlet-name>
 		<servlet-class>com.mem.controller.MemLogin</servlet-class>

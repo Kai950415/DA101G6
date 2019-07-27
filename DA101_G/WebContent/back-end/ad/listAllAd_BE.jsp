@@ -3,6 +3,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.ad.model.*"%>
 <%@ page import="com.tools.*"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
@@ -35,7 +36,7 @@
 
 <style>
   table {
-	width: 1600px;
+	width: 100%;
 	background-color: white;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -73,7 +74,7 @@
 		<th>廣告開始時間</th>
 		<th>廣告結束時間</th>
 		<th>廣告狀態</th>
-		<th>修改</th>
+		<th>審核</th>
 	</tr>
 	 
 	 	<%@ include file="page1.file"%>
@@ -82,15 +83,15 @@
 			<td>${adVO.ad_no}</td>
 			<td>${adVO.ad_resno}</td>
 			<td>${adVO.ad_title}</td>
-			<td><pre class="form-control" id="exampleFormControlTextarea3" cols="75" rows="10"style="resize:none;border: 0px;outline:none;Comparator.reverseOrder()" 
+			<td><pre class="form-control" id="exampleFormControlTextarea3" cols="35" rows="10"style="resize:none;border: 0px;outline:none;Comparator.reverseOrder()" 
 					style="word-break:break-all">${adVO.ad_text}</pre></td>
 			<td><img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}" width="300" height="200"> </td>
-			<td>${adVO.ad_start}</td> 
-			<td>${adVO.ad_end}</td> 
+			<td><fmt:formatDate value="${adVO.ad_start}" pattern="yyyy-MM-dd" /></td> 
+			<td><fmt:formatDate value="${adVO.ad_end}" pattern="yyyy-MM-dd" /></td> 
 			<td>${FindCodeName.meaning(adVO.ad_status)}</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/ad/ad.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+			     <input type="submit" class="btn btn-secondary" value="審核">
 			     <input type="hidden" name="ad_no"  value="${adVO.ad_no}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
 			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->

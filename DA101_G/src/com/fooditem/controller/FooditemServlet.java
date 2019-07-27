@@ -319,6 +319,8 @@ System.out.println(304);
 		
 		String fo_no = req.getParameter("fo_no");
 		FooditemService foSvc = new FooditemService();
+		ResService resSvc = new ResService();
+		
 		FooditemVO foVO = foSvc.getOneFooditem(fo_no);
 		
 		String fo_status = "fo1";
@@ -338,9 +340,53 @@ System.out.println(304);
 		foVO.setFo_status(fo_status);
 		
 		foVO = foSvc.updateFooditem(fo_no, fo_resno, fo_name, fo_price, fo_img, fo_intro, fo_status);
+		ResVO resVO = resSvc.getOneRes(fo_resno);
 		
 		if(foSvc.getAllReviewFooditemByRes(fo_resno).size()==0) {
 
+		    if (resVO.getRes_status().equals("res2"))
+            {
+                
+                
+                String res_name = resVO.getRes_name();
+                String res_adrs = resVO.getRes_adrs();
+                String res_ph = resVO.getRes_ph();
+                Integer res_point =  resVO.getRes_point();
+                String res_ac = resVO.getRes_ac();
+                String res_pass = resVO.getRes_ac();
+                byte[] res_img = resVO.getRes_img();
+                String res_intro = resVO.getRes_intro();
+                String res_start = resVO.getRes_start();
+                String res_end = resVO.getRes_end();
+                Double res_lot = resVO.getRes_lot();
+                Double res_lat = resVO.getRes_lat();
+                Integer res_score = resVO.getRes_score();
+                Integer res_comcount = resVO.getRes_comcount();
+                Integer res_cost = resVO.getRes_cost();
+                String res_type = resVO.getRes_type();
+                
+                resVO.setRes_no(fo_resno);
+                resVO.setRes_adrs(res_adrs);
+                resVO.setRes_name(res_name);
+                resVO.setRes_ph(res_ph);
+                resVO.setRes_point(res_point);
+                resVO.setRes_ac(res_ac);
+                resVO.setRes_pass(res_pass);
+                resVO.setRes_img(res_img);
+                resVO.setRes_intro(res_intro);
+                resVO.setRes_start(res_start);
+                resVO.setRes_end(res_end);
+                resVO.setRes_lat(res_lat);
+                resVO.setRes_lot(res_lot);
+                resVO.setRes_score(res_score);
+                resVO.setRes_cost(res_cost);
+                resVO.setRes_comcount(res_comcount);
+                resVO.setRes_type(res_type);
+                resVO.setRes_status("res3");
+                
+                resVO = resSvc.updateRes(fo_resno,res_adrs,res_name, res_ph, res_point, res_ac,res_pass, res_img, res_intro, res_start,res_end, res_lat, res_lot, res_score, res_cost, res_comcount, res_type, resVO.getRes_status());
+            }
+		    
 			session.setAttribute("noNeedRe", "true");
 			String url = "/back-end/res/reviewRes.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -351,8 +397,6 @@ System.out.println(304);
 			session.setAttribute("needRe", "true");
 			
 			
-			ResService resSvc = new ResService();
-			ResVO resVO = resSvc.getOneRes(fo_resno);
 			req.setAttribute("resVO", resVO);
 			String url = "/back-end/fooditem/reviewFooditem.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);

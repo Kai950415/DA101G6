@@ -112,18 +112,15 @@
 						<div class="row">
 							<div class="form-group col-sm-4">
 								<label><b>飯局日期 :</b></label>
-								<p>
-									<fmt:formatDate value="${feastInfoVO.fea_date}" pattern="yyyy-MM-dd"/></p>
+								<p><fmt:formatDate value="${feastInfoVO.fea_date}" pattern="yyyy-MM-dd HH:mm"/></p>
 							</div>
 							<div class="form-group col-sm-4">
 								<label><b>報名截止時間 :</b></label>
-								<p>
-									<fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+								<p><fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm"/></p>
 							</div>
 							<div class="form-group col-sm-4">
 								<label><b>訂餐截止時間 :</b></label>
-								<p>
-								<fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+								<p><fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm"/></p>
 								</div>
 								</div>
 				
@@ -229,12 +226,12 @@
 							<div class="form-group col-sm-4">
 								<label><b>報名截止時間 :</b></label>
 								<p>
-									<fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+									<fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm"/></p>
 							</div>
 							<div class="form-group col-sm-4">
 								<label><b>訂餐截止時間 :</b></label>
 								<p>
-								<fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+								<fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm"/></p>
 								</div>
 								</div>
 				

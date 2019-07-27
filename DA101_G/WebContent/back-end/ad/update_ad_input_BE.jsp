@@ -38,7 +38,7 @@
 
 <style>
   table {
-	width: 1600px;
+	width: 100%;
 	background-color: white;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -84,7 +84,7 @@
 	<FORM METHOD="post" ACTION="ad.do" name="form1"
 		enctype="multipart/form-data">
 		
-		<table width="800px">
+		<table>
 			<tr>
 				<td>廣告編號:<font color=red><b>*</b></font></td>
 				<td><%=adVO.getAd_no()%></td>
@@ -135,7 +135,7 @@
 			<input type="hidden" name="ad_no" value="<%=adVO.getAd_no()%>">
 			<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
 			<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:listAllAd_BE.jsp-->
-			<input type="submit" value="送出">
+			<input type="submit" class="btn btn-secondary" value="送出">
 	</FORM>
 	</div>
 </body>

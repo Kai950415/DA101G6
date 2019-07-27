@@ -84,7 +84,6 @@ public class OrdService {
 				
 	}
 	
-	
 	public List<OrdVO> getAllUnOrdByFea(String fea_no){
 		return dao.getAll().stream()
 				.filter(ord -> ord.getOrd_status().equals("ords1"))
@@ -135,6 +134,23 @@ public class OrdService {
 		return ordVO;
 	}
 	
+	public boolean isMemOrdInFea(String ord_fea_no, String ord_memno) {
+	       List<OrdVO> ordList = dao.getAll().stream()
+                                    .filter(ord -> ord.getOrd_fea_no().equals(ord_fea_no))
+                                    .filter(ord -> ord.getOrd_memno().equals(ord_memno))
+                                    .collect(Collectors.toList());
+	         
+           if(ordList.size() == 0) 
+           {
+               return false;
+           }
+           else 
+           {
+               return true;
+           }
+	        
+    }
+
 //	public static void main(String[] args) {
 //		OrdService ordSvc = new OrdService();
 //		String str = "RS000001";

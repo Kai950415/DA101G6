@@ -117,7 +117,7 @@ th, td {
 								<option selected value="res1">未處理</option>
 								<option value="res2">通過</option>
 							</select>
-							<th><input type="submit" value="審核">
+							<th><input type="submit" class="btn btn-secondary" value="審核">
 								<input type="hidden" name="res_no" value="${resterauntVO.res_no}">
 								<input type="hidden" name="action" value="review"></th>
 						</FORM>
@@ -151,7 +151,7 @@ th, td {
 							ACTION="<%=request.getContextPath()%>/back-end/res/res.do"
 							style="margin-bottom: 0px;">
 							餐點待審核
-							<th><input type="submit" value="審核菜單">
+							<th><input type="submit" class="btn btn-secondary" value="審核菜單">
 								<input type="hidden" name="res_no" value="${resterauntVO.res_no}">
 								<input type="hidden" name="action" value="reviewFooditem"></th>
 						</FORM>

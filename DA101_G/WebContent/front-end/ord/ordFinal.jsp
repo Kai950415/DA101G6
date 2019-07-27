@@ -13,6 +13,7 @@
 	String amount =  String.valueOf(session.getAttribute("total"));
 	pageContext.setAttribute("memVO", memVO);
 	pageContext.setAttribute("ordVO", ordVO);
+	pageContext.setAttribute("feastInfoVO", session.getAttribute("feastInfoVO"));
 	
 	session.removeAttribute("total");
 	session.removeAttribute("shoppingCart");
@@ -119,7 +120,12 @@ img {
 </div>
 <div>
 </div>
-<a href="/front-end/feast/listOneFeast.jsp">返回飯局</a>
+					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do">
+
+									<input type="hidden" class="form-check-input" name="action"
+										value="getOne_For_Display"> <input type="hidden" class="form-check-input" name="fea_no" value="${feastInfoVO.fea_no}">
+									<button type="submit" class="btn btn-primary">返回飯局</button>
+					</form>
 </div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" 
 	integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

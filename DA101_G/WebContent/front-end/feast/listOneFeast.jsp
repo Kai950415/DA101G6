@@ -1,10 +1,9 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page
-	import="java.util.*, com.feastinfo.model.*, com.myfeast.model.*"%>
+<%@ page import="java.util.*, com.feastinfo.model.*, com.myfeast.model.*, com.tools.FindCodeName"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
@@ -19,6 +18,9 @@
 	pageContext.setAttribute("myeSvc", myeSvc);
 	pageContext.setAttribute("list", list);
 %>
+<jsp:useBean id="ordSvc" scope="page" class="com.ord.model.OrdService" />
+<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
+<jsp:useBean id="resSvc" scope="page" class="com.res.model.ResService" />
 
 <html lang="en">
 <!-- Bootstrap CSS -->
@@ -69,11 +71,11 @@ b,h4{
 				<div class="col-9">
 				<div class="card text-center">
 						<div class="card-header" style="display:inline-flex;flex-direction: row;justify-content: space-between;">
-						<c:if test="${!list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && (resVO==null) && feastInfoVO.fea_number < feastInfoVO.fea_upLim}">
+						<c:if test="${(resVO==null) && memberVO.mem_no ne (feastInfoVO.fea_memNo) && !list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && feastInfoVO.fea_number < feastInfoVO.fea_upLim}">
 							<button class="btn btn-outline-success" id="joinfeast" name="mye_feano"value="${feastInfoVO.fea_no}"
 							 style="align-content:flex-start;">加入飯局</button>		 
 						</c:if>
-						<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
+						<c:if test="${(resVO==null) && memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
 								<FORM METHOD="post"
 									ACTION="<%=request.getContextPath()%>/front-end/feast/feastinfo.do"
 									style="margin-bottom: 0px; ">
@@ -84,8 +86,8 @@ b,h4{
 						</c:if>
 
 						
-							<h3 style=" align-items:center;">飯局</h3>
-							<h3 style=" align-items:flex-end;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+							<h3 style=" align-items:center;"><label><h4>標題</h4></label> ${feastInfoVO.fea_title}</h3>
+							<h3 style=" align-items:flex-end;"><p> <b>主揪 :</b>${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</p></h3>
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -99,17 +101,10 @@ b,h4{
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group col-sm-4">
+
+								<div class="form-group col-sm-6">
 									<p>
-										<b>飯局編號 :</b>${feastInfoVO.fea_no}</p>
-								</div>
-								<div class="form-group col-sm-4">
-									<p>
-										<b>餐廳編號 :</b>${feastInfoVO.fea_resNo}</p>
-								</div>
-								<div class="form-group col-sm-4">
-									<p>
-										<b>會員編號 :</b>${feastInfoVO.fea_memNo}</p>
+										<b>餐廳名稱 :</b>${resSvc.getOneRes(feastInfoVO.fea_resNo).res_name}</p>
 								</div>
 							</div>
 							<div class="row">
@@ -131,36 +126,55 @@ b,h4{
 									<p><b>飯局地點 :</b>${feastInfoVO.fea_loc}</p>
 								</div>
 								<div class="form-group col-sm-4">
-									<p><b>飯局狀態 :</b>${feastInfoVO.fea_status}</p>
+									<p><b>飯局狀態 :</b>${FindCodeName.meaning(feastInfoVO.fea_status)}</p>
 								</div>
 							</div>
+							
+							<c:if test="${feastInfoVO.fea_type ne \"內用\"}">
 							<div class="row">
 								<div class="form-group col-sm-4">
 									<label><h4>飯局日期 :</h4></label>
-									<p>${feastInfoVO.fea_date}</p>
+									<p><fmt:formatDate value="${feastInfoVO.fea_date}" pattern="yyyy-MM-dd HH:mm"/></p>
 								</div>
 								<div class="form-group col-sm-4">
 									<label><h4>報名截止時間 :</h4></label>
-									<p>${feastInfoVO.fea_startDate}</p>
+									<p><fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm"/></p>
 								</div>
 								<div class="form-group col-sm-4">
 									<label><h4>訂餐截止時間 :</h4></label>
-									<p>${feastInfoVO.fea_endDate}</p>
+									<p><fmt:formatDate value="${feastInfoVO.fea_endDate}" pattern="yyyy-MM-dd HH:mm"/></p>
 								</div>
 							</div>
+							</c:if>
+							
+							<c:if test="${feastInfoVO.fea_type.equals(\"內用\")}">
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label><h4>飯局日期 :</h4></label>
+									<p><fmt:formatDate value="${feastInfoVO.fea_date}" pattern="yyyy-MM-dd HH:mm"/></p>
+								</div>
+								<div class="form-group col-sm-6">
+									<label><h4>報名截止時間 :</h4></label>
+									<p><fmt:formatDate value="${feastInfoVO.fea_startDate}" pattern="yyyy-MM-dd HH:mm"/></p>
+								</div>
+							</div>
+							</c:if>
+							
 						</div>
 						<div class="card-footer text-muted">
 
-							<c:if test="${list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no)) && !memberVO.mem_no.equals(feastInfoVO.fea_memNo)}">
-							<button type="button" class="btn btn-primary"
-								onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'">訂餐</button>
-								<button class="btn btn-outline-secondary" id="leftfeast"
-									name="mye_feano" value="${feastInfoVO.fea_no}">退出</button>
+						
+						<c:if test="${(resVO==null) && !ordSvc.isMemOrdInFea(feastInfoVO.fea_no, memberVO.mem_no) &&  list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
+							<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'">訂餐</button>
+						</c:if>								
+							<c:if test="${(resVO==null) && memberVO.mem_no ne (feastInfoVO.fea_memNo) && list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
+							<button class="btn btn-outline-secondary" id="leftfeast"
+								name="mye_feano" value="${feastInfoVO.fea_no}">退出</button>
 							</c:if>
 						</div>
 					</div>
 					</div>
-					<jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
+					
 					<div class="col-3">
 					<table class="table" sytle="border-style:none;">
 					
@@ -169,17 +183,18 @@ b,h4{
 					</tr>
 					
 					<c:forEach var="myFeastVO" items="${list}">
+						<c:if test="${(resVO==null) && feastInfoVO.fea_memNo ne myFeastVO.mye_memNo}"> 
 						<tr sytle="border-style:none;">
 					
 							
 							<td>${memSvc.memFindByPrimaryKey(myFeastVO.mye_memNo).mem_name}</td>
 
-							<c:if test="${memberVO.mem_no.equals(feastInfoVO.fea_memNo) && !memberVO.mem_no.equals(myFeastVO.mye_memNo)}"> 
+							<c:if test="${(resVO==null) && memberVO.mem_no.equals(feastInfoVO.fea_memNo) && memberVO.mem_no ne myFeastVO.mye_memNo}"> 
 						 
 										<td width="30%">
 											<button class="btn btn-outline-danger kick_from_feast" name="mye_feano" feano="${myFeastVO.mye_feaNo}" memno="${myFeastVO.mye_memNo}">踢</button> 
 										</td>
-								
+							</c:if> 
 									<jsp:useBean id="FLSvc" scope="page" class="com.friendlist.model.FriendListService" />
 									
 <%-- 									<c:if test="${FLSvc.getAll(memberVO.mem_no).contains(FLSvc.findByTwoPrimaryKey(memberVO.mem_no, myFeastVO.mye_memNo))}"> --%>
@@ -188,9 +203,8 @@ b,h4{
 										</td>
 <%-- 									</c:if> 	 --%>
 									
-							</c:if> 
 						</tr>
-						
+						</c:if>
 					</c:forEach>
 					</table>
 					</div>

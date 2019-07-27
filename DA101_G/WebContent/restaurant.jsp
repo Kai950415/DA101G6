@@ -308,8 +308,8 @@ body.loading .modalForLoad {
 
 				</div>
 				<div class="stats">
-					<i class="fa fa-building"></i>${resVO.res_adrs} <br> <i
-						class="fa fa-phone"></i>${resVO.res_ph}
+					<i class="fa fa-building"></i>${resVO.res_adrs} <br> 
+					<i class="fa fa-phone"></i>${resVO.res_ph}
 				</div>
 				<div>
 					<a class="btn btn-primary" href="<%=request.getContextPath()%>/front-end/res/res.do?res_no=${resVO.res_no}&action=showResInfo">點我進入餐廳頁面</a>
@@ -748,7 +748,7 @@ function setAllLocations(resJson){
 					    	"<div class='price'>" + element['resName'] +
 		 			    	"</div>"+
 		 			    	"<div class='stats'>"+
-					    		"<i class='fa fa-building'>"+ element['resAdrs'] +
+					    		"<i class='fa fa-building'></i>"+ element['resAdrs'] +
 		 			    		 "<br>"+
 					    		"<i class='fa fa-phone'></i>" + element['resPh'] +
 		 			    	"</div>"+
