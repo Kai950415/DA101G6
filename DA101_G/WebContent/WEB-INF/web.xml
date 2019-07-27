@@ -60,7 +60,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilterForBack</filter-name>
-		<url-pattern>/back-end/BackTag.jsp</url-pattern>
+		<url-pattern>/back-end/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>

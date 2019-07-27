@@ -41,7 +41,7 @@ public class LoginFilterForBackEnd implements Filter
 
 
         
-        if (BackAccount != null)
+        if (BackAccount != null || req.getRequestURL().toString().endsWith("adminLogin.jsp") || req.getRequestURL().toString().endsWith("adminLogin.jsp"))
         {
             chain.doFilter(request, response);
         }

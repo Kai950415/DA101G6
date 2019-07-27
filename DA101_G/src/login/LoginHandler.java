@@ -182,8 +182,8 @@ public class LoginHandler extends HttpServlet
             { // 【帳號 , 密碼有效時, 才做以下工作】
                 
                 session.setAttribute("adminVO", adminVO); // *工作1: 才在session內做已經登入過的標識
-              System.out.println(123);
-                res.sendRedirect(req.getContextPath() + "/back-end/BackTag.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
+
+                res.sendRedirect(req.getContextPath() + "/back-end/BackHome.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
             }
         }
     }
