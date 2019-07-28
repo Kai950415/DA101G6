@@ -96,8 +96,7 @@ public class FeastInfoService
     public List<FeastInfoVO> getAllHistoryFeastInfo()
     {
         return dao.getAll().stream()
-                .filter(feastInfo -> feastInfo.getFea_date().before(new java.sql.Timestamp(System.currentTimeMillis())))
-                .filter(feastInfo -> feastInfo.getFea_status().equals("fea3"))
+                .filter(feastInfo -> feastInfo.getFea_status().equals("fea3") || feastInfo.getFea_date().before(new java.sql.Timestamp(System.currentTimeMillis())))
                 .collect(Collectors.toList());
     }
     

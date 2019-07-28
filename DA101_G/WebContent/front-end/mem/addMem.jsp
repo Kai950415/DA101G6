@@ -181,7 +181,9 @@ body {
 									<label for="AboutMe"><h4>自我介紹</h4></label>
 									<textarea name="mem_intro" class="form-control"
 										placeholder="Say~Something" id="AboutMe"
-										style="height: 150px;"></textarea>
+										style="height: 150px;">
+											${memberVO.mem_intro}
+												</textarea>
 								</div>
 								<div class="col-xs-3">
 									<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -240,16 +242,18 @@ body {
 			$("input[name='zipcode']").val(''); //郵遞區號
 		})
 	</script>
+	
+	
 	<!--引用jQuery-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!--引用SweetAlert2-->
 <script type="text/javascript" src="https://unpkg.com/sweetalert2@7.0.7/dist/sweetalert2.all.js"></script>
 <script type="text/javascript">
 $(function () {
-$("input:submit").click(function () {
+$("button:submit").click(function () {
 swal("已寄送驗證信","請至您的信箱進行驗證", "info").then(function (result) {
 //導頁寫在此
-window.location.href = "<%=request.getContextPath()%>/index.jsp";
+window.location.href = "<%=request.getContextPath()%>/hometag.jsp";
 });
 });
 });

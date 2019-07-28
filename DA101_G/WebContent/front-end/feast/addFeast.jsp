@@ -265,7 +265,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 				<FORM METHOD="post" ACTION="feastinfo.do" name="form1">
 
 					<form>
-						<input type="hidden" name="fea_resNo" class="form-control" value="<%=resNo%>" />
+						<input type="hidden" name="fea_resNo" class="form-control" value="<%=resVO.getRes_no()%>" />
 						<div class="from-group row">
 							<div class="col-sm-6">
 								<label>餐廳名稱:</label><br>

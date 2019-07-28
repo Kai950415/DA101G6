@@ -405,7 +405,7 @@ System.out.println("1234567");
 			
 			if(result) {
 				System.out.println("認證成功");
-				String url = "/front-end/mem/mem.jsp";
+				String url = "hometag.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllMem.jsp
 				successView.forward(req, res);	
 			}								

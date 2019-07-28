@@ -224,7 +224,8 @@ footer {
 						<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 餐廳檔案設定 </a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/fooditem/listOneFooditem.jsp">餐點管理</a>
-								<a class="dropdown-item" href="#">訂單管理</a> 
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/ord/ordMgByResOK.jsp">已接訂單</a> 
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/ord/ordMgByResUn.jsp">未接訂單</a> 
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/res/listOneRes.jsp">餐廳頁面</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/ad/listAllAd_FE.jsp">廣告管理</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/resAc/listAllResAc.jsp">員工管理</a>

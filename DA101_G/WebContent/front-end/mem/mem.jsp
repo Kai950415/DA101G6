@@ -22,12 +22,12 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <script src="https://code.jquery.com/jquery-1.11.3.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="<%=request.getContextPath()%>/js/address.js"></script>
-<!-- <script -->
-<!-- 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-<!-- <link rel="stylesheet" -->
-<!-- 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <style>
   table {
@@ -403,15 +403,15 @@ body {
 	<script type="text/javascript">
 		$(function() {
 			init_address();
-			$("#zone1").val('桃園縣'); //縣市
-			for ( var i in zip['桃園縣']) {
+			$("#zone1").val(''); //縣市
+			for ( var i in zip['']) {
 				o = document.createElement('option');
 				o.text = i;
 				o.value = i;
 				zone2.options.add(o);
 			}
-			$("#zone2").val('新屋鄉'); //鄉鎮市區
-			$("input[name='zipcode']").val('327'); //郵遞區號
+			$("#zone2").val(''); //鄉鎮市區
+			$("input[name='zipcode']").val(''); //郵遞區號
 		})
 	</script>
 	

@@ -173,38 +173,13 @@ System.out.println(feastInfoVO);
                 
                 /*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 
-                String fea_resNoReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,60}$";
-                String fea_resNo = request.getParameter("fea_resNo").trim();
-                if (fea_resNo == null || fea_resNo.trim().length() == 0)
-                {
-                    errorMsgs.add("餐廳名稱請勿空白");
-                }
-                else if (!fea_resNo.trim().matches(fea_resNoReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("餐廳名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到60之間");
-                }
 
-                String fea_titleReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,30}$";
+                String fea_resNo = request.getParameter("fea_resNo");
+
+
                 String fea_title = request.getParameter("fea_title").trim();
-                if (fea_title == null || fea_title.trim().length() == 0)
-                {
-                    errorMsgs.add("標題名稱請勿空白");
-                }
-                else if (!fea_title.trim().matches(fea_titleReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("標題: 只能是中、英文字母、數字和_ , 且長度必需在2到30之間");
-                }
-
-                String fea_textReg = "^[(\\u4e00-\\u9fa5)(\u3000-\u300F)(a-zA-Z0-9_)]{2,100}$";
+ 
                 String fea_text = request.getParameter("fea_text").trim();
-                if (fea_text == null || fea_text.trim().length() == 0)
-                {
-                    errorMsgs.add("飯局簡介請勿空白");
-                }
-                else if (!fea_text.trim().matches(fea_textReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("飯局簡介: 只能是中、英文字母、數字和_ , 且長度必需在2到100之間");
-                }
 
                 Integer fea_number = feastInfoVO.getFea_number();
 
@@ -341,7 +316,7 @@ System.out.println(feastInfoVO);
             // Store this set in the request scope, in case we need to
             // send the ErrorPage view.
             request.setAttribute("errorMsgs", errorMsgs);
-            String fea_resNo = request.getParameter("fea_resNo").trim();
+            String fea_resNo = request.getParameter("fea_resNo");
             try
             {
                 /*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
@@ -349,38 +324,10 @@ System.out.println(feastInfoVO);
 
                 String fea_memNo = memVO.getMem_no();
 
-                String fea_resNoReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,60}$";
-                
-                if (fea_resNo == null || fea_resNo.trim().length() == 0)
-                {
-                    errorMsgs.add("餐廳名稱請勿空白");
-                }
-                else if (!fea_resNo.trim().matches(fea_resNoReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("餐廳名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到60之間");
-                }
 
-                String fea_titleReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,30}$";
                 String fea_title = request.getParameter("fea_title").trim();
-                if (fea_title == null || fea_title.trim().length() == 0)
-                {
-                    errorMsgs.add("標題名稱請勿空白");
-                }
-                else if (!fea_title.trim().matches(fea_titleReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("標題: 只能是中、英文字母、數字和_ , 且長度必需在2到30之間");
-                }
 
-                String fea_textReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,100}$";
                 String fea_text = request.getParameter("fea_text").trim();
-                if (fea_text == null || fea_text.trim().length() == 0)
-                {
-                    errorMsgs.add("內文請勿空白");
-                }
-                else if (!fea_text.trim().matches(fea_textReg))
-                { // 以下練習正則(規)表示式(regular-expression)
-                    errorMsgs.add("內文: 只能是中、英文字母、數字和_ , 且長度必需在2到100之間");
-                }
 
                 Integer fea_number = 0;
 

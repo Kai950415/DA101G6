@@ -13,10 +13,34 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	
+	<session-config>
+	    <session-timeout>720</session-timeout>
+	</session-config>
+	
 	<filter>
 		<filter-name>loginFilter</filter-name>
 		<filter-class>filters.LoginFilter</filter-class>
 	</filter>
+	
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/front-end/ad/ad_FE.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/front-end/ad/update_ad_input_FE.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/front-end/feast/addFeast.jsp</url-pattern>
@@ -44,6 +68,7 @@
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
+	
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/front-end/mem/mem.jsp</url-pattern>
@@ -54,6 +79,8 @@
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
 	
+
+
 	<filter>
 		<filter-name>loginFilterForBack</filter-name>
 		<filter-class>filters.LoginFilterForBackEnd</filter-class>

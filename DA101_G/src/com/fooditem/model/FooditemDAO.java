@@ -35,7 +35,7 @@ public class FooditemDAO implements FooditemDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT FO_NO,FO_RESNO,FO_NAME,FO_PRICE,FO_IMG,FO_INTRO,FO_STATUS FROM FOODITEM where FO_NO = ?";
 	private static final String DELETE = "DELETE FROM FOODITEM where FO_NO = ?";
 	private static final String UPDATE = "UPDATE FOODITEM set fo_resno=?, fo_name=?, fo_price=?, fo_img=?,fo_intro=?,fo_status=? where fo_no = ?";
-	private static final String GET_BY_RESNO="SELECT * FROM FOODITEM WHERE FO_RESNO=? order by FO_NO";
+	private static final String GET_BY_RESNO="SELECT * FROM FOODITEM WHERE FO_RESNO=? and fo_status='fo1' order by FO_NO";
 	@Override
 	public void insert(FooditemVO FooditemVO) {
 
