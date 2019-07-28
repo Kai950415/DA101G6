@@ -130,7 +130,7 @@ body {
 										value="${memberVO.mem_bd}">
 								</div>
 								<div class="form-group col-sm-6">
-									<label for="mobile"><h4>連絡電話</h4></label> <input type="number"
+									<label for="mobile"><h4>連絡電話</h4></label> <input type="text" maxlength="10"
 										class="form-control" name="mem_ph" id="mobile"
 										placeholder="你的電話號碼" title="PhoneNumber"
 										value="${memberVO.mem_ph}">
@@ -229,18 +229,31 @@ body {
 	<script type="text/javascript">
 		$(function() {
 			init_address();
-			$("#zone1").val('桃園縣'); //縣市
-			for ( var i in zip['桃園縣']) {
+			$("#zone1").val(''); //縣市
+			for ( var i in zip['']) {
 				o = document.createElement('option');
 				o.text = i;
 				o.value = i;
 				zone2.options.add(o);
 			}
-			$("#zone2").val('新屋鄉'); //鄉鎮市區
-			$("input[name='zipcode']").val('327'); //郵遞區號
+			$("#zone2").val(''); //鄉鎮市區
+			$("input[name='zipcode']").val(''); //郵遞區號
 		})
 	</script>
-	
+	<!--引用jQuery-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!--引用SweetAlert2-->
+<script type="text/javascript" src="https://unpkg.com/sweetalert2@7.0.7/dist/sweetalert2.all.js"></script>
+<script type="text/javascript">
+$(function () {
+$("input:submit").click(function () {
+swal("已寄送驗證信","請至您的信箱進行驗證", "info").then(function (result) {
+//導頁寫在此
+window.location.href = "<%=request.getContextPath()%>/index.jsp";
+});
+});
+});
+</script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>

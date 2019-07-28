@@ -1,6 +1,8 @@
 package com.myfeast.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,153 +16,172 @@ import javax.servlet.http.HttpSession;
 
 import com.feastinfo.model.FeastInfoService;
 import com.feastinfo.model.FeastInfoVO;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.mem.model.MemVO;
 import com.myfeast.model.MyFeastService;
 
 @WebServlet("/MyFeastController")
-public class MyFeastServlet extends HttpServlet
-{
-    private static final long serialVersionUID = 1L;
+public class MyFeastServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+//        doPost(request, response);
+	}
 
-        doPost(request, response);
-    }
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		System.out.println("結果有進來嗎安卓: ");
+		HttpSession session = request.getSession();
+		String mye_feaNo = null;
+		MemVO memVO = null;
+		if (session.getAttribute("memberVO") == null) {
+			session.setAttribute("location", request.getRequestURI());
+		}
+		System.out.println("request.getRequestURI()" + request.getRequestURI());
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        HttpSession session = request.getSession();
+		if (request.getRequestURI().toString().endsWith("MyFeastController")) {// 安卓
+			System.out.println("android");
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+			BufferedReader br = request.getReader();
 
-        if (session.getAttribute("memberVO") == null)
-        {
-            session.setAttribute("location", request.getRequestURI());
-        }
+			StringBuilder jsonIn = new StringBuilder();
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				System.out.println("55" + line);
+				jsonIn.append(line);
+			}
+			System.out.println("input: " + jsonIn);
+			// 將字串轉成json或gson格式，然後用key取值
+			JsonObject reqjsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
+			JsonObject resjsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
+			// 【取得使用者編號】
+			String action = reqjsonObject.get("action").getAsString();
+			String mem_no = reqjsonObject.get("mem_no").getAsString();
+			String fea_no = reqjsonObject.get("fea_no").getAsString();
 
-        request.setCharacterEncoding("UTF-8");
-        String action = request.getParameter("action");
+			joinfeast(request, response, mem_no, fea_no);
+			// Store this set in the request scope, in case we need to
 
-        System.out.println("action = " + action);
-        if ("joinfeast".equals(action))
-        {
-            List<String> errorMsgs = new LinkedList<String>();
-            // Store this set in the request scope, in case we need to
-            // send the ErrorPage view.
-            request.setAttribute("errorMsgs", errorMsgs);
-            try
-            {
-                synchronized (MyFeastServlet.class)
-                {
-                    String mye_feaNo = (String) request.getParameter("mye_feano");
-                    MemVO memVO = (MemVO) session.getAttribute("memberVO");
-                    System.out.println("mye_feaNo" + mye_feaNo);
-                    System.out.println("mem_no" + memVO.getMem_no());
+		} else if (request.getRequestURI().toString().endsWith(".do")) {
 
-                    FeastInfoService feastInfoService = new FeastInfoService();
-                    FeastInfoVO feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
-                    MyFeastService myFeastService = new MyFeastService();
+			String action = request.getParameter("action");
 
-                    System.out.println("feastInfoVO.getFea_upLim() = " + feastInfoVO.getFea_upLim());
-                    System.out.println("feastInfoVO.getFea_number() = " + feastInfoVO.getFea_number());
-                    if (feastInfoVO.getFea_upLim() > feastInfoVO.getFea_number())
-                    {
-                        myFeastService.addMyFeast(mye_feaNo, memVO.getMem_no());
-                        feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
-                        System.out.println("新增成員");
-                    }
-                    else
-                    {
-                        errorMsgs.add("人數已滿");
-                    }
-                    request.setAttribute("feastInfoVO", feastInfoVO);
+			if ("joinfeast".equals(action)) {
+			mye_feaNo = (String) request.getParameter("mye_feano");
+			memVO = (MemVO) session.getAttribute("memberVO");
 
-                    if (!errorMsgs.isEmpty())
-                    {
-                        RequestDispatcher failureView = request
-                                .getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
-                        failureView.forward(request, response);
-                        return;// 程式中斷
-                    }
+			List<String> errorMsgs = joinfeast(request, response, memVO.getMem_no(), mye_feaNo);
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			request.setAttribute("errorMsgs", errorMsgs);
+			}
+			
+			if ("leftfeast".equals(action)) {
+				List<String> errorMsgs = new LinkedList<String>();
+				// Store this set in the request scope, in case we need to
+				// send the ErrorPage view.
+				request.setAttribute("errorMsgs", errorMsgs);
+				try {
+					mye_feaNo = (String) request.getParameter("mye_feano");
+					memVO = (MemVO) session.getAttribute("memberVO");
 
-                    String url = "/front-end/feast/listOneFeast.jsp";
-                    RequestDispatcher successView = request.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-                    successView.forward(request, response);
-                }
-            }
-            catch (Exception e)
-            {
-                errorMsgs.add(e.getMessage());
-                RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
+					MyFeastService myFeastService = new MyFeastService();
+					myFeastService.deleteMyFeast(mye_feaNo, memVO.getMem_no());
 
-                failureView.forward(request, response);
-            }
-        }
+					FeastInfoService feastInfoService = new FeastInfoService();
+					FeastInfoVO feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
+					request.setAttribute("feastInfoVO", feastInfoVO);
 
-        if ("leftfeast".equals(action))
-        {
-            List<String> errorMsgs = new LinkedList<String>();
-            // Store this set in the request scope, in case we need to
-            // send the ErrorPage view.
-            request.setAttribute("errorMsgs", errorMsgs);
-            try
-            {
-                String mye_feaNo = (String) request.getParameter("mye_feano");
-                MemVO memVO = (MemVO) session.getAttribute("memberVO");
+					String url = "/front-end/feast/listOneFeast.jsp";
+					RequestDispatcher successView = request.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+					successView.forward(request, response);
+				} catch (Exception e) {
+					errorMsgs.add(e.getMessage());
+					RequestDispatcher failureView = request.getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
 
-                MyFeastService myFeastService = new MyFeastService();
-                myFeastService.deleteMyFeast(mye_feaNo, memVO.getMem_no());
+					failureView.forward(request, response);
+				}
+			}
 
-                FeastInfoService feastInfoService = new FeastInfoService();
-                FeastInfoVO feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
-                request.setAttribute("feastInfoVO", feastInfoVO);
+			if ("kick_from_feast".equals(action)) {
+				List<String> errorMsgs = new LinkedList<String>();
+				// Store this set in the request scope, in case we need to
+				// send the ErrorPage view.
+				request.setAttribute("errorMsgs", errorMsgs);
+				try {
+					mye_feaNo = (String) request.getParameter("mye_feano");
+					String mye_memNo = (String) request.getParameter("mye_memno");
 
-                String url = "/front-end/feast/listOneFeast.jsp";
-                RequestDispatcher successView = request.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-                successView.forward(request, response);
-            }
-            catch (Exception e)
-            {
-                errorMsgs.add(e.getMessage());
-                RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
+					MyFeastService myFeastService = new MyFeastService();
+					myFeastService.deleteMyFeast(mye_feaNo, mye_memNo);
 
-                failureView.forward(request, response);
-            }
-        }
+					FeastInfoService feastInfoService = new FeastInfoService();
+					FeastInfoVO feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
+					request.setAttribute("feastInfoVO", feastInfoVO);
 
-        if ("kick_from_feast".equals(action))
-        {
-            List<String> errorMsgs = new LinkedList<String>();
-            // Store this set in the request scope, in case we need to
-            // send the ErrorPage view.
-            request.setAttribute("errorMsgs", errorMsgs);
-            try
-            {
-                String mye_feaNo = (String) request.getParameter("mye_feano");
-                String mye_memNo = (String) request.getParameter("mye_memno");
+					String url = "/front-end/feast/listOneFeast.jsp";
+					RequestDispatcher successView = request.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+					successView.forward(request, response);
+				} catch (Exception e) {
+					errorMsgs.add(e.getMessage());
+					RequestDispatcher failureView = request.getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
 
-                MyFeastService myFeastService = new MyFeastService();
-                myFeastService.deleteMyFeast(mye_feaNo, mye_memNo);
+					failureView.forward(request, response);
+				}
+			}
 
-                FeastInfoService feastInfoService = new FeastInfoService();
-                FeastInfoVO feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
-                request.setAttribute("feastInfoVO", feastInfoVO);
+		}
 
-                String url = "/front-end/feast/listOneFeast.jsp";
-                RequestDispatcher successView = request.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-                successView.forward(request, response);
-            }
-            catch (Exception e)
-            {
-                errorMsgs.add(e.getMessage());
-                RequestDispatcher failureView = request
-                        .getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
+	}
 
-                failureView.forward(request, response);
-            }
-        }
+	protected List<String> joinfeast(HttpServletRequest request, HttpServletResponse response, String mye_memNo,
+			String mye_feaNo) throws ServletException, IOException {
 
-    }
+		List<String> errorMsgs = new LinkedList<String>();
+
+		try {
+
+			synchronized (MyFeastServlet.class) {
+
+				FeastInfoService feastInfoService = new FeastInfoService();
+				FeastInfoVO feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
+				MyFeastService myFeastService = new MyFeastService();
+
+				System.out.println("feastInfoVO.getFea_upLim() = " + feastInfoVO.getFea_upLim());
+				System.out.println("feastInfoVO.getFea_number() = " + feastInfoVO.getFea_number());
+				if (feastInfoVO.getFea_upLim() > feastInfoVO.getFea_number()) {
+					myFeastService.addMyFeast(mye_feaNo, mye_memNo);
+					feastInfoVO = feastInfoService.getOneFeastInfo(mye_feaNo);
+					System.out.println("新增成員");
+				} else {
+					errorMsgs.add("人數已滿");
+				}
+				request.setAttribute("feastInfoVO", feastInfoVO);
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = request.getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
+					failureView.forward(request, response);
+					return errorMsgs;// 程式中斷
+				}
+			}
+
+			String url = "/front-end/feast/listOneFeast.jsp";
+			RequestDispatcher successView = request.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+			successView.forward(request, response);
+		} catch (Exception e) {
+			errorMsgs.add(e.getMessage());
+			RequestDispatcher failureView = request.getRequestDispatcher("/front-end/feast/listOneFeast.jsp");
+
+			failureView.forward(request, response);
+		}
+		return errorMsgs;// 程式中斷
+
+	}
 
 }

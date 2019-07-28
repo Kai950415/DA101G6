@@ -3,7 +3,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*, com.feastinfo.model.*, com.myfeast.model.*, com.tools.FindCodeName"%>
+<%@ page import="java.util.*, com.feastinfo.model.*, com.myfeast.model.*,
+				com.fooditem.model.*, com.mem.model.*, com.res.model.*, com.ord.model.*, com.ord_details.model.*, com.tools.*"%>
+
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
@@ -18,7 +20,43 @@
 	pageContext.setAttribute("myeSvc", myeSvc);
 	pageContext.setAttribute("list", list);
 %>
-<jsp:useBean id="ordSvc" scope="page" class="com.ord.model.OrdService" />
+
+<% 
+ 		MemVO memVO = (MemVO)session.getAttribute("memberVO");
+		OrdService ordSvc = new OrdService();
+		Ord_detailsService ordDSvc = new Ord_detailsService();
+		FooditemService foSvc = new FooditemService();
+		
+		//該會員所有訂單 > 該訂單所有商品
+		//餐廳所有飯局'RS000003' > 飯局所有訂單 >訂單所有商品
+	    FeastInfoService feaSvc = new FeastInfoService();
+	    Map<String,List<FooditemVO>> groupMap = new LinkedHashMap<String,List<FooditemVO>>();
+	    
+		
+	    List<OrdVO> ordList = ordSvc.getAllOrdByMem(memVO.getMem_no());//該會員所有訂單
+
+	    for (OrdVO ordVO : ordList) {
+	    	List<FooditemVO> foodItemlist = new ArrayList<FooditemVO>();
+	    	List<Ord_detailsVO> ordDList = ordDSvc.getAlldetByOrdno(ordVO.getOrd_no());//拿出該訂單的所有訂單明細
+			for (Ord_detailsVO ord_detailsVO : ordDList) {
+				FooditemVO foVO = foSvc.getOneFooditem(ord_detailsVO.getDet_fono());//拿出該訂單明細 準備加入list ==
+				foVO.setFo_quantity(ord_detailsVO.getDet_quantity());
+				foodItemlist.add(foVO);
+			}
+			groupMap.put(ordVO.getOrd_no(), foodItemlist); //key = 訂單編號
+		}
+
+		Set<String> set = groupMap.keySet();
+		
+		pageContext.setAttribute("memVO",memVO);
+		pageContext.setAttribute("ordList",ordList);
+		pageContext.setAttribute("ordSvc",ordSvc);
+		pageContext.setAttribute("feaSvc",feaSvc);
+		pageContext.setAttribute("groupMap",groupMap);
+		pageContext.setAttribute("set",set);
+%>
+
+
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 <jsp:useBean id="resSvc" scope="page" class="com.res.model.ResService" />
 
@@ -210,7 +248,15 @@ b,h4{
 					</div>
 			</div>
 		</div>
-	</div>
+		
+		<div class="container">
+			<div class="row">
+		
+
+
+			</div>
+		</div>
+		
 	<script>
 $("#joinfeast"). click(function()
 {
@@ -267,22 +313,22 @@ $(".kick_from_feast"). click(function()
 			
 		});
 
-		$(".add_friend_feast"). click(function()
-				{
-					console.log('add_friend_feast')
-					$.post
-					(
-						"<%=request.getContextPath()%>/front-end/friendlist/friendlist.do",
-						{ "action": "insert", "mye_feano": $(this).attr('feano'),  "f_memno": $(this).attr('memno'),  }
-					).done(function(data)
-							{
-								var newDoc = document.open("text/html", "replace");
-							    newDoc.write(data);
-							    newDoc.close();
-							}
-						  )
-					
-				});
+$(".add_friend_feast"). click(function()
+		{
+			console.log('add_friend_feast')
+			$.post
+			(
+				"<%=request.getContextPath()%>/front-end/friendlist/friendlist.do",
+				{ "action": "insert", "mye_feano": $(this).attr('feano'),  "f_memno": $(this).attr('memno'),  }
+			).done(function(data)
+					{
+						var newDoc = document.open("text/html", "replace");
+					    newDoc.write(data);
+					    newDoc.close();
+					}
+				  )
+			
+		});
 				
 	</script>
 </body>

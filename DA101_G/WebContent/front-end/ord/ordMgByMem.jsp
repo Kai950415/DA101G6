@@ -2,10 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.fooditem.model.*"%>
-<%@ page import="com.mem.model.*,com.res.model.*,com.ord.model.*,com.feastinfo.model.*,com.fooditem.model.*
-                ,com.ord_details.model.*,com.tools.*"
-%>
+<%@ page import="com.fooditem.model.*, com.mem.model.*,com.res.model.*,com.ord.model.*,com.feastinfo.model.*,com.fooditem.model.*
+                ,com.ord_details.model.*,com.tools.*" %>
     
 <% 
  		MemVO memVO = (MemVO)session.getAttribute("memberVO");

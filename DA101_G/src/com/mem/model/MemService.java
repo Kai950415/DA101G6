@@ -83,6 +83,7 @@ public class MemService {
 			sb.append(text).append(text2).append(hyperLink);
 			MailService mailSve = new MailService();
 			mailSve.sendMail(memVO.getMem_email(), subject, sb.toString());			
+			System.out.println("寄信成功");
 	 }
 	 	 
 	 public boolean confirmCode(String code) {

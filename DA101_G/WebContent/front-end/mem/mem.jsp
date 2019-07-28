@@ -302,7 +302,7 @@ body {
 										value="${memberVO.mem_bd}">
 								</div>
 								<div class="form-group col-sm-6">
-									<label for="mobile"><h4>連絡電話</h4></label> <input type="number"
+									<label for="mobile"><h4>連絡電話</h4></label> <input type="text" maxlength="10"
 										class="form-control" name="mem_ph" id="mobile"
 										placeholder="你的電話號碼" title="PhoneNumber"
 										value="${memberVO.mem_ph}">
