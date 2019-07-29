@@ -74,7 +74,8 @@ public class GetResterauntFromGoogleForTeam
         System.out.println("===================================");
 
         JSONObject jObj = new JSONObject(sb.toString());
-
+        Integer accountCount = 500;
+        
         if (jObj.has("results"))
         {
             JSONArray results = jObj.getJSONArray("results");
@@ -110,7 +111,8 @@ public class GetResterauntFromGoogleForTeam
                     pstmt.setInt(4, point);
                     System.out.println("點數" + point);
 
-                    String account = "AC" + (int) (Math.random() * 899999 + 100000);
+                    accountCount++;
+                    String account = "AC" + (int) (accountCount + 100000);
                     pstmt.setString(5, account);
                     System.out.println("帳號:" + account);
 
@@ -237,10 +239,9 @@ public class GetResterauntFromGoogleForTeam
                         System.out.println("餐廳類型" + type);
                     }
 
-                    String[] statusArr = {"res1", "res2", "res3", "res4"};
 
-                    pstmt.setString(17, statusArr[(int) Math.floor(Math.random() * 4)]);
-                    System.out.println("狀態" + statusArr[(int) Math.floor(Math.random() * 4)]);
+                    pstmt.setString(17, "res3");
+                    System.out.println("狀態" + "res3");
 
                     System.out.println("============================");
                     pstmt.executeUpdate();
@@ -305,25 +306,24 @@ public class GetResterauntFromGoogleForTeam
 
         try
         {
-            for (int i = 0; i < 18; i++)
+            for (int i = 0; i < 10; i++)
             {
-                String[] latLotArr = {"25.0579836,121.5507254", "25.0515171,121.5282781", "25.070558,121.5151448",
-                        "25.0436241,121.5736891", "25.0273317,121.5013151", "24.9563445,121.2202532",
-                        "24.993887,121.311322", "24.8116359,120.9682452", "25.1293639,121.7398246",
-                        "24.7572623,121.7507216", "23.9923904,121.5798518", "22.7580544,121.1373922",
-                        "22.642986,120.2957869", "22.6756046,120.3070765", "22.8542116,120.2457527",
-                        "22.9977522,120.201296", "23.0634529,120.2644737", "24.1428017,120.6345498",
-                };
-                for (int j = 0; j < 3; j++)
+                String[] latLotArr = 
                 {
-                    String[] typeArr = {"cafe", "bar", "food"};
+                        "24.9553126,121.2408517", "24.9591649,121.2145252", "24.9951981,121.310467", "25.0169256,121.2967061",//桃園
+                        "25.0545357,121.5200368", "25.0537079,121.5371448", "25.0390062,121.5539839",//台北
+                        "24.1483582,120.6695738",//台中
+                        "22.9915034,120.2010151",//台南
+                        "22.6188955,120.3024494",//高雄
+                };
+
                     String GOOGLE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
                             + "location=" + latLotArr[i]
-                            + "&radius=5000&types=" + typeArr[j] + "&hasNextPage=true&"
+                            + "&radius=500&types=" + "restaurant" + "&hasNextPage=true&"
                             + "nextPage()=true&language=zh-TW&key=" + yourKey;
 
                     printInformation(GOOGLE_URL);
-                }
+
             }
             System.out.println("成功新增" + successCounter + "個資料");
             System.out.println("新增" + failCounter + "個資料失敗");

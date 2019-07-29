@@ -12,10 +12,7 @@ import com.res.model.*;
 import com.tools.*;
 
 @WebServlet("/res.do")
-@MultipartConfig(
-fileSizeThreshold = 1024 * 1024,
-  maxFileSize = 1024 * 1024 * 5, 
-  maxRequestSize = 1024 * 1024 * 5 * 5)
+@MultipartConfig( )
 public class ResServlet extends HttpServlet {
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res)

@@ -103,7 +103,7 @@ public class FeastInfoService
     public List<FeastInfoVO> getAllCurrentFeastInfo()
     {
         return dao.getAll().stream()
-                .filter(feastInfo -> feastInfo.getFea_date().after(new java.sql.Timestamp(System.currentTimeMillis())))
+                .filter(feastInfo -> feastInfo.getFea_date().after(new java.sql.Timestamp(System.currentTimeMillis())) && (feastInfo.getFea_status().equalsIgnoreCase("fea1") || feastInfo.getFea_status().equalsIgnoreCase("fea2")))
                 .collect(Collectors.toList());
     }
     

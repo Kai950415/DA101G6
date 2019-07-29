@@ -22,14 +22,14 @@ public class GMaps {
 		// 讀回json字串
 		String adrs = address.trim();
 		String SearchAdrs = "https://maps.googleapis.com/maps/api/geocode/json?" + 
-							"address=" + adrs + 
+							"address=" + java.net.URLEncoder.encode(adrs, "UTF-8") + 
 							"&language=zh-TW" +
-							"&key=AIzaSyBh1ft6cp-1kEzQW1a3sZYbcEqIZLztL-Y";
+							"&key=AIzaSyBInFfSY1JNb6TnRXeODk1XpgWK84J_kjs";
 
 //		System.out.println(address);
 
 		InputStream is = new URL(SearchAdrs).openStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
 		StringBuilder sb = new StringBuilder();
 		String str;
 

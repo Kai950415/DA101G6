@@ -203,6 +203,7 @@ body {
 									<button class="btn btn-lg btn-outline-secondary" type="reset">
 										<i class="glyphicon glyphicon-repeat"></i> 回上頁
 									</button>
+								<button onclick="setData()"><img src="<%=request.getContextPath()%>/images/神奇.png"></button>
 								</div>
 							</div>
 						</form>
@@ -242,7 +243,18 @@ body {
 			$("input[name='zipcode']").val(''); //郵遞區號
 		})
 	</script>
-	
+<script>
+function setData(){
+	$('mem_name').val('大衛海鮮');
+	$('mem_sex').val('男生');
+	$('mem_ph').val('0933456789');
+	$('mem_email').val('z0982282007@gmail.com');
+	$('mem_ac').val('ME000006');
+	$('mem_pass').val('123456');
+	$('mem_intro').val('大家好，我是大衛，可以叫我David。');
+		
+}
+</script>
 	
 	<!--引用jQuery-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
