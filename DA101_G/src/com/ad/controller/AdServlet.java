@@ -173,19 +173,9 @@ public class AdServlet extends HttpServlet{
 				ResVO resVO = (ResVO)session.getAttribute("resVO");
 				String ad_resno = resVO.getRes_no();
 				String ad_text = req.getParameter("ad_text");
-				String ad_textReg = "^[(\\u4e00-\\u9fa5)(a-zA-Z0-9)(\\s)([:punct:])]{30,500}$";
-				if(ad_text == null || ad_text.trim().length() == 0) {
-					errorMsgs.add("請輸入廣告內文");
-				}else if(!ad_text.trim().matches(ad_textReg)) { 
-					errorMsgs.add("廣告內文: 只能是中、英文字母、數字和_ , 且長度必需在30到500之間");
-	            }
+				
 				String ad_title = req.getParameter("ad_title");
-				String ad_titleReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,30}$";
-				if(ad_title == null || ad_title.trim().length() == 0) {
-					errorMsgs.add("請輸入廣告標題");
-				}else if(!ad_title.trim().matches(ad_titleReg)) { 
-					errorMsgs.add("廣告標題: 只能是中、英文字母、數字和_ , 且長度必需在2到30之間");
-	            }
+				
 				Part part = req.getPart("ad_img");
 				InputStream in = part.getInputStream();
 				byte[] ad_img = null;

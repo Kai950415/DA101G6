@@ -161,7 +161,8 @@ body {
 
 							<div class="row">
 								<div class="form-group col-sm-6">
-									<label for="ac"><h4>帳號</h4></label> <input type="text"
+									<label for="ac"><h4>帳號</h4></label><span id="isE"></span>
+									 <input type="text"
 										class="form-control" name="mem_ac" id="ac" placeholder="你的帳號"
 										title="enter your password." value="${memberVO.mem_ac}">
 								</div>
@@ -181,9 +182,7 @@ body {
 									<label for="AboutMe"><h4>自我介紹</h4></label>
 									<textarea name="mem_intro" class="form-control"
 										placeholder="Say~Something" id="AboutMe"
-										style="height: 150px;">
-											${memberVO.mem_intro}
-												</textarea>
+										style="height: 150px;">${memberVO.mem_intro}</textarea>
 								</div>
 								<div class="col-xs-3">
 									<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -270,18 +269,47 @@ window.location.href = "<%=request.getContextPath()%>/hometag.jsp";
 });
 });
 </script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-		
-		<input type="hidden" name="action" value="insert">
+
+<script>
+$('#ac').on('blur', function (){
+    var xmlhttp = new XMLHttpRequest();
+    var mem_ac = $('#ac').val(); 
+    if(mem_ac.trim().length!=0){
+        var url = "memExist.jsp?mem_ac=" + mem_ac;
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+//             	alert(xmlhttp.responseText == 'true');
+            	
+             	var flag = xmlhttp.responseText.trim();
+                if(flag == 'true')
+                {
+                    document.getElementById("isE").style.color = "red";
+                    document.getElementById("isE").innerHTML = '帳號已存在，請重新輸入';
+                }
+                else
+                {
+                	document.getElementById("isE").style.color = "green";
+                	document.getElementById("isE").innerHTML = '此帳號可註冊';
+                }
+                   
+                
+            }
+            
+        };
+        try{
+        xmlhttp.open("GET",url,true);
+        xmlhttp.send();
+    	}catch(e){alert("unable to connect to server");
+    }
+}else
+{
+	document.getElementById("isE").style.color = "red";
+	document.getElementById("isE").innerHTML = '請輸入帳號';
+}
+}) 
+
+
+</script>
+
 </body>
 </html>

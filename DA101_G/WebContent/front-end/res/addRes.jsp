@@ -109,8 +109,13 @@ th, td {
 .f19{float:left;margin-left:5px;margin-right:5px;width:calc(95% - 10px)}
 .f20{float:left;margin-left:5px;margin-right:5px;width:calc(100% - 10px)}
 </style>
+
+
+
 </head>
 <body bgcolor='white'>
+
+
 
 	<%@ include file="/header.jsp"%>
 
@@ -151,8 +156,11 @@ th, td {
 
 			<tr>
 				<td>餐廳帳號:</td>
-				<td><input type="TEXT" name="res_ac" size="45"
-					value="<%=(resVO == null) ? "" : resVO.getRes_ac()%>" /></td>
+				<td>
+					<input type="TEXT" name="res_ac" size="45" id="resAc"
+					 value="<%=(resVO == null) ? "" : resVO.getRes_ac()%>"/>
+					 <span id="isE"></span>
+				</td>
 			</tr>
 
 			<tr>
@@ -173,7 +181,7 @@ th, td {
 					accept="image/gif, image/jpeg, image/png"
 					id="imgpv"
 					value="<%=(resVO == null) ? "" : resVO.getRes_img()%>" /></td>
-				<td><img width="300" height="200" id="preview_img" src="/DA101G6/images/noimg.jpg"></td>	
+				<td><img width="300" height="200" id="preview_img" src="<%=request.getContextPath()%>/images/noimg.jpg"></td>	
 			</tr>
 
 			<tr>
@@ -337,8 +345,49 @@ function readURL(input){
 	  }
 	}
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+
+<script>
+$('#resAc').on('blur', function (){
+    var xmlhttp = new XMLHttpRequest();
+    var res_ac = $('#resAc').val(); 
+    console.log(res_ac);
+    if(res_ac.trim().length!=0){
+        var url = "resExist.jsp?res_ac=" + res_ac;
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+//             	alert(xmlhttp.responseText == 'true');
+            	
+             	var flag = xmlhttp.responseText.trim();
+                if(flag == 'true')
+                {
+                    document.getElementById("isE").style.color = "red";
+                    document.getElementById("isE").innerHTML = '帳號已存在，請重新輸入';
+                }
+                else
+                {
+                	document.getElementById("isE").style.color = "green";
+                	document.getElementById("isE").innerHTML = '此帳號可註冊';
+                }
+                   
+                
+            }
+            
+        };
+        try{
+        xmlhttp.open("GET",url,true);
+        xmlhttp.send();
+    	}catch(e){alert("unable to connect to server");
+    }
+}else
+{
+	document.getElementById("isE").style.color = "red";
+	document.getElementById("isE").innerHTML = '請輸入帳號';
+}
+}) 
+
+
+</script>
 
 <script>
 $("#zipcode").twzipcode({
@@ -350,21 +399,5 @@ $("#zipcode").twzipcode({
 	"districtName": "res_town" // 指定地區 select name
 	});
 </script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-	crossorigin="anonymous"></script>
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
 </html>

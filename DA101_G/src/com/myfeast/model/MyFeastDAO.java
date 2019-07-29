@@ -8,8 +8,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class MyFeastDAO implements MyFeastDAO_interface
 {
+    private static DataSource ds = null;
+    static {
+        try {
+            Context ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     String driver = "oracle.jdbc.driver.OracleDriver";
     String url = "jdbc:oracle:thin:@localhost:1521:XE";
     String userid = "DA101G6";
@@ -22,7 +38,8 @@ public class MyFeastDAO implements MyFeastDAO_interface
     private static final String DELETE = "DELETE FROM MYFEAST where mye_feano = ? and mye_memno = ?";
     private static final String GET_ALL_STMT = "SELECT * FROM MYFEAST order by MYE_MEMNO";
     private static final String GET_ONE_STMT = "SELECT * FROM MYFEAST where mye_feano = ? and mye_memno = ?";
-
+    private static final String GET_BY_MEM="SELECT * FROM MYFEAST WHERE MYE_MEMNO=?";
+    private static final String GET_BY_FEA="SELECT * FROM MYFEAST WHERE MYE_FEANO=?";
     @Override
     public void insert(MyFeastVO myFeastVO)
     {
@@ -31,8 +48,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
 
         try
         {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, userid, passwd);
+            con = ds.getConnection();
             pstmt = con.prepareStatement(INSERT_STMT);
 
             pstmt.setString(1, myFeastVO.getMye_feaNo());
@@ -41,12 +57,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
             pstmt.executeUpdate();
 
         }
-        catch (ClassNotFoundException e)
-        {
-            throw new RuntimeException("Couldn't load database driver. "
-                    + e.getMessage());
-            // Handle any SQL errors
-        }
+       
         catch (SQLException se)
         {
             throw new RuntimeException("A database error occured. "
@@ -88,8 +99,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
 
         try
         {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, userid, passwd);
+            con = ds.getConnection();
             pstmt = con.prepareStatement(UPDATE);
 
             pstmt.setString(1, myFeastVOModified.getMye_feaNo());
@@ -100,12 +110,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
             pstmt.executeUpdate();
 
         }
-        catch (ClassNotFoundException e)
-        {
-            throw new RuntimeException("Couldn't load database driver. "
-                    + e.getMessage());
-            // Handle any SQL errors
-        }
+       
         catch (SQLException se)
         {
             throw new RuntimeException("A database error occured. "
@@ -147,8 +152,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
 
         try
         {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, userid, passwd);
+            con = ds.getConnection();
             pstmt = con.prepareStatement(DELETE);
 
             pstmt.setString(1, mye_feaNo);
@@ -157,12 +161,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
             pstmt.executeUpdate();
 
         }
-        catch (ClassNotFoundException e)
-        {
-            throw new RuntimeException("Couldn't load database driver. "
-                    + e.getMessage());
-            // Handle any SQL errors
-        }
+       
         catch (SQLException se)
         {
             throw new RuntimeException("A database error occured. "
@@ -207,8 +206,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
 
         try
         {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, userid, passwd);
+            con = ds.getConnection();
             pstmt = con.prepareStatement(GET_ONE_STMT);
 
             pstmt.setString(1, mye_feaNo);
@@ -223,12 +221,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
                 myFeastVO.setMye_memNo(rs.getString("mye_memNo"));
             }
         }
-        catch (ClassNotFoundException e)
-        {
-            throw new RuntimeException("Couldn't load database driver. "
-                    + e.getMessage());
-            // Handle any SQL errors
-        }
+       
         catch (SQLException se)
         {
             throw new RuntimeException("A database error occured. "
@@ -275,8 +268,7 @@ public class MyFeastDAO implements MyFeastDAO_interface
 
         try
         {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, userid, passwd);
+            con = ds.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT);
             rs = pstmt.executeQuery();
 
@@ -289,10 +281,134 @@ public class MyFeastDAO implements MyFeastDAO_interface
                 list.add(myFeastVO);
             }
         }
-        catch (ClassNotFoundException e)
+       
+        catch (SQLException se)
         {
-            throw new RuntimeException("Couldn't load database driver. "
-                    + e.getMessage());
+            throw new RuntimeException("A database error occured. "
+                    + se.getMessage());
+            // Clean up JDBC resources
+        }
+        finally
+        {
+            if (pstmt != null)
+            {
+                try
+                {
+                    pstmt.close();
+                }
+                catch (SQLException se)
+                {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (con != null)
+            {
+                try
+                {
+                    con.close();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return list;
+    }
+    
+    @Override
+    public List<MyFeastVO> findByMem(String mye_memNo) {
+        // TODO Auto-generated method stub
+
+        List<MyFeastVO> list = new ArrayList<MyFeastVO>();
+        MyFeastVO myFeastVO = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        
+        ResultSet rs = null;
+
+        try
+        {
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(GET_BY_MEM);
+            pstmt.setString(1,mye_memNo);
+            rs = pstmt.executeQuery();
+            
+
+            while (rs.next())
+            {
+                myFeastVO = new MyFeastVO();
+                myFeastVO.setMye_feaNo(rs.getString("mye_feaNo"));
+                myFeastVO.setMye_memNo(rs.getString("mye_memNo"));
+
+                list.add(myFeastVO);
+            }
+     
+            // Handle any SQL errors
+        }
+        catch (SQLException se)
+        {
+            throw new RuntimeException("A database error occured. "
+                    + se.getMessage());
+            // Clean up JDBC resources
+        }
+        finally
+        {
+            if (pstmt != null)
+            {
+                try
+                {
+                    pstmt.close();
+                }
+                catch (SQLException se)
+                {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (con != null)
+            {
+                try
+                {
+                    con.close();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<MyFeastVO> findByFea(String mye_feaNo) {
+
+        List<MyFeastVO> list = new ArrayList<MyFeastVO>();
+        MyFeastVO myFeastVO = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        
+        ResultSet rs = null;
+
+        try
+        {
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(GET_BY_FEA);
+            pstmt.setString(1,mye_feaNo);
+            rs = pstmt.executeQuery();
+            
+
+            while (rs.next())
+            {
+                myFeastVO = new MyFeastVO();
+                myFeastVO.setMye_feaNo(rs.getString("mye_feaNo"));
+                myFeastVO.setMye_memNo(rs.getString("mye_memNo"));
+
+                list.add(myFeastVO);
+            }
+     
             // Handle any SQL errors
         }
         catch (SQLException se)

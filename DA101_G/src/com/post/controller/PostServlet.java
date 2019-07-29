@@ -16,9 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import com.mem.model.MemVO;
 import com.post.model.*;
-import com.res.model.*;
 
 @MultipartConfig()
 public class PostServlet extends HttpServlet {
@@ -31,13 +29,13 @@ public class PostServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		HttpSession session = req.getSession();
-		
-		System.out.println("action" + action);
+
 		if ("getAll".equals(action)) {
 			// 查詢
 			PostDAO dao = new PostDAO();
 			List<PostVO> list = dao.getAll();
+
+			HttpSession session = req.getSession();
 			session.setAttribute("list", list);
 			String url = "/post/listAllPost.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交listAllEmp2_getFromSession.jsp
@@ -143,7 +141,7 @@ public class PostServlet extends HttpServlet {
 //			try {
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			String post_no = new String(req.getParameter("post_no").trim());
-			
+
 			String post_memno = req.getParameter("post_memno");
 //				String post_memnoReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 			if (post_memno == null || post_memno.trim().length() == 0) {
@@ -211,7 +209,7 @@ public class PostServlet extends HttpServlet {
 			// Send the use back to the form, if there were errors
 			if (!errorMsgs.isEmpty()) {
 				req.setAttribute("PostVO", PostVO); // 含有輸入格式錯誤的empVO物件,也存入req
-				RequestDispatcher failureView = req.getRequestDispatcher("/post/updatepostinput.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/post/updatepostinput.jsp");
 				failureView.forward(req, res);
 				return; // 程式中斷
 			}
@@ -242,20 +240,27 @@ public class PostServlet extends HttpServlet {
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-
-			try {
-			/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 			
-			MemVO memVO = (MemVO) session.getAttribute("memberVO");
-			String post_memno = memVO.getMem_no();
-			System.out.println("post_memno" + post_memno);
-			String post_res_no = req.getParameter("post_res_no");
-System.out.println("post_res_no" + post_res_no);
+//			try {
+			/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+			String post_memno = req.getParameter("post_memno");
+			String enameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+			if (post_memno == null || post_memno.trim().length() == 0) {
+				errorMsgs.add("會員編號: 請勿空白");
+			} else if (!post_memno.trim().matches(enameReg)) { // 以下練習正則(規)表示式(regular-expression)
+				errorMsgs.add("會員編號: 只能是ME00000X系列");
+			}
+
+			String post_res_no = req.getParameter("post_res_no").trim();
+			if (post_res_no == null || post_res_no.trim().length() == 0) {
+				errorMsgs.add("餐廳編號請勿空白");
+			}
+
 			String post_text = req.getParameter("post_text").trim();
 			if (post_text == null || post_text.trim().length() == 0) {
 				errorMsgs.add("貼文內容請勿空白");
 			}
-			System.out.println("post_text" + post_text);
+
 			Part part = req.getPart("post_img");
 			InputStream is = part.getInputStream();
 			byte[] post_img = new byte[is.available()];
@@ -268,9 +273,9 @@ System.out.println("post_res_no" + post_res_no);
 			if (post_text == null || post_text.trim().length() == 0) {
 				errorMsgs.add("貼文內容請勿空白");
 			}
-System.out.println("post_time" + post_time);
+
 			Integer post_rate = new Integer(req.getParameter("post_rate").trim());
-System.out.println("post_rate" + post_rate);
+
 			String post_status = "post1";
 
 			PostVO PostVO = new PostVO();
@@ -295,21 +300,19 @@ System.out.println("post_rate" + post_rate);
 			PostService PostService = new PostService();
 			PostVO = PostService.addPost(post_memno, post_res_no, post_text, post_img, post_time, 
 					post_rate, post_status);
-System.out.println(296);
+
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-			System.out.println(298);
 			String url = "/front-end/post/post.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 			successView.forward(req, res);
-			
 
 			/*************************** 其他可能的錯誤處理 **********************************/
-			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/post/addPost.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add(e.getMessage());
+//				RequestDispatcher failureView = req
+//						.getRequestDispatcher("/post/addPost.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 
 		if ("delete".equals(action)) { // 來自listAllEmp.jsp
@@ -339,6 +342,7 @@ System.out.println(296);
 				failureView.forward(req, res);
 			}
 		}
+		
 
 	}
 

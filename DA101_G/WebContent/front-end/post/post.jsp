@@ -11,7 +11,7 @@
 <%
 	PostService postSvc = new PostService();
 
-	List<PostVO> list = postSvc.getAll();
+	List<PostVO> list = postSvc.getAllOnlinePost();
 
 	pageContext.setAttribute("list", list);
 	LeaveMessageVO LeaveMessageVO = (LeaveMessageVO) request.getAttribute("LeaveMessageVO");
@@ -44,7 +44,7 @@
 
 
 
-<title>美麗貼文新世界</title>
+<title>貼文瀏覽</title>
 <style type="text/css">
 body {
 	font-family: "微軟正黑體";
@@ -92,9 +92,10 @@ body {
 <body>
 	<%@ include file="/header.jsp"%>
 
-	<p>
-		<a href='<%=request.getContextPath()%>/front-end/post/addPost.jsp'>新增</a>貼文
-	</p>
+<!-- 	<p> -->
+<%-- 		<a href='<%=request.getContextPath()%>/front-end/post/addPost.jsp'>新增</a>貼文 --%>
+<!-- 	</p> -->
+
 	<%@ include file="/front-end/page1.file"%>
 	<c:forEach var="PostVO" items="${list}" begin="<%=pageIndex%>"
 		end="<%=pageIndex+rowsPerPage-1%>">
@@ -103,7 +104,6 @@ body {
 		<jsp:useBean id="lmSvc" scope="page"
 			class="com.leavemessage.model.LeaveMessageService" />
 		<jsp:useBean id="resSvc" scope="page" class="com.res.model.ResService" />
-
 		<div class="container">
 			<section class="my-4">
 				<div class="card news-card">
@@ -171,17 +171,15 @@ body {
 													<i class="fa fa-comment"></i>${memSvc.memFindByPrimaryKey(lmVO.lm_memno).mem_name}
 												</h6></label>
 											<button class="btn btn-light end" type="button"
-												 data-toggle="dropdown"
-												aria-haspopup="true" aria-expanded="false" title="不喜歡這留言嗎?"
-												style="float: right;">...</button>
+												data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false" title="不喜歡這留言嗎?" style="float: right;">...</button>
 											<div class="dropdown-menu btn btn-light"
 												aria-labelledby="dropdownMenuButton" id="down">
-												<a  class="dropdown-item" data-toggle="modal" data-id="${lmVO.lm_no}"
-												data-target="#report-2">檢舉此留言</a>
+												<a class="dropdown-item" data-toggle="modal"
+													data-id="${lmVO.lm_no}" data-target="#report-2">檢舉此留言</a>
 											</div>
 										</div>
-
-										<p>${lmVO.lm_text}</p>
+										<p id="mes">${lmVO.lm_text}</p>
 									</c:forEach>
 
 								</div>
@@ -189,20 +187,22 @@ body {
 
 							<form class="form-inline" METHOD="post" ACTION="post.do">
 								<div class="form-group mb-2">
-									<p>對餐廳評分等級: <b>${PostVO.post_rate}</b></p>
+									<p>
+										對餐廳評分等級: <b>${PostVO.post_rate}</b>
+									</p>
 								</div>
-<!-- 								<div -->
-<!-- 									class="starrating risingstar d-flex  flex-row-reverse form-group mx-sm-3 mb-4"> -->
-<!-- 									<input type="radio" id="star5" name="rating" value="5" /><label -->
-<!-- 										for="star5" title="5 star"></label> <input type="radio" -->
-<!-- 										id="star4" name="rating" value="4" /><label for="star4" -->
-<!-- 										title="4 star"></label> <input type="radio" id="star3" -->
-<!-- 										name="rating" value="3" /><label for="star3" title="3 star"></label> -->
-<!-- 									<input type="radio" id="star2" name="rating" value="2" /><label -->
-<!-- 										for="star2" title="2 star"></label> <input type="radio" -->
-<!-- 										id="star1" name="rating" value="1" /><label for="star1" -->
-<!-- 										title="1 star"></label> -->
-<!-- 								</div> -->
+								<!-- 								<div -->
+								<!-- 									class="starrating risingstar d-flex  flex-row-reverse form-group mx-sm-3 mb-4"> -->
+								<!-- 									<input type="radio" id="star5" name="rating" value="5" /><label -->
+								<!-- 										for="star5" title="5 star"></label> <input type="radio" -->
+								<!-- 										id="star4" name="rating" value="4" /><label for="star4" -->
+								<!-- 										title="4 star"></label> <input type="radio" id="star3" -->
+								<!-- 										name="rating" value="3" /><label for="star3" title="3 star"></label> -->
+								<!-- 									<input type="radio" id="star2" name="rating" value="2" /><label -->
+								<!-- 										for="star2" title="2 star"></label> <input type="radio" -->
+								<!-- 										id="star1" name="rating" value="1" /><label for="star1" -->
+								<!-- 										title="1 star"></label> -->
+								<!-- 								</div> -->
 							</form>
 
 							<hr>
@@ -239,11 +239,14 @@ body {
 	<%
 		if (pageNumber > 1) {
 	%>
-	
+
 
 	<!-- 檢舉視窗II -->
-	<div class="modal fade right bg-default " id="report-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
-		<div class="modal-dialog modal-full-height modal-right modal-notify modal-info" role="document">
+	<div class="modal fade right bg-default " id="report-2" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-full-height modal-right modal-notify modal-info"
+			role="document">
 			<div class="modal-content">
 				<!--Header-->
 				<div class="modal-header">
@@ -257,51 +260,57 @@ body {
 				</div>
 				<!--Body-->
 				<FORM METHOD="post" ACTION="reportLM.do" name="form1">
-				
-				<input type="hidden" name="action" value="insert">
-				<input type="hidden" id="ReportLM_lmno" name="LeaveMessage_lmno">
-				<div class="modal-body">
-					<!-- Radio -->
-					<p class="text-center">
-						<strong>確認檢舉後請按送出鍵</strong>
-					</p>
-					<!-- Radio -->
-					<p class="text-center">
-						<strong>並請告訴我們檢舉原因:</strong>
-					</p>
-					<!--文字欄位-->
-					<div class="md-form">
-						<textarea name="leaveMessageRe" required id="form79textarea"class="md-textarea form-control" rows="3" placeholder="例如:不當留言內容、言詞羞辱...等"></textarea>
+
+					<input type="hidden" name="action" value="insert"> <input
+						type="hidden" id="ReportLM_lmno" name="LeaveMessage_lmno">
+					<div class="modal-body">
+						<!-- Radio -->
+						<p class="text-center">
+							<strong>確認檢舉後請按送出鍵</strong>
+						</p>
+						<!-- Radio -->
+						<p class="text-center">
+							<strong>並請告訴我們檢舉原因:</strong>
+						</p>
+						<!--文字欄位-->
+						<div class="md-form">
+							<textarea name="leaveMessageRe" required id="form79textarea"
+								class="md-textarea form-control" rows="3"
+								placeholder="例如:不當留言內容、言詞羞辱...等"></textarea>
+						</div>
 					</div>
-				</div>
-				<!--Footer-->
-				<div class="modal-footer justify-content-center">
-					<button class="btn btn-info">
-						送出<i class="fa fa-paper-plane ml-1"></i>
-					</button>
-					<input type="submit" value="送出新增">
-					</a>
-					<button class="btn btn-outline-info " data-dismiss="modal">
-						取消 <i class="fa fa-times"></i>
-					</button>
-				</div>
-				
+					<!--Footer-->
+					<div class="modal-footer justify-content-center">
+						<button class="btn btn-info" type="submit" id="send">
+							送出<i class="fa fa-paper-plane ml-1"></i>
+						</button>
+
+						<button class="btn btn-outline-info " data-dismiss="modal">
+							取消 <i class="fa fa-times"></i>
+						</button>
+					</div>
+
 				</FORM>
 			</div>
 		</div>
 	</div>
-	
-	<% }%>
+
+	<%
+		}
+	%>
 	<%@ include file="/front-end/page2.file"%>
 
-<script type="text/javascript">
-
-
-	$('#report-2').on('show.bs.modal', function(e) {
-		  var product = $(e.relatedTarget).data('id');
-		  $("#ReportLM_lmno").val(product);
+	<script type="text/javascript">
+		$('#report-2').on('show.bs.modal', function(e) {
+			var product = $(e.relatedTarget).data('id');
+			$("#ReportLM_lmno").val(product);
 		});
-</script>
+		
+		$("#send").click(function() {
+			alert("檢舉已送出,謝謝您的反應!");
+		});
+		
+	</script>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 

@@ -104,4 +104,11 @@ public class MyFeastService
             System.out.println(myFeastVO);
         }
     }
+    
+    public List<MyFeastVO> getByMem(String mye_memNo){
+        return dao.findByMem(mye_memNo);
+    }
+    public List<MyFeastVO> getByFea(String mye_feaNo){
+        return dao.findByFea(mye_feaNo);
+    }
 }

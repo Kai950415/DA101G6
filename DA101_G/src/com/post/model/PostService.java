@@ -57,6 +57,13 @@ public class PostService {
 
 	public List<PostVO> getAll() {
 		return dao.getAll();
+		
+	}
+	
+	public List<PostVO> getAllOnlinePost() {
+		return dao.getAll().stream()
+			.filter(post -> post.getPost_status().equals("post1"))
+			.collect(Collectors.toList());
 	}
 
 }

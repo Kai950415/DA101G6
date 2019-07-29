@@ -68,7 +68,6 @@ background-color: #ED8532;
 				</c:forEach>
 				</ol>
 				
-				
 				<div class="carousel-inner">
 				<c:forEach var="adVO" items="${listAd}" begin="0" end="0">
 					<div class="carousel-item active">
@@ -119,12 +118,12 @@ background-color: #ED8532;
 			<div class="row align-items-center my-5">
 				<div class="col-lg-7">
 					<img class="img-fluid rounded mb-4 mb-lg-0"
-						src="https://picsum.photos/900/400?random=5" alt="">
+					src="<%=request.getContextPath()%>/images/MAP.jpg" style="width:750px;height:400px;">
 				</div>
 
 				<div class="col-lg-5">
 					<h1 class="font-weight-light">來看看附近美食吧!</h1>
-					<p>還在想要吃什麼嗎?加入會員，成為主揪，與他人製造美好的相遇吧! 我是一張900*400的圖片!</p>
+					<p>還在想要吃什麼嗎?加入會員，成為主揪，與他人製造美好的相遇吧!</p>
 
 					
 					<a class="btn btn-warning" href="<%=request.getContextPath()%>/restaurant.jsp">點我進入美食搜尋!</a>
@@ -190,6 +189,19 @@ background-color: #ED8532;
 								<p>${feastInfoVO.fea_text}</p>
 								<p>發起人:${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</p>
 								<p>現在人數:${feastInfoVO.fea_number}</p>
+								
+								<div class="progress">
+								  <div class="progress-bar bg-warning" role="progressbar" style="width: ${100*(feastInfoVO.fea_number/feastInfoVO.fea_upLim)}%"
+									   aria-valuenow="${feastInfoVO.fea_number}" aria-valuemin="${feastInfoVO.fea_lowLim}" aria-valuemax="${feastInfoVO.fea_upLim}">
+								  </div>
+								</div>
+								<div class="container">
+									<div class="row " style="flex-wrap: wrap;">
+										<p>人數下限:${feastInfoVO.fea_lowLim}</p><p>&nbsp;</p><p>人數上限:${feastInfoVO.fea_upLim}</p>
+									</div>
+								
+								</div>
+
 								<p>
 									開團時間:
 									<fmt:formatDate value="${feastInfoVO.fea_date}"

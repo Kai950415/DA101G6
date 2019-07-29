@@ -398,7 +398,7 @@ System.out.println(mem_email);
 			}
 		}
 		if("confirm".equals(action)) {
-System.out.println("1234567");
+System.out.println("confirm in servlet");
 			String code = req.getParameter("code");
 			MemService memSrv=new MemService();
 			boolean result = memSrv.confirmCode(code);
@@ -406,8 +406,7 @@ System.out.println("1234567");
 			if(result) {
 				System.out.println("認證成功");
 				String url = "hometag.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllMem.jsp
-				successView.forward(req, res);	
+				res.sendRedirect(url);
 			}								
 		}
 	}

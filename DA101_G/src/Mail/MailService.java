@@ -51,20 +51,20 @@ public class MailService {
      }
    }
 	
-	 public static void main (String args[]){
-
-      String to = "z0982282007@gmail.com";
-      
-      String subject = "密碼通知";
-      
-      String ch_name = "wu";
-      String passRandom = "111";
-      String messageText = "Hello! " + ch_name + " 請謹記此密碼: " + passRandom + "\n" +" (已經啟用)"; 
-       
-      MailService mailService = new MailService();
-      mailService.sendMail(to, subject, messageText);
-
-   }
+//	 public static void main (String args[]){
+//
+//      String to = "z0982282007@gmail.com";
+//      
+//      String subject = "密碼通知";
+//      
+//      String ch_name = "wu";
+//      String passRandom = "111";
+//      String messageText = "Hello! " + ch_name + " 請謹記此密碼: " + passRandom + "\n" +" (已經啟用)"; 
+//       
+//      MailService mailService = new MailService();
+//      mailService.sendMail(to, subject, messageText);
+//
+//   }
 
 
 }

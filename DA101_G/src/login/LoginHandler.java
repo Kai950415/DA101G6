@@ -135,8 +135,7 @@ public class LoginHandler extends HttpServlet
             if ((resVO) == null)
             { // 【帳號 , 密碼無效時】
                 errorMsgsForLogin.put("resMember", "帳號或密碼輸入錯誤");
-                session.setAttribute("resLogin", "true");
-                req.setAttribute("login", "false");
+                session.setAttribute("resLogin", "false");
                 req.getRequestDispatcher("hometag.jsp").forward(req, res);
             }
             else

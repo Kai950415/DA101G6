@@ -338,38 +338,39 @@ footer {
 </div>
 
 
-
-
-
-
-
+<c:if test="${resReg.equals(\"true\")}" var="flag">
+	<%
+		session.removeAttribute("resReg");
+	%>
+	<script>
+		$(function() {
+			alert('已成功註冊為餐廳，待驗證資料後新增餐點');
+		});
+	</script>
+</c:if>
 
 <c:if test="${login.equals(\"false\")}" var="flag">
 	<%
 		session.removeAttribute("login");
 	%>
-	<c:if test="${resLogin ne (\"true\")}" var="flag">
-	<%
-		session.removeAttribute("resLogin");
-	%>
-		<script>
-			$(function() {
-				$('#loginBtn').trigger('click');
-			});
-		</script>
-	</c:if>
-	
-	<c:if test="${resLogin.equals(\"true\")}" var="flag">
-	<%
-		session.removeAttribute("resLogin");
-	%>
-		<script>
-			$(function() {
-				$('#loginBtn').trigger('click');
-				$('#resLogin').trigger('click');
-				
-			});
-		</script>
-	</c:if>
+	<script>
+		$(function() {
+			$('#loginBtn').trigger('click');
+		});
+	</script>
+</c:if>	
+
+<c:if test="${resLogin.equals(\"false\")}" var="flag">
+<%
+	session.removeAttribute("resLogin");
+%>
+	<script>
+		$(function() {
+			$('#loginBtn').trigger('click');
+			$('#resLogin').trigger('click');
+		});
+		
+	</script>
 </c:if>
+
 

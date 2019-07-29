@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.mem.model.*"%>
-<%@ page import="com.pointtransaction.model.*,com.mem.model.*"%>
+<%@ page import="com.pointtransaction.model.*,com.mem.model.*, com.tools.*"%>
 <%
 	PointtransactionService pointtransactionSvc = new PointtransactionService();
 	MemVO memVO=(MemVO)session.getAttribute("memberVO");
@@ -114,8 +114,7 @@ body {
 				<h1>關於我</h1>
 			</div>
 			<div class="col-sm-2">
-				<a href="#" class="pull-right"><img title="profile image"
-					class="img-circle" src="https://picsum.photos/100/100"></a>
+				<a href="#" class="pull-right"><img id="logo" src="<%=request.getContextPath()%>/images/lol.gif" style="width:100px;height: 100%;"></a>
 			</div>
 		</div>
 		<div class="row">
@@ -151,7 +150,7 @@ body {
 					<li class="list-group-item text-right"><span class="pull-left"><strong>會員編號:</strong></span>
 						${memberVO.mem_no}</li>
 					<li class="list-group-item text-right"><span class="pull-left"><strong>會員狀態:</strong></span>
-						${memberVO.mem_status}</li>
+						${FindCodeName.meaning(memberVO.mem_status)}</li>
 
 				</ul>
 
@@ -353,9 +352,7 @@ body {
 									<label for="AboutMe"><h4>自我介紹</h4></label>
 									<textarea name="mem_intro" class="form-control"
 										placeholder="Say~Something" id="AboutMe"
-										style="height: 150px;">
-								${memberVO.mem_intro}
-								</textarea>
+										style="height: 150px;">${memberVO.mem_intro}</textarea>
 								</div>
 								<div class="col-xs-3">
 									<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"

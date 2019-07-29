@@ -9,8 +9,8 @@
 	MemService memSv = new MemService();
 	FriendListService friSvc = new FriendListService();
 	
-	//MemVO memVO = (MemVO) session.getAttribute("memVO");  因為現在沒有會員資料
-	MemVO memVO=memSv.memFindByPrimaryKey("ME000001");	  //塞會員假資料進去
+	MemVO memVO = (MemVO) session.getAttribute("memberVO");  //因為現在沒有會員資料
+// 	MemVO memVO=memSv.memFindByPrimaryKey("ME000001");	  //塞會員假資料進去
     List<MemVO> list = friSvc.getAll(memVO.getMem_no());
     pageContext.setAttribute("list",list);
     pageContext.setAttribute("memVO",memVO);
@@ -86,7 +86,10 @@
                    			</div>
                     		<h5>姓名:${memVO.getMem_name()}</h5>
                     		<h5>性別:${memVO.getMem_sex()}</h5>
+                    		<h5>手機:${memVO.getMem_ph()}</h5>
                     		<h5>自我介紹:${memVO.getMem_intro()}</h5>
+                    		
+                    		
 <!--                     		<button class="btn btn-primary pull-right">朋友</button> -->
                     	</div>
                   </c:forEach>

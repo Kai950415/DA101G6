@@ -78,7 +78,7 @@ public class MemService {
 			StringBuilder sb =new StringBuilder();
 			String text  = memVO.getMem_name()+" 您好:\n";
 			String text2 = "感謝您使用本系統，請將下方連結複製並貼在網誌列，才能完成驗證並使用本網站進行驗證\n"; 
-			String hyperLink= "http://192.168.196.86:8081/DA101_G6/mem.do?action=confirm&code="+code;
+			String hyperLink= "http://192.168.196.189:8081/DA101_G6/mem.do?action=confirm&code="+code;
 					
 			sb.append(text).append(text2).append(hyperLink);
 			MailService mailSve = new MailService();
@@ -91,9 +91,12 @@ public class MemService {
 		 MemVO memVO = null;
 		 
 		 memVO = dao.confirmCode(code);
+		 System.out.println("before" + memVO);
 		 memVO.setMem_status("mem2");
+		 System.out.println("after" + memVO);
 		 
 		 dao.update(memVO);
+		 System.out.println("mem update");
 		 result = true;
 		 
 		 

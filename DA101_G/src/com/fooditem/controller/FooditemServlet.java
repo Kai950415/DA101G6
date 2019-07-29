@@ -353,7 +353,7 @@ System.out.println(304);
                 String res_ph = resVO.getRes_ph();
                 Integer res_point =  resVO.getRes_point();
                 String res_ac = resVO.getRes_ac();
-                String res_pass = resVO.getRes_ac();
+                String res_pass = resVO.getRes_pass();
                 byte[] res_img = resVO.getRes_img();
                 String res_intro = resVO.getRes_intro();
                 String res_start = resVO.getRes_start();

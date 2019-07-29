@@ -200,11 +200,9 @@ b,h4{
 							
 						</div>
 						<div class="card-footer text-muted">
-
-						
-						<c:if test="${(resVO==null) && !ordSvc.isMemOrdInFea(feastInfoVO.fea_no, memberVO.mem_no) &&  list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
-							<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'">訂餐</button>
-						</c:if>								
+							<c:if test="${(resVO==null) && !ordSvc.isMemOrdInFea(feastInfoVO.fea_no, memberVO.mem_no) &&  list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
+								<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'">訂餐</button>
+							</c:if>								
 							<c:if test="${(resVO==null) && memberVO.mem_no ne (feastInfoVO.fea_memNo) && list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
 							<button class="btn btn-outline-secondary" id="leftfeast"
 								name="mye_feano" value="${feastInfoVO.fea_no}">退出</button>
@@ -244,11 +242,12 @@ b,h4{
 						</tr>
 						</c:if>
 					</c:forEach>
+					<%@ include file="/front-end/message/chatroom.jsp"%>
 					</table>
 					</div>
 			</div>
 		</div>
-		
+		<br>
 		<div class="container">
 			<div class="row">
 		
@@ -271,6 +270,7 @@ $("#joinfeast"). click(function()
 				var newDoc = document.open("text/html", "replace");
 			    newDoc.write(data);
 			    newDoc.close();
+			    alert('加入成功');
 			}
 		  )
 	

@@ -78,6 +78,7 @@
               
               <div class="nearby-user">
                 <div class="row">
+
                   
                    <c:forEach var="memVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
                   		
@@ -87,7 +88,7 @@
                    			</div>
                     		<p>姓名:${memVO.getMem_name()}</p>
                     		<p>性別:${memVO.getMem_sex()}</p>
-<%--                     		<p>自我介紹:${memVO.getMem_intro()}</p> --%>
+                    		<p>自我介紹:${memVO.getMem_intro()}</p>
                     	</div>
                   <div class="col-md-3 col-sm-3">
                   
