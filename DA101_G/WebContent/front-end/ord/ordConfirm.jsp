@@ -216,21 +216,21 @@ table img{
 		<td id="tdtotal">$${memberVO.mem_point}</td>
 		<td></td>
 	</tr>
-	<tr>
+	<%-- <tr>
 		<td></td>
 		<td></td>
 		
 		<td><div align="center"><font color="red"><b>消費後剩下：</b></font></div></td>
 		<td id="tdtotal">$<%=memVO.getMem_point()-total%> </td>
 		<td></td>
-	</tr>
+	</tr> --%>
 </table>
 	<%}else{%>
 	<div id="emptycart">目前購物車空空如也喔</div>	
 	<%}%>
 <div>
 <div align="center">
-<button onclick="location.href='ord.do?res_no=RS000001&action=showFoodsInfo'">繼續購物</button>
+<button onclick="location.href='ord.do?res_no=<%=feaVO.getFea_resNo()%>&action=showFoodsInfo">繼續購物</button>
 <br>
 <form method="GET" action="<%=request.getContextPath()%>/front-end/ord/ord.do">
 		<input type="hidden" name="action" value="insert">
@@ -251,9 +251,6 @@ table img{
 	</script>
 </c:if>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" 
-	integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" 
-	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	
 </body>
 </html>

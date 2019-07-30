@@ -196,17 +196,17 @@ body {
 							<div class="form-group">
 								<div class="col-xs-3">
 									<br>
-									<button class="btn btn-lg btn-outline-success" type="submit">
+									<button id="submit" class="btn btn-lg btn-outline-success" type="submit">
 										<i class="glyphicon glyphicon-ok-sign">完成</a></i> 
 									</button>>
 									<button class="btn btn-lg btn-outline-secondary" type="reset">
 										<i class="glyphicon glyphicon-repeat"></i> 回上頁
 									</button>
-								<button onclick="setData()"><img src="<%=request.getContextPath()%>/images/神奇.png"></button>
+									
 								</div>
 							</div>
 						</form>
-
+	<button id="magic" style="opacity:0.1" onclick="setData()">這個</button>
 					</div>
 					<!--/tab-pane-->
 					<!---------------------------------------------------------------------->
@@ -242,35 +242,52 @@ body {
 			$("input[name='zipcode']").val(''); //郵遞區號
 		})
 	</script>
-<script>
-function setData(){
-	$('mem_name').val('大衛海鮮');
-	$('mem_sex').val('男生');
-	$('mem_ph').val('0933456789');
-	$('mem_email').val('z0982282007@gmail.com');
-	$('mem_ac').val('ME000006');
-	$('mem_pass').val('123456');
-	$('mem_intro').val('大家好，我是大衛，可以叫我David。');
-		
-}
+<script type="text/javascript">
+		function setData(){
+			$('#first_name').val('大衛海鮮');
+			$('#last_name').val('男生');
+			$('#mobile').val('0933456789');
+			$('#phone').val('2007-04-26');
+			$('#email').val('z0982282007@gmail.com');
+			$('#ac').val('ME000006');
+			$('#password2').val('123456');
+			$('#AboutMe').val('大家好，我是大衛，可以叫我David。');
+			
+				init_address();
+				$("#zone1").val('台北市').change(); //縣市
+				for ( var i in zip['']) {
+					o = document.createElement('option');
+					o.text = i;
+					o.value = i;
+					zone2.options.add(o);
+				}
+				$('#zone2').val('中正區');
+				$("input[name='zipcode']").val('100'); //郵遞區號
+			
+			
+			
+			
+			
+			
+		}
 </script>
 	
 	<!--引用jQuery-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!--引用SweetAlert2-->
 <script type="text/javascript" src="https://unpkg.com/sweetalert2@7.0.7/dist/sweetalert2.all.js"></script>
-<script type="text/javascript">
-$(function () {
-$("button:submit").click(function () {
-swal("已寄送驗證信","請至您的信箱進行驗證", "info").then(function (result) {
-//導頁寫在此
-window.location.href = "<%=request.getContextPath()%>/hometag.jsp";
-});
-});
-});
-</script>
+
 
 <script>
+$("#submit").click(function () {
+	swal("已寄送驗證信","請至您的信箱進行驗證", "info").then(function (result) {
+	//導頁寫在此
+	window.location.href = "<%=request.getContextPath()%>/hometag.jsp";
+	});
+	});
+	
+
+
 $('#ac').on('blur', function (){
     var xmlhttp = new XMLHttpRequest();
     var mem_ac = $('#ac').val(); 

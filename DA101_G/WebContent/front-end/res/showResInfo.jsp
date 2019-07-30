@@ -1,14 +1,17 @@
 <%@page import="javax.naming.Context"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.ad.model.*,com.tools.*,com.res.model.*,com.tools.*"%>
+<%@ page import="com.ad.model.*,com.tools.*,com.res.model.*,com.tools.*,
+				com.fooditem.model.*"%>
 
 <% 
 	ResVO resVO = (ResVO)request.getAttribute("resVO");
 	pageContext.setAttribute("resVO", resVO);
-	
+	FooditemService fooditemSvc = new FooditemService();
+	List<FooditemVO> list = fooditemSvc.getByResNOFooditem(resVO.getRes_no());
 	String level[] = {"Free","Inexpensive","Moderate","Expensive","Very Expensive"};
 	pageContext.setAttribute("level",level);
+	pageContext.setAttribute("list",list);
 %>
 
 <!doctype html>
@@ -109,6 +112,30 @@
 					<a class="btn btn-primary" href="<%=request.getContextPath()%>/front-end/feast/addFeast.jsp?res_no=${resVO.res_no}">開新飯局</a>
 				</div>
 			</div>
+			<div class="row">
+			<c:forEach var="fooditemVO" items="${list}">
+				<div class="col-3">
+					<div class="card">
+						<img
+							src="<%=request.getContextPath()%>/back-end/ord/resOrdPhoto.do?fo_no=${fooditemVO.fo_no}"
+							class="card-img-top" width="100" height="100">
+							<h5 class="card-header">${fooditemVO.fo_name}</h5>
+						<div class="card-body">
+							<p>${fooditemVO.fo_intro}</p>
+						</div>
+						<div class="card-footer">
+						<div class="row">
+								<div class="form-group col-sm-6">
+									<label>價格:</label>
+									<p>$ ${fooditemVO.fo_price}</p>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+			</c:forEach>
+			<br>
+			</div>	
 			<div class="row">
 				<div id="map" class="map-box"></div>
 			</div>	

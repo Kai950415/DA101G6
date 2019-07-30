@@ -64,19 +64,19 @@
 	<div class="col-sm-7">
 	<div class="row">
 		<div class="form-group col-sm-6">
-		<h4>餐點名稱 :</h4><input type="TEXT" name="fo_name" class="form-control"
+		<h4>餐點名稱 :</h4><input type="TEXT" name="fo_name" class="form-control" id="fo_name"
 			 value="<%= (fooditemVO==null)? "名稱" : fooditemVO.getFo_name()%>"/>
 		
 	</div>
 		<div class="form-group col-sm-6">
 		<h4>價格:</h4>
-		<input class="form-control" type="TEXT" name="fo_price"
+		<input class="form-control" type="TEXT" name="fo_price" id="fo_price"
 			 value="<%= (fooditemVO==null)? "0" : fooditemVO.getFo_price()%>" />
 	</div></div>
 	<div class="row">
 		<div class="form-group col-12">
 		<h4>介紹:</h4>
-		<textarea name="fo_intro" class="form-control" rows="5"><%= (fooditemVO==null)? "10000" : fooditemVO.getFo_intro()%></textarea>
+		<textarea name="fo_intro" class="form-control" id="fo_intro" rows="5"><%= (fooditemVO==null)? "10000" : fooditemVO.getFo_intro()%></textarea>
 	</div></div>
 	<div class="row">
 		<div class="form-group col-sm-6">
@@ -99,7 +99,6 @@
 		</div>
 		</div>
 			
-			
 	
 		
 
@@ -108,8 +107,32 @@
 </div>
 </div>
 
-
+			<table align="center">
+			<tr>
+			<td><button id="magic"  style="opacity:0.1" onclick="setData1()">這個1</button></td>
+			<td><button id="magic"  style="opacity:0.1" onclick="setData2()">這個2</button></td>
+			<td><button id="magic"  style="opacity:0.1" onclick="setData3()">這個3</button></td>
+			</tr>
+			</table>	
 </body>
 
-
+<script type="text/javascript">
+		function setData1(){
+			$('#fo_name').val('超脆皮比薩');
+			$('#fo_price').val('500');
+			$('#fo_intro').val('e式脆皮烘烤，香香好吃');
+		}
+		
+		function setData2(){
+			$('#fo_name').val('炙火燒肉');
+			$('#fo_price').val('404');
+			$('#fo_intro').val('骰子火烤多汁嫩肉');
+		}
+		
+		function setData3(){
+			$('#fo_name').val('蜂蜜啤酒');
+			$('#fo_price').val('200');
+			$('#fo_intro').val('單一純麥，多泡冰鎮，均一價!!');
+		}
+</script>
 </html>

@@ -14,7 +14,7 @@ public class MemService {
 		dao=new MemDAO();
 	}
 	
-	 public void memInsert(String mem_name,String mem_adrs,String mem_sex,Date mem_bd,String mem_ph,
+	 public MemVO memInsert(String mem_name,String mem_adrs,String mem_sex,Date mem_bd,String mem_ph,
 			String mem_email,Integer mem_point,byte[] mem_img,String mem_pass,String mem_ac,String mem_intro,String mem_status) {
 		 
 			MemVO memVO =new MemVO();
@@ -32,6 +32,8 @@ public class MemService {
 			memVO.setMem_status(mem_status);
 
 			dao.insert(memVO);
+			
+			return memVO;
 	 }
 	 public MemVO memUpdate(String mem_no,String mem_name,String mem_adrs,String mem_sex,Date mem_bd,String mem_ph,
 				String mem_email,Integer mem_point,byte[] mem_img,String mem_pass,String mem_ac,String mem_intro,String mem_status) {
@@ -78,11 +80,12 @@ public class MemService {
 			StringBuilder sb =new StringBuilder();
 			String text  = memVO.getMem_name()+" 您好:\n";
 			String text2 = "感謝您使用本系統，請將下方連結複製並貼在網誌列，才能完成驗證並使用本網站進行驗證\n"; 
-			String hyperLink= "http://192.168.196.189:8081/DA101_G6/mem.do?action=confirm&code="+code;
+			String hyperLink= "http://192.168.196.86:8081/DA101_G6/mem.do?action=confirm&code="+code;
 					
 			sb.append(text).append(text2).append(hyperLink);
 			MailService mailSve = new MailService();
-			mailSve.sendMail(memVO.getMem_email(), subject, sb.toString());			
+			mailSve.sendMail(memVO.getMem_email(), subject, sb.toString());	
+			System.out.println(memVO.getMem_no());
 			System.out.println("寄信成功");
 	 }
 	 	 
@@ -91,12 +94,9 @@ public class MemService {
 		 MemVO memVO = null;
 		 
 		 memVO = dao.confirmCode(code);
-		 System.out.println("before" + memVO);
 		 memVO.setMem_status("mem2");
-		 System.out.println("after" + memVO);
 		 
 		 dao.update(memVO);
-		 System.out.println("mem update");
 		 result = true;
 		 
 		 

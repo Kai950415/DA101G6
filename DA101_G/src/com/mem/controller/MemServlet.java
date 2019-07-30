@@ -365,7 +365,8 @@ System.out.println(mem_email);
 				memVO.setMem_intro(mem_intro);
 				memVO.setMem_status(mem_status);		
 				MemService memSrv=new MemService();
-				memSrv.memInsert(mem_name, mem_adrs, mem_sex, mem_bd, mem_ph, mem_email, mem_point, data, mem_pass, mem_ac, mem_intro, mem_status);
+				memVO = memSrv.memInsert(mem_name, mem_adrs, mem_sex, mem_bd, mem_ph, mem_email, mem_point, data, mem_pass, mem_ac, mem_intro, mem_status);
+				System.out.println(memVO.getMem_no());
 				memSrv.sendMail(memVO);
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -398,7 +399,7 @@ System.out.println(mem_email);
 			}
 		}
 		if("confirm".equals(action)) {
-System.out.println("confirm in servlet");
+System.out.println("1234567");
 			String code = req.getParameter("code");
 			MemService memSrv=new MemService();
 			boolean result = memSrv.confirmCode(code);
@@ -406,7 +407,8 @@ System.out.println("confirm in servlet");
 			if(result) {
 				System.out.println("認證成功");
 				String url = "hometag.jsp";
-				res.sendRedirect(url);
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllMem.jsp
+				successView.forward(req, res);	
 			}								
 		}
 	}

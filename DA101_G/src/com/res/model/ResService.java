@@ -108,7 +108,12 @@ public class ResService {
     public List<ResVO> getAllByQuery(String query)
     {
         String[] queryArr = query.split(" ");
+        System.out.println("res query");
         
+        for (ResVO resVO : dao.getAllOnliseRes())
+        {
+            System.out.println(resVO);
+        }
         
         Stream<ResVO> stream = dao.getAllOnliseRes().stream();
         
@@ -119,6 +124,11 @@ public class ResService {
         }
         
         List<ResVO> list = stream.collect(Collectors.toList());
+        
+        for (ResVO resVO : list)
+        {
+            System.out.println(resVO);
+        }
         
         return list;
     }

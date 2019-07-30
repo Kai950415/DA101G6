@@ -28,10 +28,7 @@ public class FriendListServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse res)
 			throws ServletException, IOException {
 		 HttpSession session = request.getSession();
-		 if (session.getAttribute("memberVO") == null)
-	     {
-	         session.setAttribute("location", request.getHeader("referer") );		
-	     }
+
 		request.setCharacterEncoding("UTF-8");
 		String action = request.getParameter("action");
 		

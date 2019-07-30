@@ -42,7 +42,7 @@ public class ResDAO implements ResDAO_interface {
     private static final String UPDATE = "UPDATE RESTAURANT set RES_ADRS=?,RES_NAME=?,RES_PH=?,RES_POINT=?,RES_AC=?,RES_PASS=?,RES_IMG=?,RES_INTRO=?,RES_START=?,RES_END=?,RES_LAT=?,RES_LOT=?,RES_SCORE=?,RES_COST=?,RES_COMCOUNT=?,RES_TYPE=?,RES_STATUS=? WHERE RES_NO = ?";
     private static final String GET_ONE_AC = "SELECT * FROM RESTAURANT where res_ac = ?";
     
-    private static final String GET_ALL_STMT_BY_STATUS = "SELECT * FROM RESTAURANT where res_status = 'res3'";
+    private static final String GET_ALL_STMT_BY_STATUS = "SELECT RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_INTRO,RES_START,RES_END,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS FROM RESTAURANT where res_status = 'res3' order by res_lat desc";
 
     @Override
     public void insert(ResVO resVO) {
@@ -490,7 +490,6 @@ public class ResDAO implements ResDAO_interface {
                 resVO.setRes_point(rs.getInt("res_point"));
                 resVO.setRes_ac(rs.getString("res_ac"));
                 resVO.setRes_pass(rs.getString("res_pass"));
-                resVO.setRes_img(rs.getBytes("res_img"));
                 resVO.setRes_intro(rs.getString("res_intro"));
                 resVO.setRes_start(rs.getString("res_start"));
                 resVO.setRes_end(rs.getString("res_end"));

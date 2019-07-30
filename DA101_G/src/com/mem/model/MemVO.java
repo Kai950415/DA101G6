@@ -2,7 +2,6 @@ package com.mem.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Arrays;
 
 public class MemVO implements Serializable{
 	private String mem_no;
@@ -19,14 +18,6 @@ public class MemVO implements Serializable{
 	private String mem_intro;
 	private String mem_status;
 	
-	@Override
-	public String toString() {
-		return "MemVO [mem_no=" + mem_no + ", mem_name=" + mem_name + ", mem_adrs=" + mem_adrs + ", mem_sex=" + mem_sex
-				+ ", mem_bd=" + mem_bd + ", mem_ph=" + mem_ph + ", mem_email=" + mem_email + ", mem_point=" + mem_point
-				+ ", mem_img=" + Arrays.toString(mem_img) + ", mem_pass=" + mem_pass + ", mem_ac=" + mem_ac
-				+ ", mem_intro=" + mem_intro + ", mem_status=" + mem_status + "]";
-	}
-
 	public MemVO() {
 		super();
 	}

@@ -248,6 +248,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 
 <br>
 <br>
+<button onclick="magic()"></button>
 	<div class="container">
 		<div class="row center">
 			<div class="col md-8 xs-4">
@@ -272,16 +273,16 @@ section.range-slider input[type=range]::-moz-focus-outer {
 								 <%=resVO.getRes_name()%>
 							</div>
 							<div class="col-sm-6">
-								<label>標題:</label> <input type="TEXT" name="fea_title"
+								<label>標題:</label> <input type="TEXT" name="fea_title" id="fea_title"
 									class="form-control"
-									value="<%=(feastInfoVO == null) ? "鼎王" : feastInfoVO.getFea_title()%>">
+									value="<%=(feastInfoVO == null) ? "" : feastInfoVO.getFea_title()%>">
 							</div>
 						</div>
 
 						<div class="form-group row">
 							<div class="col-sm-12">
 								<label>飯局簡介:</label>
-								<textarea name="fea_text" class="form-control" rows="5"><%=(feastInfoVO == null) ? "謝師宴來吃鼎王" : feastInfoVO.getFea_text()%></textarea>
+								<textarea name="fea_text" id="fea_text" class="form-control" rows="5"><%=(feastInfoVO == null) ? "" : feastInfoVO.getFea_text()%></textarea>
 							</div>
 						</div>
 
@@ -322,7 +323,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 								<label>飯局地點:</label> <div id="zipcode">
 					<div class="f6" data-role="county"></div>
 					<div class="f8" data-role="district"></div>
-				</div><input name="address" type="text" class="f5 address form-control"
+				</div><input name="address" type="text" class="f5 address form-control" id="address"
 				value="<%=(feastInfoVO == null) ? "" : feastInfoVO.getFea_loc().substring(x)%>">
 
 			
@@ -353,7 +354,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 
 					</form>
 				</FORM>
-
+					<button id="magic"  style="opacity:0.1" onclick="setData()">這個</button>
 			</div>
 		</div>
 	</div>
@@ -361,6 +362,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 </body>
 
 <script>
+
 function otherSelect() {
 	
 	  var other = document.getElementById("otherBox");
@@ -447,6 +449,17 @@ $("#zipcode").twzipcode({
 	"countyName": "res_city", // 指定城市 select name
 	"districtName": "res_town" // 指定地區 select name
 	});
+</script>
+<script type="text/javascript">
+		function setData(){
+			$('#fea_title').val('JAVA飯吃到飽~');
+			$('#fea_text').val('爪哇風味超好吃，大推蜂蜜啤酒只要200');
+			$('#fea_type').val('外送').change();
+			$('#enddate').val('2019-08-01 00:00'); //訂餐截止日期
+			$('#feastdate').val('2019-08-01 12:30'); //飯局日期
+			$('#startdate').val('2019-07-30 00:00'); //報名截止日期
+			$('#address').val('中大路300號'); // 不含縣市區
+		}
 </script>
 </body>
 </html>

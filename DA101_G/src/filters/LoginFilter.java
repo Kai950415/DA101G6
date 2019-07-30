@@ -52,18 +52,6 @@ public class LoginFilter implements Filter
         else
         {
 
-            if (req.getAttribute("location") == null)
-            {
-                String location = req.getHeader("referer");
-                if (location == null || location.endsWith(".do"))
-                {
-                    session.setAttribute("location", req.getHeader("referer"));
-                }
-                else
-                {
-                    session.setAttribute("location", req.getRequestURL());
-                }
-            }
             session.setAttribute("login", "false");
             res.sendRedirect(req.getContextPath() + "/hometag.jsp");
             return;

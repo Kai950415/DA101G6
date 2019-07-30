@@ -74,36 +74,27 @@
 	<div class="container">
     <div class="row">
         <div class="col-md-12" align="center">
-            <div class="people-nearby">
-              
-              <div class="nearby-user">
                 <div class="row">
 
-                  
                    <c:forEach var="memVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
                   		
-                  		<div class="col-md-7 col-sm-7">
+                  		<div class="col-md-3 col-sm-3">
 							<div class="col-md-2 col-sm-2">
                    				<img width="300" height="200" class="profile-photo-lg" src="<%=request.getContextPath()%>/back-end/mem/memPhoto.do?mem_no=${memVO.mem_no}">
                    			</div>
                     		<p>姓名:${memVO.getMem_name()}</p>
                     		<p>性別:${memVO.getMem_sex()}</p>
                     		<p>自我介紹:${memVO.getMem_intro()}</p>
-                    	</div>
-                  <div class="col-md-3 col-sm-3">
+
                   
 				  <button class="getInvite" f_memno="${memberVO.mem_no}" f_no="${memVO.mem_no}">接受邀請</button>
 				  <button class="noInvite"  f_memno="${memVO.mem_no}" f_no="${memberVO.mem_no}">拒絕邀請</button>
-<%-- 				  ${FindCodeName.meaning("f3")}  寫在接受邀請那邊--%>
-
-									<!--顯示資料用的 -->
-<%--         			----memVO.mem_no----${memVO.mem_no} --%>
-<%--         	    	----memberVO.mem_no----${memberVO.mem_no} --%>
                   </div>
                   </c:forEach>
                 </div>
               </div>
-
+</div>
+</div>
 <%@ include file="page2.file"%>
 
 <script type="text/javascript">

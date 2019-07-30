@@ -44,10 +44,7 @@ public class MyFeastServlet extends HttpServlet
         HttpSession session = request.getSession();
         String mye_feaNo = null;
         MemVO memVO = null;
-        if (session.getAttribute("memberVO") == null)
-        {
-            session.setAttribute("location", request.getRequestURI());
-        }
+
         System.out.println("request.getRequestURI()" + request.getRequestURI());
 
         if (request.getRequestURI().toString().endsWith("MyFeastController"))

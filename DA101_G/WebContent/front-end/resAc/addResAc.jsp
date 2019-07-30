@@ -66,30 +66,30 @@
 		<table width="1000px">
 			<tr>
 				<td>員工編號:</td>
-				<td><input type="TEXT" name="resac_no" size="45"
+				<td><input type="TEXT" name="resac_no" size="45" id="resac_no"
 					value="<%=(resAcVO == null) ? "" : resAcVO.getResac_no()%>" /></td>
 			</tr>
 			
 			<tr>
 				<td>員工姓名:</td>
-				<td><input type="TEXT" name="resac_name" size="45"
+				<td><input type="TEXT" name="resac_name" size="45" id="resac_name"
 					value="<%=(resAcVO == null) ? "" : resAcVO.getResac_name()%>" /></td>
 			</tr>
 			
 			<tr>
 				<td>員工密碼:</td>
-				<td><input type="password" name="resac_pass" size="45"
+				<td><input type="password" name="resac_pass" size="45" id="resac_pass"
 					value="<%=(resAcVO == null) ? "" : resAcVO.getResac_pass()%>" /></td>
 			</tr>
 
 			<tr>
 				<td>密碼確認:</td>
-				<td><input type="password" name="resac_pass2" size="45"
+				<td><input type="password" name="resac_pass2" size="45" id="resac_pass2"
 					value="<%=(resAcVO == null) ? "" : resAcVO.getResac_pass()%>" /></td>
 			</tr>
 			<tr>
 				<td>員工電話:</td>
-				<td><input type="TEXT" name="resac_phone" size="45"
+				<td><input type="TEXT" name="resac_phone" size="45" id="resac_phone"
 					value="<%=(resAcVO == null) ? "" : resAcVO.getResac_phone()%>" /></td>
 			</tr>
 
@@ -99,12 +99,12 @@
 					accept="image/gif, image/jpeg, image/png"
 					id="imgpv1"
 					value="<%=(resAcVO == null) ? "" : resAcVO.getResac_pic()%>" /></td>
-				<td><img width="300" height="200" id="preview_img1" src="/DA101G6/images/noimg.jpg"></td>	
+				<td><img width="300" height="200" id="preview_img1" src="<%=request.getContextPath()%>/images/noimg.jpg"></td>	
 			</tr>
 
 			<tr>
 				<td>員工介紹:</td>
-				<td><input type="TEXT" name="resac_intro" size="20"
+				<td><input type="TEXT" name="resac_intro" size="20" id="resac_intro"
 					value="<%=(resAcVO == null) ? "" : resAcVO.getResac_intro()%>" /></td>
 			</tr>
 
@@ -112,19 +112,9 @@
 		<br> <input type="hidden" name="action" value="insert"> <input
 			type="submit" value="送出新增">
 	</FORM>
+		<button id="magic" style="opacity:0.1" style="opacity:0.1" onclick="setData()">這個</button>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-	crossorigin="anonymous"></script>
 
 <script>
 $("#imgpv1").change(function(){
@@ -141,6 +131,15 @@ function readURL(input){
 	  }
 	}
 </script>
-
+<script type="text/javascript">
+		function setData(){
+			$('#resac_no').val('000001');
+			$('#resac_name').val('皮卡丘');
+			$('#resac_pass').val('Aa123456');
+			$('#resac_pass2').val('Aa123456');
+			$('#resac_phone').val('0987987987');
+			$('#resac_intro').val('我愛工作');
+		}
+</script>
 
 </html>

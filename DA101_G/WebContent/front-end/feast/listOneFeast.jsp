@@ -21,40 +21,6 @@
 	pageContext.setAttribute("list", list);
 %>
 
-<% 
- 		MemVO memVO = (MemVO)session.getAttribute("memberVO");
-		OrdService ordSvc = new OrdService();
-		Ord_detailsService ordDSvc = new Ord_detailsService();
-		FooditemService foSvc = new FooditemService();
-		
-		//該會員所有訂單 > 該訂單所有商品
-		//餐廳所有飯局'RS000003' > 飯局所有訂單 >訂單所有商品
-	    FeastInfoService feaSvc = new FeastInfoService();
-	    Map<String,List<FooditemVO>> groupMap = new LinkedHashMap<String,List<FooditemVO>>();
-	    
-		
-	    List<OrdVO> ordList = ordSvc.getAllOrdByMem(memVO.getMem_no());//該會員所有訂單
-
-	    for (OrdVO ordVO : ordList) {
-	    	List<FooditemVO> foodItemlist = new ArrayList<FooditemVO>();
-	    	List<Ord_detailsVO> ordDList = ordDSvc.getAlldetByOrdno(ordVO.getOrd_no());//拿出該訂單的所有訂單明細
-			for (Ord_detailsVO ord_detailsVO : ordDList) {
-				FooditemVO foVO = foSvc.getOneFooditem(ord_detailsVO.getDet_fono());//拿出該訂單明細 準備加入list ==
-				foVO.setFo_quantity(ord_detailsVO.getDet_quantity());
-				foodItemlist.add(foVO);
-			}
-			groupMap.put(ordVO.getOrd_no(), foodItemlist); //key = 訂單編號
-		}
-
-		Set<String> set = groupMap.keySet();
-		
-		pageContext.setAttribute("memVO",memVO);
-		pageContext.setAttribute("ordList",ordList);
-		pageContext.setAttribute("ordSvc",ordSvc);
-		pageContext.setAttribute("feaSvc",feaSvc);
-		pageContext.setAttribute("groupMap",groupMap);
-		pageContext.setAttribute("set",set);
-%>
 
 
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
@@ -89,11 +55,9 @@ b,h4{
 	<%@ include file="/header.jsp"%>
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
+		<script>
+				alert("${errorMsgs}")
+		</script>
 	</c:if>
 <br>
 	<div class="container">
@@ -145,15 +109,23 @@ b,h4{
 										<b>餐廳名稱 :</b>${resSvc.getOneRes(feastInfoVO.fea_resNo).res_name}</p>
 								</div>
 							</div>
-							<div class="row">
-								<div class="form-group col-sm-4">
-									<p><b>目前人數 :</b>${feastInfoVO.fea_number}</p>
+
+							<div class="row">	
+								<div class="progress" style="width:100%">
+								  <div class="progress-bar bg-warning" role="progressbar" style="width: ${100*(feastInfoVO.fea_number/feastInfoVO.fea_upLim)}%"
+									   aria-valuenow="${feastInfoVO.fea_number}" aria-valuemin="${feastInfoVO.fea_lowLim}" aria-valuemax="${feastInfoVO.fea_upLim}">
+								  </div>
 								</div>
-								<div class="form-group col-sm-4">
-									<p><b>人數上限 :</b>${feastInfoVO.fea_upLim}</p>
+							</div>
+							<div class="row" style="justify-content:space-between">
+								<div>
+									<p>下限:${feastInfoVO.fea_lowLim}人</p>
 								</div>
-								<div class="form-group col-sm-4">
-									<p><b>人數下限 :</b>${feastInfoVO.fea_lowLim}</p>
+								<div>
+									<p >現在人數:${feastInfoVO.fea_number}</p>
+								</div>
+								<div>
+									<p>上限:${feastInfoVO.fea_upLim}人</p>
 								</div>
 							</div>
 							<div class="row">
@@ -242,7 +214,9 @@ b,h4{
 						</tr>
 						</c:if>
 					</c:forEach>
-					<%@ include file="/front-end/message/chatroom.jsp"%>
+					<c:if test="${myeSvc.getByFea(feastInfoVO.fea_no).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no,memberVO.mem_no))}">
+						<%@ include file="/front-end/message/chatroom.jsp"%>
+					</c:if>
 					</table>
 					</div>
 			</div>
@@ -257,6 +231,8 @@ b,h4{
 		</div>
 		
 	<script>
+
+	
 $("#joinfeast"). click(function()
 {
 	console.log('joinFeast')

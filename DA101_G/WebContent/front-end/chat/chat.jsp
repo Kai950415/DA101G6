@@ -48,7 +48,6 @@
 		webSocket = new WebSocket(endPointURL);
 		
 		webSocket.onopen = function(event) {
-			updateStatus("WebSocket 成功連線");
 			document.getElementById('sendMessage').disabled = false;
 			document.getElementById('connect').disabled = true;
 			document.getElementById('disconnect').disabled = false;

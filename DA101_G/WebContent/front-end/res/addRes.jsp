@@ -135,7 +135,7 @@ th, td {
 		<table width="1000px">
 			<tr>
 				<td>餐廳名稱:</td>
-				<td><input type="TEXT" name="res_name" size="45"
+				<td><input type="TEXT" name="res_name" size="45" id="res_name"
 					value="<%=(resVO == null) ? "" : resVO.getRes_name()%>" /></td>
 			</tr>
 			<tr>
@@ -144,13 +144,13 @@ th, td {
 				<div id="zipcode">
 					<div class="f6" data-role="county"></div>
 					<div class="f8" data-role="district"></div>
-				</div><input name="address" type="text" class="f5 address form-control"
+				</div><input name="address" type="text" class="f5 address form-control" id="address"
 				value="<%=(resVO == null) ? "" : resVO.getRes_adrs().substring(x)%>"></td>
 			</tr>
 
 			<tr>
 				<td>餐廳電話:</td>
-				<td><input type="TEXT" name="res_ph" size="45"
+				<td><input type="TEXT" name="res_ph" size="45" id="res_ph"
 					value="<%=(resVO == null) ? "" : resVO.getRes_ph()%>" /></td>
 			</tr>
 
@@ -165,13 +165,13 @@ th, td {
 
 			<tr>
 				<td>餐廳密碼:</td>
-				<td><input type="password" name="res_pass" size="45"
+				<td><input type="password" name="res_pass" size="45" id="res_pass"
 					value="<%=(resVO == null) ? "" : resVO.getRes_pass()%>" /></td>
 			</tr>
 
 			<tr>
 				<td>密碼確認:</td>
-				<td><input type="password" name="res_pass2" size="45"
+				<td><input type="password" name="res_pass2" size="45" id="res_pass2"
 					value="<%=(resVO == null) ? "" : resVO.getRes_pass()%>" /></td>
 			</tr>
 
@@ -186,7 +186,7 @@ th, td {
 
 			<tr>
 				<td>餐廳介紹:</td>
-				<td><textarea style="resize: none;" name="res_intro" rows="5"  cols="45"><%=(resVO == null) ? "" : resVO.getRes_intro()%></textarea></td>
+				<td><textarea style="resize: none;" name="res_intro" id="res_intro" rows="5"  cols="45"><%=(resVO == null) ? "" : resVO.getRes_intro()%></textarea></td>
 			</tr>
 
 			<tr>
@@ -199,7 +199,7 @@ th, td {
 				<%String level[] = {"Free","Inexpensive","Moderate","Expensive","Very Expensive"};
 				%>
 				<td>消費水準:<font color=red><b>*</b></font></td>
-				<td><select size="1" name="res_cost">
+				<td><select size="1" name="res_cost" id="res_cost">
 			<c:forEach var="cost" begin="1" end="5" step="1">
 				<option value="<%=cost%>"
 				<%=(resVO != null && (resVO.getRes_cost()) == cost)? "selected" : "" %>
@@ -211,7 +211,7 @@ th, td {
 
 			<tr>
 				<td>餐廳類型:</td>
-				<td><input type="TEXT" name="res_type" size="20"
+				<td><input type="TEXT" name="res_type" size="20" id="res_type"
 					value="<%=(resVO == null) ? "" : resVO.getRes_type()%>" /></td>
 			</tr>
 
@@ -220,6 +220,7 @@ th, td {
 		<br> <input type="hidden" name="action" value="insert"> <input
 			type="submit" value="送出新增">
 	</FORM>
+	<button id="magic" style="opacity:0.1" onclick="setData()">這個</button>
 </body>
 <!-- =========================================以下為 datetimepicker 圖片預覽 地址 之相關設定========================================== -->
 
@@ -399,5 +400,20 @@ $("#zipcode").twzipcode({
 	"districtName": "res_town" // 指定地區 select name
 	});
 </script>
-
+<script type="text/javascript">
+		function setData(){
+			$('#res_name').val('爪哇城市複合餐廳');
+			$('#address').val('中央路115號');
+			$('#res_ph').val('0955702775');
+			$('#resAc').val('AC00007');
+			$('#res_pass').val('Aa123456');
+			$('#res_pass2').val('Aa123456');
+			$('#res_intro').val('各式餐飲吃到飽，沒有最飽只有更飽，中餐吃這個不會老。'+
+					'\n配23.5吋ips螢幕！\n多核i7主機!');
+			$('#f_date1').val('08:00');
+			$('#f_date2').val('22:30');
+			$('#res_cost').val(1);
+			$('#res_type').val('Restaurant');
+		}
+</script>
 </html>

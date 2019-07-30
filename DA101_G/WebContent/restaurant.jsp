@@ -6,19 +6,6 @@
 <%@page import="java.util.*"%>
 <html lang="en">
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
 
 
 <style>
@@ -269,17 +256,17 @@ body.loading .modalForLoad {
 %>
 		<div class="container">
 		<br>
-		<form method="get" accept-charset="UTF-8" action="<%=request.getContextPath()%>/restaurant.jsp?search=<%=search%>" >
 			<div class="form-row align-items-center">
 				<div class="col-9">
-					<input type="text" class="form-control mb-2" placeholder="查詢餐廳" name="search">
+					<input type="text" id="searchInput" class="form-control mb-2" placeholder="查詢餐廳" name="search">
 				</div>
 				
 				<div class=" mb-2">
-					<button type="submit" class="btn btn-primary">&nbsp;<i class="fa fa-search"></i>&nbsp;</button>
+					<button type="submit" id="searchButton" class="btn btn-primary">&nbsp;<i class="fa fa-search"></i>&nbsp;</button>
 				</div>
-				</div>
-		</form>
+				
+				<span id="searchResult"></span>
+			</div>
 		</div>
 
 
@@ -300,11 +287,15 @@ body.loading .modalForLoad {
 
 			<div class="media-body pl-3">
 				<div class="price">
-					${resVO.res_name} <small>評分: <c:forEach begin="1"
-							end="${resVO.res_score/resVO.res_comcount}">
+					${resVO.res_name} <small>評分: </small>
+					<c:if test="${resVO.res_comcount != 0}">
+						<c:forEach begin="1" end="${resVO.res_score/resVO.res_comcount}">
 							<i class="fa fa-star"></i>
 						</c:forEach>
-					</small>
+					</c:if>
+					<c:if test="${resVO.res_comcount == 0}">
+							<p>無評價</p>
+					</c:if>
 
 				</div>
 				<div class="stats">
@@ -396,7 +387,8 @@ var resJson = [
 			
 		  <%if(queryFail == true){%>
 		  <%queryFail=false;%>
-			alert('查無結果');
+			document.getElementById("searchResult").style.color = "red";
+            document.getElementById("searchResult").innerHTML = '查無結果';
 			<%}%>
 		  var ready; // Where to store the function
 
@@ -431,7 +423,7 @@ var resJson = [
 				//是否可以用滾輪縮放
 				scrollwheel: false,
 				//初始縮放範圍
-				zoom : 14,
+				zoom : 10,
 				//地圖樣式
 				styles : [
 					  {
@@ -691,7 +683,7 @@ var resJson = [
 
 		
 };
-
+//換頁標籤
 $('.listing-block').on('click', '.page-link', (function() {
 
 <%--     $(".listing-block").load("/DA101_G6/restaurant.jsp?whichPage="+ $(this).val() + "&search=<%=search%>" + " .listing-block > *"); --%>
@@ -726,6 +718,42 @@ $('.listing-block').on('click', '.page-link', (function() {
     
   })
 );
+//搜尋ajax
+$('.listing-block').on('click', '#searchButton', (function() {
+
+	<%--     $(".listing-block").load("/DA101_G6/restaurant.jsp?whichPage="+ $(this).val() + "&search=<%=search%>" + " .listing-block > *"); --%>
+	    $('.listing-block').ready($('.listing-block').animate({ scrollTop: 0 }, 0));
+		
+		$.get("/DA101_G6/restaurant.jsp?&search=" + $('#searchInput').val(),
+	        	function(data) {
+				var $data = $(data);
+				
+				var $elem = $data.filter('div.listing-block').html();
+				
+				$("div.listing-block").empty();
+				$("div.listing-block").append($elem);
+				
+				var $script = $data.filter("script:contains('var resJson = [')").first();
+				eval($script.text());
+				resJson = resJson;
+				
+				locations = [];
+				
+				setAllLocations(resJson);
+			    
+				    marker.forEach(function (eachMarker){
+				    	
+				    eachMarker.setMap(null);
+				    
+				    });
+				    
+				setAllListener(locations);
+				
+	            });
+	    
+	  })
+	);
+
 
 $body = $("body");
 

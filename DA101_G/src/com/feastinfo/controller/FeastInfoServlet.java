@@ -28,14 +28,7 @@ public class FeastInfoServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         HttpSession session = request.getSession();
-
-        if (session.getAttribute("memberVO") == null)
-        {
-            session.setAttribute("location", request.getHeader("referer") );
-        }
-        
-        
-        
+  
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 

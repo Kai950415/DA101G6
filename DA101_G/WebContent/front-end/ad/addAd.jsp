@@ -67,7 +67,7 @@
 		<table width="1000px">
 			<tr>
 				<td>廣告標題:</td>
-				<td><input type="TEXT" name="ad_title" size="45"
+				<td><input type="TEXT" name="ad_title" size="45" id="ad_title"
 					value="<%=(adVO == null) ? "" : adVO.getAd_title()%>" /></td>
 			</tr>
 			
@@ -101,17 +101,13 @@
 			<tr>
 				<td></td>
 				<td><input type="hidden" name="action" value="insert">
-				<input type="submit" value="送出新增"></td>
+				<input type="submit" value="送出新增">
+				</td>
 			</tr>
 		</table>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
 	</FORM>
+	<button id="magic" style="opacity:0.1" onclick="setData()">這個</button>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -259,5 +255,21 @@ $(function(){
         //      }});
         
 </script>
-
+<script type="text/javascript">
+		function setData(){
+			$('#ad_title').val('八八節特餐');
+			$('#exampleFormControlTextarea3').val('要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
+					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉');
+			$('#start_date').val('2019-08-01');
+			$('#end_date').val('2019-08-31');
+		}
+</script>
 </html>

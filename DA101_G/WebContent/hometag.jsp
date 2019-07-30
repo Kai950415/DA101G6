@@ -178,7 +178,7 @@ background-color: #ED8532;
 										value="${feastInfoVO.fea_no}">
 									<button type="submit" style="background-color: #D9C5A8;width: 80%;background: transparent;border-color: #D9C5A8;border-style: solid;">
 										<img class="img-fluid rounded mb-3 mb-md-0"
-											src="https://picsum.photos/700/550?random=1" alt="">
+											src="<%=request.getContextPath()%>/back-end/res/resPhoto.do?res_no=${feastInfoVO.fea_resNo}" alt="">
 									</button>
 								</form>
 
@@ -188,19 +188,25 @@ background-color: #ED8532;
 
 								<p>${feastInfoVO.fea_text}</p>
 								<p>發起人:${memSvc.memFindByPrimaryKey(feastInfoVO.fea_memNo).mem_name}</p>
-								<p>現在人數:${feastInfoVO.fea_number}</p>
 								
-								<div class="progress">
+								<div class="row">	
+								<div class="progress" style="width:100%">
 								  <div class="progress-bar bg-warning" role="progressbar" style="width: ${100*(feastInfoVO.fea_number/feastInfoVO.fea_upLim)}%"
 									   aria-valuenow="${feastInfoVO.fea_number}" aria-valuemin="${feastInfoVO.fea_lowLim}" aria-valuemax="${feastInfoVO.fea_upLim}">
 								  </div>
 								</div>
-								<div class="container">
-									<div class="row " style="flex-wrap: wrap;">
-										<p>人數下限:${feastInfoVO.fea_lowLim}</p><p>&nbsp;</p><p>人數上限:${feastInfoVO.fea_upLim}</p>
-									</div>
-								
+							</div>
+							<div class="row" style="justify-content:space-between">
+								<div>
+									<p>下限:${feastInfoVO.fea_lowLim}人</p>
 								</div>
+								<div>
+									<p >現在人數:${feastInfoVO.fea_number}</p>
+								</div>
+								<div>
+									<p>上限:${feastInfoVO.fea_upLim}人</p>
+								</div>
+							</div>
 
 								<p>
 									開團時間:

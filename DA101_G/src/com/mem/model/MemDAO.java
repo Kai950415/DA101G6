@@ -57,7 +57,8 @@ public class MemDAO implements MemDAO_interface {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT);
+			String cols[] = {"mem_no"};
+			pstmt = con.prepareStatement(INSERT , cols);
 System.out.println("DAO 51 = insert");	
 			pstmt.setString(1,memVO.getMem_name());
 			pstmt.setString(2,memVO.getMem_adrs());
@@ -73,7 +74,19 @@ System.out.println("DAO 51 = insert");
 			pstmt.setString(12, memVO.getMem_status());
 System.out.println("DAO 64 = memVO : " + memVO);			
 			pstmt.executeUpdate();
-
+			
+			
+			String nextmem_no = null;
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {  //next 游標往下一個
+				nextmem_no = rs.getString(1);   //1 代表 第一個欄位  
+				System.out.println("自增主鍵值= " + nextmem_no +"(剛新增成功的訂單編號)");
+			} else {
+				System.out.println("未取得自增主鍵值");
+			}
+			rs.close();
+			memVO.setMem_no(nextmem_no);//將綁出來的主鍵 set到VO 方便秀資料
+			System.out.println(memVO.getMem_no());
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "

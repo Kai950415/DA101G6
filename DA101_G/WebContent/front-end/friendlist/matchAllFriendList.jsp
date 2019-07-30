@@ -9,8 +9,7 @@
 	MemService memSv = new MemService();
 	FriendListService friSvc = new FriendListService();
 	
-	//MemVO memVO = (MemVO) session.getAttribute("memVO"); 因為現在沒有會員資料
-    MemVO memVO=memSv.memFindByPrimaryKey("ME000001");	  //塞會員假資料進去
+	MemVO memVO = (MemVO) session.getAttribute("memberVO");//因為現在沒有會員資料
     List<MemVO> list = friSvc.match(memVO.getMem_no());
     pageContext.setAttribute("list",list);
     pageContext.setAttribute("memVO",memVO);
@@ -62,7 +61,6 @@
 <%@ include file="/header.jsp"%>
 <table id="table-1">
 	<tr>
-		<td><h4><a href="select_page.jsp">回首頁</a></h4></td>   
 		<td><h4><a href="select_page.jsp">好友列表</a></h4></td> 
 		<td><h4><a href="select_page.jsp">交友邀請</a></h4></td> 
 	</tr>
@@ -80,39 +78,27 @@
               
               <div class="nearby-user">
                 <div class="row">
+                   <c:forEach var="memVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
                   <div class="col-md-2 col-sm-2">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                    <img src="<%=request.getContextPath()%>/back-end/mem/memPhoto.do?mem_no=${memVO.mem_no}" alt="user" class="profile-photo-lg">
                    </div>
                    
-                   <c:forEach var="memVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
                   		<div class="col-md-7 col-sm-7">
                   		
                     		<h5>姓名:${memVO.getMem_name()}</h5>
                     		<h5>性別:${memVO.getMem_sex()}</h5>
                     		<h5>自我介紹:${memVO.getMem_intro()}</h5>
                     	</div>
-                  </c:forEach>
                   <div class="col-md-3 col-sm-3">
                     <button class="btn btn-primary pull-right">送出邀請</button>
                   </div>
+                  </c:forEach>
                 </div>
               </div>
-	
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-<%-- <%-- 錯誤表列 --%> 
-<%-- <c:if test="${not empty errorMsgs}"> --%>
-<!-- 	<font style="color:red">請修正以下錯誤:</font> -->
-<!-- 	<ul> -->
-<%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
-<%-- 			<li style="color:red">${message}</li> --%>
-<%-- 		</c:forEach> --%>
-<!-- 	</ul> -->
-<%-- </c:if> --%>
+	</div>
+</div>
+</div>
+</div>
 
 <%@ include file="page2.file"%>
 

@@ -53,11 +53,6 @@ public class LoginHandler extends HttpServlet
         AdministratorService administratorService = new AdministratorService();
         AdministratorVO adminVO = administratorService.getOneAdminByAccount(adminAccount);
         
-        System.out.println("adminAccount = " + adminAccount);
-        System.out.println("adminPass = " + adminPass);
-        System.out.println("adminVO.getAdmin_ac() = " + adminVO.getAdmin_ac());
-        System.out.println("adminVO.getAdmin_pass() = " + adminVO.getAdmin_pass());
-        
         if (adminVO != null && adminPass.equals(adminVO.getAdmin_pass()))
             return adminVO;
         else
@@ -101,20 +96,6 @@ public class LoginHandler extends HttpServlet
                 
                 session.setAttribute("memberVO", memberVO); // *工作1: 才在session內做已經登入過的標識
 
-                try
-                {
-                    String location = (String) session.getAttribute("location");
-                    if (location != null)
-                    {
-                        session.removeAttribute("location"); // *工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
-                        res.sendRedirect(location);
-                        return;
-                    }
-
-                }
-                catch (Exception ignored)
-                {
-                }
                 res.sendRedirect(req.getContextPath() + "/hometag.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
             }
         }
@@ -142,20 +123,6 @@ public class LoginHandler extends HttpServlet
             { // 【帳號 , 密碼有效時, 才做以下工作】
                 session.setAttribute("resVO", resVO); // *工作1: 才在session內做已經登入過的標識
 
-                try
-                {
-                    String location = (String) session.getAttribute("location");
-                    if (location != null)
-                    {
-                        session.removeAttribute("location"); // *工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
-                        res.sendRedirect(location);
-                        return;
-                    }
-
-                }
-                catch (Exception ignored)
-                {
-                }
                 res.sendRedirect(req.getContextPath() + "/hometag.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
             }
         }
@@ -181,7 +148,7 @@ public class LoginHandler extends HttpServlet
             { // 【帳號 , 密碼有效時, 才做以下工作】
                 
                 session.setAttribute("adminVO", adminVO); // *工作1: 才在session內做已經登入過的標識
-              System.out.println(123);
+                
                 res.sendRedirect(req.getContextPath() + "/back-end/BackHome.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
             }
         }
