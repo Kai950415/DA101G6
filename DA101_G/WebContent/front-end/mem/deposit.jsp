@@ -122,6 +122,8 @@
 						</ul>
 					</div>
 </form>
+
+	<button id="magic" style="opacity:0.1" onclick="setData()">這個</button>
 				</div>
 			</div>
 		</div>
@@ -163,5 +165,17 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
 		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
 		crossorigin="anonymous"></script>
+	<script>
+	function setData(){
+		$('#f1').val('9487');
+		$('#f2').val('9876');
+		$('#f3').val('8787');
+		$('#f4').val('4887');
+		$('#Select_Month').val('8');
+		$('#Select_Year').val('2020');
+		$('#depositValue').val('987');
+		$('input[name="point"]')[4].checked = true; //radio 賦值==>第二個選項選取
+	}
+	</script>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class ResDAO implements ResDAO_interface {
 
     private static final String INSERT_STMT = "Insert into RESTAURANT (RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_IMG,RES_INTRO,RES_START,RES_END,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS)\r\n"
             + "values ('RS'||LPAD(to_char(res_seq.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String GET_ALL_STMT = "SELECT * FROM RESTAURANT ORDER BY RES_NO";
+    private static final String GET_ALL_STMT = "SELECT RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_INTRO,RES_START,RES_END,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS FROM RESTAURANT ORDER BY RES_NO";
     private static final String GET_ONE_STMT = "SELECT * FROM RESTAURANT WHERE RES_NO = ?";
     // 餐廳不能刪除只能更改狀態
     private static final String DELETE = "DELETE FROM RESTAURANT WHERE RES_NO = ?";
@@ -44,6 +44,9 @@ public class ResDAO implements ResDAO_interface {
     
     private static final String GET_ALL_STMT_BY_STATUS = "SELECT RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_INTRO,RES_START,RES_END,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS FROM RESTAURANT where res_status = 'res3' order by res_lat desc";
 
+    private static final String GET_ALL_REVIEW = "SELECT RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_INTRO,RES_START,RES_END,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS FROM RESTAURANT where res_status = 'res1'";
+   
+    private static final String GET_ALL_REVIEW_AGAIN = "SELECT RES_NO,RES_ADRS,RES_NAME,RES_PH,RES_POINT,RES_AC,RES_PASS,RES_INTRO,RES_START,RES_END,RES_LAT,RES_LOT,RES_SCORE,RES_COST,RES_COMCOUNT,RES_TYPE,RES_STATUS FROM RESTAURANT where res_status = 'res2' or res_status = 'res3'";
     @Override
     public void insert(ResVO resVO) {
         Connection con = null;
@@ -327,7 +330,6 @@ public class ResDAO implements ResDAO_interface {
                 resVO.setRes_point(rs.getInt("res_point"));
                 resVO.setRes_ac(rs.getString("res_ac"));
                 resVO.setRes_pass(rs.getString("res_pass"));
-                resVO.setRes_img(rs.getBytes("res_img"));
                 resVO.setRes_intro(rs.getString("res_intro"));
                 resVO.setRes_start(rs.getString("res_start"));
                 resVO.setRes_end(rs.getString("res_end"));
@@ -476,6 +478,169 @@ public class ResDAO implements ResDAO_interface {
 
             con = ds.getConnection();
             pstmt = con.prepareStatement(GET_ALL_STMT_BY_STATUS);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // resVO 也稱為 Domain objects
+
+                resVO = new ResVO();
+
+                resVO.setRes_no(rs.getString("res_no"));
+                resVO.setRes_adrs(rs.getString("res_adrs"));
+                resVO.setRes_name(rs.getString("res_name"));
+                resVO.setRes_ph(rs.getString("res_ph"));
+                resVO.setRes_point(rs.getInt("res_point"));
+                resVO.setRes_ac(rs.getString("res_ac"));
+                resVO.setRes_pass(rs.getString("res_pass"));
+                resVO.setRes_intro(rs.getString("res_intro"));
+                resVO.setRes_start(rs.getString("res_start"));
+                resVO.setRes_end(rs.getString("res_end"));
+                resVO.setRes_lat(rs.getDouble("res_lat"));
+                resVO.setRes_lot(rs.getDouble("res_lot"));
+                resVO.setRes_score(rs.getInt("res_score"));
+                resVO.setRes_cost(rs.getInt("res_cost"));
+                resVO.setRes_comcount(rs.getInt("res_comcount"));
+                resVO.setRes_type(rs.getString("res_type"));
+                resVO.setRes_status(rs.getString("res_status"));
+
+                list.add(resVO);// Store the row in the list
+            }
+
+            // Handle any driver errors
+        } catch (SQLException se) {
+            throw new RuntimeException("A database error occured. " + se.getMessage());
+            // Clean up JDBC resources
+        }
+//        catch (ClassNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+        finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return list;
+    }
+    
+    
+    @Override
+    public List<ResVO> getAllReview() {
+        List<ResVO> list = new ArrayList<ResVO>();
+        ResVO resVO = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+
+//          Class.forName(driver);
+//          con = DriverManager.getConnection(url, userid, passwd);
+//          pstmt = con.prepareStatement(GET_ALL_STMT);
+//          rs = pstmt.executeQuery();
+
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(GET_ALL_REVIEW);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // resVO 也稱為 Domain objects
+
+                resVO = new ResVO();
+
+                resVO.setRes_no(rs.getString("res_no"));
+                resVO.setRes_adrs(rs.getString("res_adrs"));
+                resVO.setRes_name(rs.getString("res_name"));
+                resVO.setRes_ph(rs.getString("res_ph"));
+                resVO.setRes_point(rs.getInt("res_point"));
+                resVO.setRes_ac(rs.getString("res_ac"));
+                resVO.setRes_pass(rs.getString("res_pass"));
+                resVO.setRes_intro(rs.getString("res_intro"));
+                resVO.setRes_start(rs.getString("res_start"));
+                resVO.setRes_end(rs.getString("res_end"));
+                resVO.setRes_lat(rs.getDouble("res_lat"));
+                resVO.setRes_lot(rs.getDouble("res_lot"));
+                resVO.setRes_score(rs.getInt("res_score"));
+                resVO.setRes_cost(rs.getInt("res_cost"));
+                resVO.setRes_comcount(rs.getInt("res_comcount"));
+                resVO.setRes_type(rs.getString("res_type"));
+                resVO.setRes_status(rs.getString("res_status"));
+
+                list.add(resVO);// Store the row in the list
+            }
+
+            // Handle any driver errors
+        } catch (SQLException se) {
+            throw new RuntimeException("A database error occured. " + se.getMessage());
+            // Clean up JDBC resources
+        }
+//        catch (ClassNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+        finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException se) {
+                    se.printStackTrace(System.err);
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return list;
+    }
+    
+    @Override
+    public List<ResVO> getAllReviewAgain() {
+        List<ResVO> list = new ArrayList<ResVO>();
+        ResVO resVO = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+
+//          Class.forName(driver);
+//          con = DriverManager.getConnection(url, userid, passwd);
+//          pstmt = con.prepareStatement(GET_ALL_STMT);
+//          rs = pstmt.executeQuery();
+
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(GET_ALL_REVIEW_AGAIN);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {

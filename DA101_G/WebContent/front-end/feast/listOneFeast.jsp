@@ -16,15 +16,19 @@
 	List<MyFeastVO> list = myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no());
 
 	FeastInfoVO feaVO = (FeastInfoVO)request.getAttribute("feastInfoVO");
+	
+	
+	
 	session.setAttribute("feastInfoVO", feaVO);
 	pageContext.setAttribute("myeSvc", myeSvc);
 	pageContext.setAttribute("list", list);
 %>
 
 
-
+<jsp:useBean id="FLSvc" scope="page" class="com.friendlist.model.FriendListService" />
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 <jsp:useBean id="resSvc" scope="page" class="com.res.model.ResService" />
+<jsp:useBean id="ordSvc" scope="page" class="com.ord.model.OrdService" />
 
 <html lang="en">
 <!-- Bootstrap CSS -->
@@ -94,21 +98,21 @@ b,h4{
 						<div class="card-body">
 							<div class="row">
 								<div class="form-group col-sm-6">
-									<label><h4>標題</h4></label>
-									<p class="card-text">${feastInfoVO.fea_title}</p>
+									<img class="img-fluid rounded mb-3 mb-md-0"
+											src="<%=request.getContextPath()%>/back-end/res/resPhoto.do?res_no=${feastInfoVO.fea_resNo}" alt="">
 								</div>
-								<div class="form-group col-sm-6">
-									<label><h4>介紹</h4></label>
-									<p>${feastInfoVO.fea_text}</p>
+								<div class="column">
+									<div class="">
+										<label><h4>介紹</h4></label>
+										<p>${feastInfoVO.fea_text}</p>
+									</div>
+									<div class="">
+										<p>
+											<b>餐廳名稱 :</b>${resSvc.getOneRes(feastInfoVO.fea_resNo).res_name}</p>
+									</div>
 								</div>
 							</div>
-							<div class="row">
 
-								<div class="form-group col-sm-6">
-									<p>
-										<b>餐廳名稱 :</b>${resSvc.getOneRes(feastInfoVO.fea_resNo).res_name}</p>
-								</div>
-							</div>
 
 							<div class="row">	
 								<div class="progress" style="width:100%">
@@ -171,10 +175,15 @@ b,h4{
 							</c:if>
 							
 						</div>
+						
 						<div class="card-footer text-muted">
-							<c:if test="${(resVO==null) && !ordSvc.isMemOrdInFea(feastInfoVO.fea_no, memberVO.mem_no) &&  list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
+							<c:if test="${(resVO==null) && !ordSvc.isMemOrdInFea(feastInfoVO.getFea_no(), memberVO.getMem_no()) && list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
 								<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath()%>/front-end/ord/ord.do?action=showFoodsInfo&res_no=${feastInfoVO.fea_resNo}'">訂餐</button>
-							</c:if>								
+							</c:if>	
+							<c:if test="${(resVO==null) && ordSvc.isMemOrdInFea(feastInfoVO.getFea_no(), memberVO.getMem_no()) && list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
+								<p>您已點餐</p>
+							</c:if>		
+													
 							<c:if test="${(resVO==null) && memberVO.mem_no ne (feastInfoVO.fea_memNo) && list.contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
 							<button class="btn btn-outline-secondary" id="leftfeast"
 								name="mye_feano" value="${feastInfoVO.fea_no}">退出</button>
@@ -203,7 +212,7 @@ b,h4{
 											<button class="btn btn-outline-danger kick_from_feast" name="mye_feano" feano="${myFeastVO.mye_feaNo}" memno="${myFeastVO.mye_memNo}">踢</button> 
 										</td>
 							</c:if> 
-									<jsp:useBean id="FLSvc" scope="page" class="com.friendlist.model.FriendListService" />
+									
 									
 <%-- 									<c:if test="${FLSvc.getAll(memberVO.mem_no).contains(FLSvc.findByTwoPrimaryKey(memberVO.mem_no, myFeastVO.mye_memNo))}"> --%>
 										<td width="70%">
@@ -246,7 +255,6 @@ $("#joinfeast"). click(function()
 				var newDoc = document.open("text/html", "replace");
 			    newDoc.write(data);
 			    newDoc.close();
-			    alert('加入成功');
 			}
 		  )
 	

@@ -83,7 +83,7 @@
 			
 			<tr>
 				<td>廣告照片:</td>
-				<td><img width="300" height="200" id="preview_img2" src="/DA101G6/images/noimg.jpg"></td>
+				<td><img width="300" height="200" id="preview_img2" src="<%=request.getContextPath()%>/images/noimg.jpg"></td>
 				<td><input type="file" name="ad_img" size="20" 
 					accept="image/gif, image/jpeg, image/png"
 					id="imgpv2"
@@ -258,16 +258,16 @@ $(function(){
 <script type="text/javascript">
 		function setData(){
 			$('#ad_title').val('八八節特餐');
-			$('#exampleFormControlTextarea3').val('要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉'+
-					'\n要打甚麼拉我不知道啦 阿玟幫忙想拉');
+			$('#exampleFormControlTextarea3').val('蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元'+
+					'\n蜂蜜啤酒大特價只要200元');
 			$('#start_date').val('2019-08-01');
 			$('#end_date').val('2019-08-31');
 		}

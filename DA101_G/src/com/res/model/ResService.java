@@ -85,15 +85,11 @@ public class ResService {
     }
     
     public List<ResVO> getAllNoReview(){
-        return dao.getAll().stream()
-        		.filter(res ->res.getRes_status().equals("res1"))
-        		.collect(Collectors.toList());
+        return dao.getAllReview();
     }
     
     public List<ResVO> getAllReviewAgain(){
-        return dao.getAll().stream()
-        		.filter(res ->res.getRes_status().equals("res2") || res.getRes_status().equals("res3"))
-        		.collect(Collectors.toList());
+        return dao.getAllReviewAgain();
     }
     
     public ResVO resFindByAC(String res_ac) {       

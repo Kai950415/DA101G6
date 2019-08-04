@@ -204,7 +204,7 @@ footer {
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/restaurant.jsp">美食地圖</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/ord/ordMgByMem.jsp">訂單管理</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/chat/chat.jsp">聊天大廳</a> 
-
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/front-end/friendlist/listAllFriendList.jsp">好友管理</a> 
 								<li class="nav-item"><input id="logout" type="submit" class="btn" name="登出" value="登出"></li>
 							</div>
 					</form>

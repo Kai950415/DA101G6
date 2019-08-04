@@ -138,7 +138,7 @@ background-color: #ED8532;
 			<!-- Call to Action Well -->
 			
 			<div class="card text-dark  my-5 py-4 text-center" id="card">
-				<img class="img" src="https://picsum.photos/1080/450" alt="">
+				<img class="img" src="<%=request.getContextPath()%>/images/interPost.jpg" alt="">
 				<div class="card-body" id="post">
 					<a href="<%=request.getContextPath()%>/front-end/post/post.jsp"><p class="text-white m-0">進入評價貼文!</p></a>
 				</div>
@@ -164,7 +164,6 @@ background-color: #ED8532;
 				<c:forEach var="feastInfoVO" items="${list}" begin="<%=pageIndex%>"
 					end="<%=pageIndex+rowsPerPage-1%>">
 					
-					<c:if test="${!myeSvc.getAllMyFeastVOsByFeaNo(feastInfoVO.getFea_no()).contains(myeSvc.getOneMyFeast(feastInfoVO.fea_no, memberVO.mem_no))}">
 						<!-- Project One -->
 						<div class="row">
 							<div class="col-md-7">
@@ -228,7 +227,6 @@ background-color: #ED8532;
 							</div>
 						</div>
 						<!-- /.row -->
-					</c:if>
 				</c:forEach>
 
 				<hr>

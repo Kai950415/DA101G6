@@ -69,7 +69,7 @@
 		<th>廣告編號</th>
 		<th>餐廳編號</th>
 		<th>廣告標題</th>
-		<th>廣告內容</th>
+<!-- 		<th>廣告內容</th> -->
 		<th>廣告照片</th>
 		<th>廣告開始時間</th>
 		<th>廣告結束時間</th>
@@ -83,8 +83,8 @@
 			<td>${adVO.ad_no}</td>
 			<td>${adVO.ad_resno}</td>
 			<td>${adVO.ad_title}</td>
-			<td><pre class="form-control" id="exampleFormControlTextarea3" cols="35" rows="10"style="resize:none;border: 0px;outline:none;Comparator.reverseOrder()" 
-					style="word-break:break-all">${adVO.ad_text}</pre></td>
+<!-- 			<td><pre class="form-control" id="exampleFormControlTextarea3" cols="35" rows="10"style="resize:none;border: 0px;outline:none;Comparator.reverseOrder()"  -->
+<%-- 					style="word-break:break-all">${adVO.ad_text}</pre></td> --%>
 			<td><img src="<%=request.getContextPath()%>/back-end/resAd/resAdPhoto.do?ad_no=${adVO.ad_no}" width="300" height="200"> </td>
 			<td><fmt:formatDate value="${adVO.ad_start}" pattern="yyyy-MM-dd" /></td> 
 			<td><fmt:formatDate value="${adVO.ad_end}" pattern="yyyy-MM-dd" /></td> 

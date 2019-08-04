@@ -12,7 +12,7 @@ public class Send {
 
       String user    = "85559671"; //帳號
       String passwd  = "2irioiai"; //密碼
-      String messageBig5 = new String(message.getBytes(),"Big5"); //簡訊內容
+      String messageBig5 = new String(message.getBytes(),"UTF-8"); //簡訊內容
 
       //----建立連線 and 檢查帳號密碼是否錯誤
       sock2air mysms = new sock2air();
@@ -55,7 +55,7 @@ public class Send {
 
  public static void main(String[] args) {
  	    Send se = new Send();
- 	    String[] tel ={"0966666666","0977777777","0988888888"};
+ 	    String[] tel ={"0989648851"};
  	    String message = "排程訊息測試";
  	    se.sendMessage(tel , message);
  }	

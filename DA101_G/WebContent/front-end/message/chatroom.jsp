@@ -95,7 +95,7 @@
 	        var message;
 	        if(jsonObj.messageType=="text"){
 	        	if(jsonObj.receiver==user){
-	        		message =  "<div class='col'><div  class='right'>"+jsonObj.content + ":我 </div></div><br>";
+	        		message =  "<div class='col'><div  class='right'>"+jsonObj.content + ": </div></div><br>";
 	        	}else{
 	        		message =  "<div class='col'><div  class='left'>"+jsonObj.receiver+ ": "+jsonObj.content+"</div></div><br>";
 	        	}	        	
@@ -129,7 +129,7 @@
 	        inputMessage.value = "";
 	        inputMessage.focus();
 	        
-	        var message ="<div class='col'><div class='right'>"+ message +":我</div></div><br>";
+	        var message ="<div class='col'><div class='right'>"+ message +":</div></div><br>";
 	        //allmessage+=message;
 	        document.getElementById("messagesArea").innerHTML +=message;
  	        messagesArea.scrollTop = messagesArea.scrollHeight;

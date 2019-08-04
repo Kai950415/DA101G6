@@ -290,7 +290,7 @@ private String ret_message = "" ;
       String user    = args[0]; //帳號
       String passwd  = args[1]; //密碼
       String tel     = args[2]; //手機號碼
-      String message = new String(args[3].getBytes(),"big5"); //簡訊內容
+      String message = new String(args[3].getBytes(),"UTF-8"); //簡訊內容
 
       //----建立連線 and 檢查帳號密碼是否錯誤
       sock2air mysms = new sock2air();

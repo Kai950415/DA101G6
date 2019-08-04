@@ -11,5 +11,7 @@ public interface FooditemDAO_interface {
       public List<FooditemVO> getByResNO(String fo_resno);
       //�U�νƦX�d��(�ǤJ�Ѽƫ��AMap)(�^�� List)
 //    public List<EmpVO> getAll(Map<String, String[]> map); 
+      
+      public List<FooditemVO> getAllReviewFooditemByRes(String fo_resno);
 }
 

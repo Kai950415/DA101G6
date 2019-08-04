@@ -248,7 +248,7 @@ section.range-slider input[type=range]::-moz-focus-outer {
 
 <br>
 <br>
-<button onclick="magic()"></button>
+
 	<div class="container">
 		<div class="row center">
 			<div class="col md-8 xs-4">
@@ -455,9 +455,12 @@ $("#zipcode").twzipcode({
 			$('#fea_title').val('JAVA飯吃到飽~');
 			$('#fea_text').val('爪哇風味超好吃，大推蜂蜜啤酒只要200');
 			$('#fea_type').val('外送').change();
-			$('#enddate').val('2019-08-01 00:00'); //訂餐截止日期
-			$('#feastdate').val('2019-08-01 12:30'); //飯局日期
-			$('#startdate').val('2019-07-30 00:00'); //報名截止日期
+			$('#feastdate').trigger('focus'); //飯局日期
+			$('#feastdate').val('2019-08-01 14:50'); //飯局日期
+			$('#startdate').trigger('focus'); //報名截止日期
+			$('#startdate').val('2019-08-01 14:30'); //報名截止日期
+			$('#enddate').trigger('focus'); //訂餐截止日期
+			$('#enddate').val('2019-08-01 14:40'); //訂餐截止日期
 			$('#address').val('中大路300號'); // 不含縣市區
 		}
 </script>

@@ -13,15 +13,14 @@ public class FriendListService
         dao = new FriendListDAO();
     }
 
-    public FriendListVO addFriendList(String f_no,String f_memno)
+    public void findByIds(String f_no,String f_memno)
     {
-
-    	FriendListVO friendlist = new FriendListVO();
-
-    	friendlist.setF_no(f_no);
-    	friendlist.setF_memno(f_memno);
-        dao.insert(friendlist);
-        return friendlist;
+    	dao.findByIds(f_no, f_memno);
+    }
+    
+    public void findByIds2(String f_no,String f_memno)
+    {
+    	dao.findByIds2(f_no, f_memno);
     }
 
 //    public FriendListVO updateFriendList(String f_no, String f_memno, String f_status)
@@ -43,18 +42,15 @@ public class FriendListService
         dao.reject(f_no,f_memno);
     }
     
-    public FriendListVO findByPrimaryKey(String f_num) {
-		return dao.findByPrimaryKey(f_num);
-    }
-    
-    public FriendListVO findByTwoPrimaryKey(String f_no, String f_memno) {
-		return dao.findByTwoPrimaryKey(f_no, f_memno);
-    }
-    
-    public FriendListVO getOneReportFeast(String f_num)
-    {
-        return dao.findByPrimaryKey(f_num);
-    }
+//    public FriendListVO findByPrimaryKey(String f_num) {
+//		return dao.findByPrimaryKey(f_num);
+//    }
+//    
+//    
+//    public FriendListVO getOneReportFeast(String f_num)
+//    {
+//        return dao.findByPrimaryKey(f_num);
+//    }
 
     public List<MemVO> getAll(String mem_no)
     {

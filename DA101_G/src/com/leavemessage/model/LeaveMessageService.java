@@ -50,6 +50,7 @@ public class LeaveMessageService {
 	{
 		return dao.getAll().stream()
 				.filter(leavemessage -> leavemessage.getLm_postno().equals(post_no))
+				.filter(leavemessage -> leavemessage.getLm_status().equals("lm1"))
 				.collect(Collectors.toList());
 		
 	}

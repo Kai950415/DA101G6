@@ -70,11 +70,11 @@
 
   <div class="card-body">
     <h5 class="card-title">貼文內容:</h5>
-    <p class="card-text"><textarea class="form-control" name="post_text" rows="5" pleaceholder=""><%=(PostVO == null) ? " " : PostVO.getPost_text()%></textarea></p>
+    <p class="card-text"><textarea id="post_text" class="form-control" name="post_text" rows="5" pleaceholder=""><%=(PostVO == null) ? " " : PostVO.getPost_text()%></textarea></p>
     <div class="row">
     <div class="form-group col-sm-6">
     <p class="card-text">評分:
-	<input type="TEXT" name="post_rate" class="form-control" value="<%=(PostVO == null) ? 1 : PostVO.getPost_rate()%>" /></p>
+	<input type="TEXT" name="post_rate" id="post_rate" class="form-control" value="<%=(PostVO == null) ? 1 : PostVO.getPost_rate()%>" /></p>
 	</div>
 	<div class="form-group col-sm-6">
     <h6>貼文圖片</h6><input name="post_img" type="file" class="text-center center-block file-upload">
@@ -96,7 +96,6 @@
   </div>
 </div>
 </div>
-		
 		</div>
 		<br>
 
@@ -104,7 +103,15 @@
 		</FORM>
 			</div>
 		</div>
+		<button id="magic" style="opacity:0.1" onclick="setData()">這個</button>
 	</div> 
 <%@ include file="/footer.jsp"%>
+
+<script type="text/javascript">
+		function setData(){
+			$('#post_text').val('吃粗飽 真的好棒');
+			$('#post_rate').val('5');
+		}
+</script>
 </body>
 </html>

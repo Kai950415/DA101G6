@@ -7,7 +7,7 @@
 <%@ page import="com.mem.model.*"%>
 <%@ page import="com.leavemessage.model.*"%>
 <%@ page import="com.res.model.*"%>
-
+<jsp:useBean id="FLSvc" scope="page" class="com.friendlist.model.FriendListService" />
 <%
 	PostService postSvc = new PostService();
 
@@ -170,6 +170,13 @@ body {
 											<label><h6 style="color: #000080; float: left;">
 													<i class="fa fa-comment"></i>${memSvc.memFindByPrimaryKey(lmVO.lm_memno).mem_name}
 												</h6></label>
+											
+											<c:if test="${!FLSvc.getAll(memberVO.mem_no).contains(FLSvc.findByIds(memberVO.mem_no, lmVO.lm_memno)) || !FLSvc.getAll(memberVO.mem_no).contains(FLSvc.findByIds(lmVO.lm_memno, memberVO.mem_no)) && memberVO.mem_no ne lmVO.lm_memno}">
+												<td width="70%">
+													<button id="add_friend_feast" class="btn btn-primary add_friend_feast" name="mye_feano" feano="${memberVO.mem_no}" memno="${lmVO.lm_memno}">加好友</button> 
+												</td>
+											</c:if> 		
+												
 											<button class="btn btn-light end" type="button"
 												data-toggle="dropdown" aria-haspopup="true"
 												aria-expanded="false" title="不喜歡這留言嗎?" style="float: right;">...</button>
@@ -310,20 +317,30 @@ body {
 			alert("檢舉已送出,謝謝您的反應!");
 		});
 		
+		
+		
+		$(".add_friend_feast"). click(function()
+				{
+					console.log('add_friend_feast')
+					$.post
+					(
+						"<%=request.getContextPath()%>/front-end/friendlist/friendlist.do",
+						{ "action": "insert", "mye_feano": $(this).attr('feano'),  "f_memno": $(this).attr('memno'),  }
+					).done(function(data)
+							{
+								var newDoc = document.open("text/html", "replace");
+							    newDoc.write(data);
+							    newDoc.close();
+							}
+						  )
+					
+				});
+						
+
 	</script>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
+
 </body>
 </html>

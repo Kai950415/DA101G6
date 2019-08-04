@@ -10,4 +10,7 @@ public interface ResDAO_interface {
     public List<ResVO> getAll();
 	ResVO findByAC(String res_ac);
 	public List<ResVO> getAllOnliseRes();
+	List<ResVO> getAllReview();
+	List<ResVO> getAllReviewAgain();
+	
 }

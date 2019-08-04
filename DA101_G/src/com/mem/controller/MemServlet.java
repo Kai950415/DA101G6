@@ -32,10 +32,7 @@ public class MemServlet extends HttpServlet{
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		if(session.getAttribute("memberVO") == null)
-		{
-			session.setAttribute("location", req.getRequestURI());
-		}
+
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");

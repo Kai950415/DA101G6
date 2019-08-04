@@ -112,7 +112,7 @@
 		<br> <input type="hidden" name="action" value="insert"> <input
 			type="submit" value="送出新增">
 	</FORM>
-		<button id="magic" style="opacity:0.1" style="opacity:0.1" onclick="setData()">這個</button>
+		<button id="magic" style="opacity:0.1" onclick="setData()">這個</button>
 </body>
 
 
@@ -138,7 +138,7 @@ function readURL(input){
 			$('#resac_pass').val('Aa123456');
 			$('#resac_pass2').val('Aa123456');
 			$('#resac_phone').val('0987987987');
-			$('#resac_intro').val('我愛工作');
+			$('#resac_intro').val('我愛工作 皮卡');
 		}
 </script>
 

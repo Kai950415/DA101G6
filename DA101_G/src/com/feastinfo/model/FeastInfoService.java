@@ -89,7 +89,6 @@ public class FeastInfoService
     {
         return dao.getAll().stream()
                 .filter(feastInfo -> feastInfo.getFea_status().equals("fea1"))
-                .filter(feastInfo -> feastInfo.getFea_startDate().after(new java.sql.Timestamp(System.currentTimeMillis())))
                 .collect(Collectors.toList());
     }
     

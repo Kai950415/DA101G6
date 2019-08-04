@@ -86,10 +86,8 @@ public class FooditemService {
     }
 	
 	public List<FooditemVO> getAllReviewFooditemByRes(String fo_resno) {
-	    return fo.getAll().stream()
-                .filter(fo -> fo.getFo_resno().equals(fo_resno))
-                .filter(fo -> fo.getFo_status().equals("fo3"))
-                .collect(Collectors.toList());
+		
+	    return fo.getAllReviewFooditemByRes(fo_resno);
     }
 }
 

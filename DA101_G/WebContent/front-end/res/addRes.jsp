@@ -404,8 +404,8 @@ $("#zipcode").twzipcode({
 		function setData(){
 			$('#res_name').val('爪哇城市複合餐廳');
 			$('#address').val('中央路115號');
-			$('#res_ph').val('0955702775');
-			$('#resAc').val('AC00007');
+			$('#res_ph').val('0989648851');
+			$('#resAc').val('AC00008');
 			$('#res_pass').val('Aa123456');
 			$('#res_pass2').val('Aa123456');
 			$('#res_intro').val('各式餐飲吃到飽，沒有最飽只有更飽，中餐吃這個不會老。'+

@@ -246,11 +246,11 @@ body {
 		function setData(){
 			$('#first_name').val('大衛海鮮');
 			$('#last_name').val('男生');
-			$('#mobile').val('0933456789');
+			$('#mobile').val('0955702775');
 			$('#phone').val('2007-04-26');
 			$('#email').val('z0982282007@gmail.com');
-			$('#ac').val('ME000006');
-			$('#password2').val('123456');
+			$('#ac').val('09');
+			$('#password2').val('999');
 			$('#AboutMe').val('大家好，我是大衛，可以叫我David。');
 			
 				init_address();

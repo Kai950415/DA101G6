@@ -12,13 +12,145 @@
         <title>Chat Room</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="stylesheet" href="chat_css/styles.css" type="text/css"/>
-        <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+        <style type="text/css">* {
+	margin: auto;
+	padding: 0px;
+}
+
+html, body {
+	font: 15px verdana, Times New Roman, arial, helvetica, sans-serif,
+		Microsoft JhengHei;
+	width: 90%;
+	height: 90%;
+/* 	background: #eeeeda; */
+}
+
+.panel {
+	border: 2px solid #0078ae;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.message-area {
+	height: 70%;
+	resize: none;
+	box-sizing: border-box;
+	overflow: auto;
+}
+
+.input-area {
+	background: #0078ae;
+	box-shadow: inset 0 0 10px #00568c;
+}
+
+.input-area input {
+	margin: 0.5em 0em 0.5em 0.5em;
+}
+
+.text-field {
+	border: 1px solid grey;
+	padding: 0.2em;
+	box-shadow: 0 0 5px #000000;
+}
+
+.button {
+	border: none;
+	padding: 5px 5px;
+	border-radius: 5px;
+	width: 60px;
+	background: orange;
+	box-shadow: inset 0 0 10px #000000;
+	font-weight: bold;
+}
+
+.button:hover {
+	background: yellow;
+}
+
+h1 {
+	font-size: 1.5em;
+	padding: 5px;
+	margin: 5px;
+}
+
+#userName {
+	width: 20%;
+}
+
+#message {
+	min-width: 50%;
+	max-width: 60%;
+}
+
+.statusOutput {
+	background: #0078ae;
+	text-align: center;
+	color: #ffffff;
+	border: 1px solid grey;
+	padding: 0.2em;
+	box-shadow: 0 0 5px #000000;
+	width: 20%;
+}
+
+#messagesArea {
+	border: 8px dashed;
+	cursor: text;
+	border: 1px solid #ccc;
+	font: medium -moz-fixed;
+	font: -webkit-small-control;
+	width: 97%;
+	height: 500px;
+	overflow: auto;
+	padding: 2px;
+	resize: both;
+	-moz-box-shadow: inset 0px 1px 2px #ccc;
+	-webkit-box-shadow: inset 0px 1px 2px #ccc;
+	box-shadow: inset 0px 1px 2px #000000;
+	margin: 10px auto;
+}
+
+#fileHolder.hover {
+	color: #f00;
+	border-color: #f00;
+	border-style: solid;
+	box-shadow: inset 0 3px 4px #888;
+}
+
+#fileHolder {
+	font-weight: bold;
+	text-align: center;
+	padding: 0 0;
+/* 	margin: 1em auto; */
+/* 	margin: 1em; */
+	color: #555;
+	border: 2px dashed #555;
+	border-radius: 7px;
+	cursor: default;
+	width: 1024px;
+	min-height: 100px;
+}
+
+#fileHolder.hover {
+	color: #f00;
+	border-color: #f00;
+	border-style: solid;
+	box-shadow: inset 0 3px 4px #888;
+}
+
+#fileHolder img {
+	display: inline-block;
+	margin: 10px auto;
+}
+
+#fileHolder p {
+	margin: 10px;
+	font-size: 14px;
+}</style>
     </head>
-    
+    	
     <body onload="connect();" onunload="disconnect();">
     	<%@ include file="/header.jsp"%>
-        <h1> Chat Room </h1>
+        <h1 align="center"> 聊天室 </h1>
 	    <h3 id="statusOutput" class="statusOutput"></h3>
 	    <div id="fileHolder"></div>
 	    <div id="messagesArea"></div>
@@ -29,12 +161,12 @@
 		    <input type="button" id="connect"     class="button" value="連線" onclick="connect();"/>
 		    <input type="button" id="disconnect"  class="button" value="離線" onclick="disconnect();"/>
 	    </div>
-	    <%@ include file="/footer.jsp"%>
+	    
     </body>
     
 <script>
     
-    var MyPoint = "/MyEchoServer";
+    var MyPoint ="/MyEchoServer";
     var host = window.location.host;
     var path = window.location.pathname;
     var webCtx = path.substring(0, path.indexOf('/', 1));
